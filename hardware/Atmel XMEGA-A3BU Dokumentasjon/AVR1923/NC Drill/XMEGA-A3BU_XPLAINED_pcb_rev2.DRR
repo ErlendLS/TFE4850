@@ -1,0 +1,23 @@
+---------------------------------------------------------------------------
+NCDrill File Report For: XMEGA-A3BU_XPLAINED.PcbDoc   25.07.2011  13:53:24
+---------------------------------------------------------------------------
+
+Layer Pair : Top Layer LF-signals to Bottom Layer LF-signals
+ASCII RoundHoles File : XMEGA-A3BU_XPLAINED-RoundHoles.TXT
+ASCII SlotHoles File : XMEGA-A3BU_XPLAINED-SlotHoles.TXT
+EIA File   : XMEGA-A3BU_XPLAINED.DRL
+
+Tool         Hole Size           Hole Type     Hole Count Plated       Tool Travel
+---------------------------------------------------------------------------
+T1        9.8mil (0.24892mm)       Round          155              25.64 Inch (651.36 mm)
+T2        31.5mil (0.8001mm)       Round          1                0.00 Inch (0.00 mm)
+T3        35.4mil (0.89916mm)      Round          16               0.89 Inch (22.50 mm)
+T4        39.4mil (1.00076mm)      Round          54               10.71 Inch (272.13 mm)
+T5        39.4mil (1.00076mm)      Slot           2                285.91 Inch (7262.13 mm)
+T6        78.7mil (1.99898mm)      Round          1                0.00 Inch (0.00 mm)
+T7        122mil (3.0988mm)        Round          4                8.23 Inch (209.00 mm)
+T8        35.4mil (0.89916mm)      Round          6         NPTH   4.36 Inch (110.80 mm)
+---------------------------------------------------------------------------
+Totals                                            239              335.74 Inch (8527.91 mm)
+
+Total Processing Time (hh:mm:ss) : 00:00:00

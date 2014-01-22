@@ -1,0 +1,150 @@
+\documentclass[12pt, a4paper, english]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage{babel, graphicx, listings, float, fancyhdr, url, mathtools, subfig, steinmetz}
+\usepackage[table]{xcolor}
+\DeclareGraphicsExtensions{.jpg, .png., tiff}
+\numberwithin{equation}{section} 
+\numberwithin{figure}{section} 
+\numberwithin{table}{section} 
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\lstset{breaklines=true,numbers=left, frame=shadowbox}
+
+\pagestyle{fancy}
+\lhead{TFE4850}
+\chead{Termisk vakumkammer}
+\rhead{}
+\lfoot{}
+\cfoot{Norwegian University of Science and Technology. \\ Dept of electronics and telecommunications}
+\rfoot{\thepage}
+
+
+\title{Termisk vakumkammer - title}
+\date{\today}
+
+\author{Erlend Strandvik}
+
+\tolerance = 5000
+\hbadness = \tolerance
+\pretolerance = 2000
+
+%Preamble slutt
+
+\begin{document}
+\pagenumbering{roman}
+
+\input{
+forside.tex}
+%Blank side
+%\thispagestyle{empty}
+%\mbox{}
+%\newpage
+%Tittelside
+
+
+\section*{Summary}
+%\input{summery.tex}
+\paragraph{}
+\newpage
+
+\tableofcontents
+\listoffigures
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\section{Introduction}
+%\input{intro.tex}
+\newpage
+
+
+\section{Theory}
+%\input{theory.tex}
+
+
+
+\newpage
+
+\section{Design}
+%\input{design.tex}
+
+
+
+
+\newpage
+
+\section{Simulation and results}
+%\input{results.tex}
+
+\newpage
+
+\section{Discussion}
+%\input{disc.tex}
+\newpage
+
+\section{Conclusion}
+%\input{conclusion.tex}
+\newpage
+
+\begin{thebibliography}{9}
+
+\bibitem{boka} \label{boka}
+  David A. Johns, Ken Martin,
+  \emph{Analog integrated circuit design}.
+  John Wiley and sons Inc,  
+  1997.
+
+\bibitem{note:foiler} \label{description}
+	\c Trond Ytterdal c, \emph{Project description},TFE4187 Analog CMOS1, fall 2013
+
+\bibitem{note:foiler} \label{foiler}
+	\c Trond Ytterdal c, \emph{Lecture material},TFE4187 Analog CMOS1, fall 2013
+
+
+\end{thebibliography}
+\clearpage{}
+
+
+
+%Vedlegg
+\pagenumbering{Roman}
+\begin{appendix}
+\addcontentsline{toc}{section}{Vedlegg}
+
+\newpage
+
+
+\end{appendix}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

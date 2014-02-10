@@ -1,10 +1,11 @@
-Output: Mixed Sim
-Type  : AdvSimNetlist
-From  : Project [sensorboard.PrjPCB]
-   Generated File[sensorboard.nsx]
+Output: Simple BOM
+Type  : SimpleBOM
+From  : Variant [[No Variations]] of Project [sensorboard.PrjPCB]
+   Generated File[toplevel.BOM]
+   Generated File[toplevel.CSV]
 
 
-Files Generated   : 1
+Files Generated   : 2
 Documents Printed : 0
 
-Finished Output Generation At 14:59:40 On 05.02.2014
+Finished Output Generation At 20:31:49 On 08.02.2014

@@ -1,0 +1,15 @@
+"Bill of Material for "
+"On 08.02.2014 at 20:31:49"
+
+"Comment","Pattern","Quantity","Components"
+
+"AD623BRZ","","1","U?","Instrumentation amplifier, rail to rail"
+"ADT7410TRZ","","1","U2","Temperature sensor, I2C output"
+"AQV252GA","","4","U3, U4, U5, U6","Solid state relay, DC/AC, 60V, 2.5A"
+"C0805C104K5RACTU","","2","C1, C2","Ceramic capacitor, X7R, 10%, 50V"
+"CRCW080510K0FKEB","","2","R3, R4","Thick film resistor, 1%, 125mW"
+"CRCW0805300RFKEA","","4","R5, R7, R9, R11","Thick film resistor, 1%, 125mW"
+"CRCW08054K70FKEB","","2","R1, R2","Thick film resistor, 1%, 125mW"
+"Header 2","HDR1X2","8","P1, P2, P3, P4, P5, P6, P7, P8","Header, 2-Pin"
+"HSCDANN015PA2A3","","1","U1","Absolute pressure sensor, I2C output"
+"SA36CA-E3/54","","4","TVS1, TVS2, TVS3, TVS4","TVS diode, bidirectional, 36 V"

@@ -37,7 +37,7 @@ PrefsRevisionGUID=
 
 [Document1]
 DocumentPath=schematic\toplevel.SchDoc
-AnnotationEnabled=1
+AnnotationEnabled=0
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
@@ -53,7 +53,7 @@ GenerateClassCluster=0
 
 [Document2]
 DocumentPath=schematic\Temperature_Measurement.SchDoc
-AnnotationEnabled=1
+AnnotationEnabled=0
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
@@ -69,7 +69,7 @@ GenerateClassCluster=0
 
 [Document3]
 DocumentPath=schematic\Pressure_Measurement.SchDoc
-AnnotationEnabled=1
+AnnotationEnabled=0
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
@@ -115,8 +115,64 @@ ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
 
+[Document6]
+DocumentPath=sensorboard.Annotation
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+
+[Document7]
+DocumentPath=schematic\Logic_Outputs.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=3
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+
+[Document8]
+DocumentPath=schematic\Logic_Outputs.Harness
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+
 [GeneratedDocument1]
 DocumentPath=Project Outputs for sensorboard\sensorboard.nsx
+DItemRevisionGUID=
+
+[GeneratedDocument2]
+DocumentPath=Project Outputs for sensorboard\toplevel.BOM
+DItemRevisionGUID=
+
+[GeneratedDocument3]
+DocumentPath=Project Outputs for sensorboard\toplevel.CSV
 DItemRevisionGUID=
 
 [Configuration1]
@@ -484,7 +540,7 @@ OutputDefault10=0
 [OutputGroup6]
 Name=Report Outputs
 Description=
-TargetPrinter=Send til OneNote 2010
+TargetPrinter=Xerox Phaser 6125N
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintWhat=1
 OutputType1=BOM_PartType
 OutputName1=Bill of Materials
@@ -492,6 +548,8 @@ OutputDocumentPath1=
 OutputVariantName1=[No Variations]
 OutputDefault1=0
 PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-4|MediaType=1|DitherType=10|PaperKind=A4|PrintScaleMode=1
+Configuration1_Name1=OutputConfigurationParameter1
+Configuration1_Item1=??
 OutputType2=ComponentCrossReference
 OutputName2=Component Cross Reference Report
 OutputDocumentPath2=
@@ -512,6 +570,8 @@ OutputName5=Simple BOM
 OutputDocumentPath5=
 OutputVariantName5=[No Variations]
 OutputDefault5=0
+Configuration5_Name1=OutputConfigurationParameter1
+Configuration5_Item1=Record=SimpleBOMView|SimpleBOMMode=0
 OutputType6=SinglePinNetReporter
 OutputName6=Report Single Pin Nets
 OutputDocumentPath6=
@@ -1015,6 +1075,30 @@ MatchStrictly2=1
 PhysicalNamingFormat=$Component_$RoomName
 GlobalIndexSortOrder=3
 GlobalIndexSortLocation=0
+UniqueIDPath0=\SEEBPLVN
+DocumentName0=Pressure_Measurement.SchDoc
+IsEnabled0=1
+SelectionScope0=All
+Order0=1
+IndexEnabled0=0
+IndexStartValue0=1
+Suffix0=
+UniqueIDPath1=\YRGPTDXQ
+DocumentName1=Temperature_Measurement.SchDoc
+IsEnabled1=1
+SelectionScope1=All
+Order1=2
+IndexEnabled1=0
+IndexStartValue1=1
+Suffix1=
+UniqueIDPath2=
+DocumentName2=toplevel.SchDoc
+IsEnabled2=1
+SelectionScope2=All
+Order2=3
+IndexEnabled2=0
+IndexStartValue2=1
+Suffix2=
 
 [PrjClassGen]
 CompClassManualEnabled=0
@@ -1027,6 +1111,36 @@ NetClassManualEnabled=1
 [LibraryUpdateOptions]
 SelectedOnly=0
 PartTypes=0
+ComponentLibIdentifierKind0=Library Name And Type
+ComponentLibraryIdentifier0=EITlib.IntLib
+ComponentDesignItemID0=AD623BRZ
+ComponentSymbolReference0=AD623BRZ
+ComponentUpdate0=1
+ComponentIsDeviceSheet0=0
+ComponentLibIdentifierKind1=Library Name And Type
+ComponentLibraryIdentifier1=EITlib.IntLib
+ComponentDesignItemID1=ADT7410TRZ
+ComponentSymbolReference1=ADT7410TRZ
+ComponentUpdate1=1
+ComponentIsDeviceSheet1=0
+ComponentLibIdentifierKind2=Library Name And Type
+ComponentLibraryIdentifier2=EITlib.IntLib
+ComponentDesignItemID2=C0805C104K5RACTU
+ComponentSymbolReference2=C0805C104K5RACTU
+ComponentUpdate2=1
+ComponentIsDeviceSheet2=0
+ComponentLibIdentifierKind3=Library Name And Type
+ComponentLibraryIdentifier3=EITlib.IntLib
+ComponentDesignItemID3=HSCDANN015PA2A3
+ComponentSymbolReference3=HSCDANN015PA2A3
+ComponentUpdate3=1
+ComponentIsDeviceSheet3=0
+ComponentLibIdentifierKind4=Library Name And Type
+ComponentLibraryIdentifier4=Miscellaneous Connectors.IntLib
+ComponentDesignItemID4=Header 2
+ComponentSymbolReference4=Header 2
+ComponentUpdate4=0
+ComponentIsDeviceSheet4=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -1039,6 +1153,49 @@ RemoveParameters=0
 AddModels=1
 RemoveModels=1
 UpdateCurrentModels=1
+ParameterName0=Comment
+ParameterUpdate0=1
+ParameterName1=Component Kind
+ParameterUpdate1=1
+ParameterName2=ComponentLink1Description
+ParameterUpdate2=1
+ParameterName3=ComponentLink1URL
+ParameterUpdate3=1
+ParameterName4=Description
+ParameterUpdate4=1
+ParameterName5=LatestRevisionDate
+ParameterUpdate5=1
+ParameterName6=LatestRevisionNote
+ParameterUpdate6=1
+ParameterName7=Library Reference
+ParameterUpdate7=1
+ParameterName8=Manufacturer
+ParameterUpdate8=1
+ParameterName9=PackageReference
+ParameterUpdate9=1
+ParameterName10=Publisher
+ParameterUpdate10=1
+ParameterName11=Supplier 1
+ParameterUpdate11=1
+ParameterName12=Supplier Part Number 1
+ParameterUpdate12=1
+ParameterName13=Value
+ParameterUpdate13=1
+ModelTypeGroup0=PCBLIB
+ModelTypeUpdate0=1
+ModelType0=PCBLIB
+ModelName0=HDR1X2
+ModelUpdate0=1
+ModelTypeGroup1=SI
+ModelTypeUpdate1=1
+ModelType1=SI
+ModelName1=Connector
+ModelUpdate1=1
+ModelTypeGroup2=SIM
+ModelTypeUpdate2=1
+ModelType2=SIM
+ModelName2=AD623
+ModelUpdate2=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0

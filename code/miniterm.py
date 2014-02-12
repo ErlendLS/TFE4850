@@ -18,9 +18,13 @@ EXITCHARCTER = serial.to_bytes([0x1d])   # GS/CTRL+]
 MENUCHARACTER = serial.to_bytes([0x14])  # Menu: CTRL+T
 
 DEFAULT_PORT = None
-DEFAULT_BAUDRATE = 9600
+DEFAULT_BAUDRATE = 115200
 DEFAULT_RTS = None
 DEFAULT_DTR = None
+
+LOG_DIR = "logs"
+LOG_NAME = "log.txt"
+TEMP_LOG_NAME = "temp.csv"
 
 
 def key_description(character):
@@ -238,44 +242,59 @@ class Miniterm(object):
                 REPR_MODES[self.repr_mode],
                 LF_MODES[self.convert_outgoing]))
 
+    def fileconvert(self):
+        #Convert the text file to the appropriate file type
+        with open(LOG_DIR + '/' + LOG_NAME) as fp:
+            with open(LOG_DIR + '/' + TEMP_LOG_NAME, 'w') as csvp:
+                csvp.write("\"Timestamp\",\"Temperature\"\n")
+                for line in fp:
+                    splitLine = line.partition(",")
+                    if splitLine[0] == "temp":
+                        csvp.write(splitLine[2].rstrip("\n"))
+                csvp.close()
+            fp.close()
+
     def reader(self):
         """loop and copy serial->console"""
         try:
-            if not os.path.exists("logs"):
-                    os.makedirs("logs")
-            f = open('logs/log.txt','w')
+            if not os.path.exists(LOG_DIR):
+                    os.makedirs(LOG_DIR)
+            f = open(LOG_DIR + '/' + LOG_NAME, 'w')
             while self.alive and self._reader_alive:
                 data = character(self.serial.read(1))
                 f.write(data)
 
                 if self.repr_mode == 0:
-                    # direct output, just have to care about newline setting
-                    if data == '\r' and self.convert_outgoing == CONVERT_CR:
-                        sys.stdout.write('\n')
-                    else:
-                        sys.stdout.write(data)
+                        # direct output, just have to care about newline setting
+                        if data == '\r' and self.convert_outgoing == CONVERT_CR:
+                                sys.stdout.write('\n')
+                        else:
+                                sys.stdout.write(data)
                 elif self.repr_mode == 1:
-                    # escape non-printable, let pass newlines
-                    if self.convert_outgoing == CONVERT_CRLF and data in '\r\n':
-                        if data == '\n':
-                            sys.stdout.write('\n')
-                        elif data == '\r':
-                            pass
-                    elif data == '\n' and self.convert_outgoing == CONVERT_LF:
-                        sys.stdout.write('\n')
-                    elif data == '\r' and self.convert_outgoing == CONVERT_CR:
-                        sys.stdout.write('\n')
-                    else:
-                        sys.stdout.write(repr(data)[1:-1])
+                        # escape non-printable, let pass newlines
+                        if self.convert_outgoing == CONVERT_CRLF and data in '\r\n':
+                                if data == '\n':
+                                        sys.stdout.write('\n')
+                                elif data == '\r':
+                                        pass
+                        elif data == '\n' and self.convert_outgoing == CONVERT_LF:
+                                sys.stdout.write('\n')
+                        elif data == '\r' and self.convert_outgoing == CONVERT_CR:
+                                sys.stdout.write('\n')
+                        else:
+                                sys.stdout.write(repr(data)[1:-1])
                 elif self.repr_mode == 2:
-                    # escape all non-printable, including newline
-                    sys.stdout.write(repr(data)[1:-1])
+                        # escape all non-printable, including newline
+                        sys.stdout.write(repr(data)[1:-1])
                 elif self.repr_mode == 3:
-                    # escape everything (hexdump)
-                    for c in data:
-                        sys.stdout.write("%s " % c.encode('hex'))
+                        # escape everything (hexdump)
+                        for c in data:
+                                sys.stdout.write("%s " % c.encode('hex'))
                 sys.stdout.flush()
             f.close()
+            self.fileconvert()
+
+
         except serial.SerialException, e:
             self.alive = False
             # would be nice if the console reader could be interruptted at this
@@ -450,7 +469,7 @@ class Miniterm(object):
                     menu_active = False
                 elif c == MENUCHARACTER: # next char will be for menu
                     menu_active = True
-                elif c == EXITCHARCTER: 
+                elif c == EXITCHARCTER:
                     self.stop()
                     break                                   # exit app
                 elif c == '\n':

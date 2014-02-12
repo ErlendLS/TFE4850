@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "XMEGA_A3BU_XPLAINED_DEMO1", "XMEGA_A3BU_XPLAINED_DEMO1\XMEGA_A3BU_XPLAINED_DEMO1.cproj", "{C4D81E7F-3DF4-4AB2-9FDA-2802CF9AF2ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4D81E7F-3DF4-4AB2-9FDA-2802CF9AF2ED}.Debug|AVR.ActiveCfg = Debug|AVR
+		{C4D81E7F-3DF4-4AB2-9FDA-2802CF9AF2ED}.Debug|AVR.Build.0 = Debug|AVR
+		{C4D81E7F-3DF4-4AB2-9FDA-2802CF9AF2ED}.Release|AVR.ActiveCfg = Release|AVR
+		{C4D81E7F-3DF4-4AB2-9FDA-2802CF9AF2ED}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

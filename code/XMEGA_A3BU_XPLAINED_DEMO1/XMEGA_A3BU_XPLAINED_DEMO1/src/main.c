@@ -377,13 +377,13 @@ void adc_b_sensors_init()
 	adcch_read_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
 	
 	/* configure the ADCB module:
-	- signed, 12-bit resolution
+	- unsigned, 12-bit resolution
 	- TODO: Refer to ext. voltage reference instead of internal VCC / 1.6 reference
 	- 31 kHz max clock rate
 	- manual conversion triggering
 	- callback function
 	*/
-	adc_set_conversion_parameters(&adc_conf, ADC_SIGN_ON, ADC_RES_12,
+	adc_set_conversion_parameters(&adc_conf, ADC_SIGN_OFF, ADC_RES_12,
 			ADC_REF_AREFB);	// Reference voltage might have to be set to ..._AREFB_gc instead
 	adc_set_clock_rate(&adc_conf, 125000UL);
 	adc_set_conversion_trigger(&adc_conf, ADC_TRIG_MANUAL, 0, 0);
@@ -485,7 +485,7 @@ int main(void)
 		do {			
 			do {
 				//START TEMP PRINT
-				_delay_ms(1000);
+				_delay_ms(10000);	//NOTE: ms actually means microseconds in this case
 				rtc_timestamp = rtc_get_time();
 				{
 					//TEST: Print temperature to udi_cdc
@@ -530,9 +530,11 @@ int main(void)
 				temperature = ntc_get_temperature();
 				*/
 				// ADCB-Testing
+				adcb_ch0_measure();
 				while (!adcb_data_is_ready());
 				int16_t temp = adcb_ch0_get_raw_value();
 				
+				temperature = temp;
 				// Convert the temperature into the thermometer scale
 				temp_scale = -0.36 * temperature + 20.25;
 				if (temp_scale <= 0) {

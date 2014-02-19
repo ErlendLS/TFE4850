@@ -79,7 +79,8 @@
 #include <sysclk.h>
 #include <sysfont.h>
 #include <util/delay.h>
-#include "adc_sensors.h"
+#include "adc_sensors.h"	// TODO: Can possibly be removed when adc_reading is moved to another file  
+#include "adc.h"			// Same as above
 #include "date_time.h"
 #include "lightsensor.h"
 #include "keyboard.h"
@@ -114,6 +115,13 @@ static char * cdc_putint8(int8_t intval) {
 	itoa(intval, char_int, 10);
 	
 	return char_int;	
+}
+
+static char * cdc_putint16(int16_t intval) {
+	char * char_int;
+	itoa(intval, char_int, 10);
+	
+	return char_int;
 }
 
 static void cdc_putstr(char * string) {
@@ -192,11 +200,67 @@ uint8_t temp_scale;
 // Variable for holding the actual temperature in Celsius
 int16_t temperature;
 
-void temp_disp_init()
+/************************************************************************/
+/*  TEMP Placement of ADCB reading support functions                                                               */
+/************************************************************************/
+
+// Variables for function below
+bool adc_sensor_data_ready = false;
+adc_result_t adc_sensor_sample = 0;
+#define ADCB_CH0_MAX_SAMPLES 4
+
+int16_t adcb_ch0_get_raw_value(void)
 {
+	return adc_sensor_sample;
+}
+
+/************************************************************************/
+/* Reads the ADCB CH0                                                                     */
+/************************************************************************/
+static inline void adcb_ch0_measure(void)
+{
+	adc_start_conversion(&ADCB, ADC_CH0);
+}
+
+/**
+ * \brief Check of there is ADCB data ready to be read
+ *
+ * When data is ready to be read this function will return true, and assume
+ * that the data is going to be read so it sets the ready flag to false.
+ *
+ * \retval true if the ADCB value is ready to be read
+ * \retval false if data is not ready yet
+ */
+bool adcb_data_is_ready(void)
+{
+	irqflags_t irqflags;
+	/* We will need to save and turn of global interrupts to make sure that we
+	read the latest adcb value and not the next one if a conversation finish
+	before one have time read the data. */
+	irqflags = cpu_irq_save();
+	if (adc_sensor_data_ready) {
+		adc_sensor_data_ready = false;
+		cpu_irq_restore(irqflags);
+		return true;
+	} else {
+		cpu_irq_restore(irqflags);
+		return false;
+	}
+}
+
+/************************************************************************/
+/*  Temperature display function. Applies to ADCA as well as this test  */
+/************************************************************************/
+
+void temp_disp_init()
+{	
+	/* TODO: Replaced for testing
 	// Initiate a temperature sensor reading
 	ntc_measure();
-
+	*/
+	// Initiate a ADCB reading
+	adcb_ch0_measure();
+	
 	// Struct for holding the temperature scale background
 	tempscale.type = GFX_MONO_BITMAP_RAM;
 	tempscale.width = 6;
@@ -211,10 +275,16 @@ void temp_disp_init()
 	//Paint thermometer on screen
 	gfx_mono_put_bitmap(&tempscale, 10, 0);
 	
+	/* TODO: Simply replaced for testing
 	// wait for NTC data to ready
 	while (!ntc_data_is_ready());
 	// Read the temperature once the ADC reading is done
 	temperature = ntc_get_temperature();
+	*/
+	// Wait for ADCB date to ready
+	while (!adcb_data_is_ready());
+	temperature = adcb_ch0_get_raw_value();
+	
 	
 	// Convert the temperature into the thermometer scale
 	temp_scale = -0.36 * temperature + 20.25;
@@ -231,6 +301,107 @@ void temp_disp_init()
 
 	// Draw the Celsius string
 	gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
+}
+
+/************************************************************************/
+/* END Temp display function                                            */
+/************************************************************************/
+
+
+
+
+/**
+ * \brief Callback for the ADC conversion complete
+ *
+ * The ADC module will call this function on a conversion complete.
+ *
+ * \param adc the ADC from which the interrupt came
+ * \param ch_mask the ch_mask that produced the interrupt
+ * \param result the result from the ADC
+ */
+void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
+{
+	static uint8_t ch0_sensor_samples = 0;
+
+	// UNKNOWN on channel 0 
+	if (ch_mask == ADC_CH0) {
+		// TODO: Read sample
+		
+		ch0_sensor_samples++;
+		if (ch0_sensor_samples == 1) {
+			adc_sensor_sample = result;
+			adc_sensor_data_ready = false;
+		} else {
+			adc_sensor_sample += result;
+			adc_sensor_sample >>= 1;
+		}
+		if (ch0_sensor_samples == ADCB_CH0_MAX_SAMPLES) {
+			ch0_sensor_samples = 0;
+			adc_sensor_data_ready = true;
+		} else {
+			adcb_ch0_measure();
+		}
+		
+	} else if (ch_mask == ADC_CH1) {
+		// There is no CH1 atm!
+		/*
+		ntc_sensor_samples++;
+		if (ntc_sensor_samples == 1) {
+			ntc_sensor_sample = result;
+			ntc_sensor_data_ready = false;
+		} else {
+			ntc_sensor_sample += result;
+			ntc_sensor_sample >>= 1;
+		}
+		if (ntc_sensor_samples == NTC_SENSOR_MAX_SAMPLES) {
+			ntc_sensor_samples = 0;
+			ntc_sensor_data_ready = true;
+		} else {
+			ntc_measure();
+		*/
+	}
+}
+
+/************************************************************************/
+/* Initializes the adc_b for reading external sensors.
+   Should be moved to own file with headers etc. when completed and tested
+                                                                        */
+/************************************************************************/
+void adc_b_sensors_init()
+{
+	struct adc_config adc_conf;
+	struct adc_channel_config adc_ch_conf;
+
+	/* Clear the ADC configuration structs */
+	adc_read_configuration(&ADCB, &adc_conf);
+	adcch_read_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	
+	/* configure the ADCB module:
+	- signed, 12-bit resolution
+	- TODO: Refer to ext. voltage reference instead of internal VCC / 1.6 reference
+	- 31 kHz max clock rate
+	- manual conversion triggering
+	- callback function
+	*/
+	adc_set_conversion_parameters(&adc_conf, ADC_SIGN_ON, ADC_RES_12,
+			ADC_REF_AREFB);	// Reference voltage might have to be set to ..._AREFB_gc instead
+	adc_set_clock_rate(&adc_conf, 125000UL);
+	adc_set_conversion_trigger(&adc_conf, ADC_TRIG_MANUAL, 0, 0);
+	adc_write_configuration(&ADCB, &adc_conf);
+	adc_set_callback(&ADCB, &adcb_handler);
+	
+	/* Configure ADC B channel 0 (test source):
+	 * - single-ended measurement
+	 * - interrupt flag set on completed conversion
+	 * - interrupts enabled
+	 */
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN1, ADCCH_NEG_NONE, 1);
+	adcch_set_interrupt_mode(&adc_ch_conf, ADCCH_MODE_COMPLETE);
+	adcch_enable_interrupt(&adc_ch_conf);
+	adcch_write_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	
+	// Enable ADC
+	adc_enable(&ADCB);
 }
 
 
@@ -253,7 +424,10 @@ int main(void)
 	pmic_init();
 	gfx_mono_init();
 	touch_init();
-	adc_sensors_init();
+	//adc_sensors_init();
+	
+	//TODO: Evaluate initialization
+	adc_b_sensors_init();	//Initialize ADCB
 
 	// Enable display backlight
 	gpio_set_pin_high(NHD_C12832A1Z_BACKLIGHT);
@@ -330,9 +504,13 @@ int main(void)
 					udi_cdc_putc(',');
 					
 					//Temperature
-					ntc_measure();
-					int8_t temp = ntc_get_temperature();
-					char * temp_s = cdc_putint8(temp);
+					//ntc_measure();
+					// Testing
+					adcb_ch0_measure();
+					//int8_t temp = ntc_get_temperature();
+					while (!adcb_data_is_ready());
+					int16_t temp = adcb_ch0_get_raw_value();
+					char * temp_s = cdc_putint16(temp);
 					cdc_putstr(temp_s);	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
@@ -345,10 +523,15 @@ int main(void)
 				//Paint thermometer on screen
 				gfx_mono_put_bitmap(&tempscale, 10, 0);
 				
+				/*
 				// wait for NTC data to ready
 				while (!ntc_data_is_ready());
 				// Read the temperature once the ADC reading is done
 				temperature = ntc_get_temperature();
+				*/
+				// ADCB-Testing
+				while (!adcb_data_is_ready());
+				int16_t temp = adcb_ch0_get_raw_value();
 				
 				// Convert the temperature into the thermometer scale
 				temp_scale = -0.36 * temperature + 20.25;

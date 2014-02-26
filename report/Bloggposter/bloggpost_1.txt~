@@ -1,0 +1,12 @@
+Vakumkammer for temperaturtesting - Eksperter i Team 2014
+
+Blant de mange tingene som bør testes på studentsatellitten NUTS før den sendes opp er dens temperatur i vakum. Dette er problematisk å få testet, siden testetid må bestilles, og garantier
+må gis mhp. gassutskilling, explosjonsfare ved overoppheting etc. Det kan også være vanskelig å sette opp nødvendige sensorer, eventuelt varmeelement, og kommunikasjon for logging inne i eksisterende vakumkammer på NTNU.  Det er derfor ønskelig at NUTS-prosjektet har sitt eget vakumkammer som er bygget for deres testbehov. Dette vil tillate testing av satellitten eller komponenter til den selv med fare for at de kan eksplodere (som flg. av overoppheting). 
+
+For å løse dette problemet har gruppen vår i EiT valgt å bygge et lite vakumkammer med innebygd varmeelement, og mikrokontroller tilknyttet trykk- og temperatursensorer for logging av data.
+Kammeret vil bestå av en solid metallsylinder, med topp- og bunnlokk som forsegler kammeret. Mikrokontrolleren vil festes på toppen, der sensorledningene også vil føres igjennom.
+Vakumpumpen(e) vil festes i bunnlokket, og vil være avtakbare/utbyttbare.
+
+Vi har fått en god del hjelp med hvordan kammeret må bygges, valg av pumper, sensorer og materialer, og kan nå bygge et kammer som oppnår en tilstrekkelig grad av vakum for testing av varmeegenskaper hvis ingenting går galt.
+
+

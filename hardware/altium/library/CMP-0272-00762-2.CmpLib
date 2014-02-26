@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<TComponentSet id="0" CurrentRevColumnWidth="100" NameColumnWidth="300" NextRevColumnWidth="100">
+  <VaultGUID>B7D15EC3-160A-466F-A46C-7801FE6295A7</VaultGUID>
+  <VaultName>Altium Content Vault</VaultName>
+  <RequiredParameters>
+    <TRequiredParameter id="1" ColumnWidth="100">
+      <HRID>CMRR(Min)(dB)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="2" ColumnWidth="100">
+      <HRID>Code_JEDEC</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="3" ColumnWidth="100">
+      <HRID>Comment</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="4" ColumnWidth="100">
+      <HRID>ComponentLink1Description</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="5" ColumnWidth="100">
+      <HRID>ComponentLink1URL</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="6" ColumnWidth="100">
+      <HRID>ComponentLink2Description</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="7" ColumnWidth="100">
+      <HRID>ComponentLink2URL</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="8" ColumnWidth="100">
+      <HRID>ComponentLink3Description</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="9" ColumnWidth="100">
+      <HRID>ComponentLink3URL</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="10" ColumnWidth="100">
+      <HRID>DatasheetVersion</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="11" ColumnWidth="100">
+      <HRID>Description</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="12" ColumnWidth="100">
+      <HRID>Eco-Plan</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="13" ColumnWidth="100">
+      <HRID>IIB(Max)(pA)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="14" ColumnWidth="100">
+      <HRID>Iq per channel(Max)(mA)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="15" ColumnWidth="100">
+      <HRID>Manufacturer</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="16" ColumnWidth="100">
+      <HRID>Mounting Technology</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="17" ColumnWidth="100">
+      <HRID>Number of Channels</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="18" ColumnWidth="100">
+      <HRID>Offset Drift(Typ)(uV/C)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="19" ColumnWidth="100">
+      <HRID>PackageDescription</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="20" ColumnWidth="100">
+      <HRID>PackageReference</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="21" ColumnWidth="100">
+      <HRID>PackageVersion</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="22" ColumnWidth="100">
+      <HRID>PartNumber</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="23" ColumnWidth="100">
+      <HRID>Slew Rate(Typ)(V/us)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="24" ColumnWidth="100">
+      <HRID>Sub Family</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="25" ColumnWidth="100">
+      <HRID>Total Supply Voltage(Max)(+5V is 5, +/-5V is 10)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="26" ColumnWidth="100">
+      <HRID>Total Supply Voltage(Min)(+5V is 5, +/-5V is 10)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+    <TRequiredParameter id="27" ColumnWidth="100">
+      <HRID>Vio (25C)(Max)(mV)</HRID>
+      <Visible>true</Visible>
+    </TRequiredParameter>
+  </RequiredParameters>
+  <RequiredModels>
+    <TRequiredModel id="28" ColumnWidth="100">
+      <HRID>PCBLIB</HRID>
+      <Visible>true</Visible>
+      <ModelKind>PCBLIB</ModelKind>
+    </TRequiredModel>
+    <TRequiredModel id="29" ColumnWidth="100">
+      <HRID>PCBLIB 1</HRID>
+      <Visible>true</Visible>
+      <ModelKind>PCBLIB</ModelKind>
+    </TRequiredModel>
+    <TRequiredModel id="30" ColumnWidth="100">
+      <HRID>PCBLIB 2</HRID>
+      <Visible>true</Visible>
+      <ModelKind>PCBLIB</ModelKind>
+    </TRequiredModel>
+    <TRequiredModel id="31" ColumnWidth="100">
+      <HRID>SCHLIB</HRID>
+      <Visible>true</Visible>
+      <ModelKind>SCHLIB</ModelKind>
+    </TRequiredModel>
+  </RequiredModels>
+  <ModelLinks>
+    <TModelLink id="32">
+      <HRID>PCC-0151-00063-1</HRID>
+      <VaultGUID>B7D15EC3-160A-466F-A46C-7801FE6295A7</VaultGUID>
+      <ItemGUID>17A96C73-FFA0-4D9E-B418-65338B69B03C</ItemGUID>
+      <ModelKind>PCBLIB</ModelKind>
+      <RevisionGUID>01A390CF-3715-4108-8D28-D93394C17231</RevisionGUID>
+    </TModelLink>
+    <TModelLink id="33">
+      <HRID>PCC-0151-00068-1</HRID>
+      <VaultGUID>B7D15EC3-160A-466F-A46C-7801FE6295A7</VaultGUID>
+      <ItemGUID>9CD451ED-5413-4EF3-BBCC-844A5537995F</ItemGUID>
+      <ModelKind>PCBLIB</ModelKind>
+      <RevisionGUID>6C35CDBA-34D3-4138-85E6-A81768266B45</RevisionGUID>
+    </TModelLink>
+    <TModelLink id="34">
+      <HRID>PCC-0151-00078-3</HRID>
+      <VaultGUID>B7D15EC3-160A-466F-A46C-7801FE6295A7</VaultGUID>
+      <ItemGUID>07EB985E-7C3D-4D92-97A8-B4B43C9B8BB4</ItemGUID>
+      <ModelKind>PCBLIB</ModelKind>
+      <RevisionGUID>098F442B-BBFB-4C73-AB50-D1D91B3E79DB</RevisionGUID>
+    </TModelLink>
+    <TModelLink id="35">
+      <HRID>SYM-0119-04613-1</HRID>
+      <VaultGUID>B7D15EC3-160A-466F-A46C-7801FE6295A7</VaultGUID>
+      <ItemGUID>86CDB657-B64F-4953-BD64-8F5D42DBD694</ItemGUID>
+      <ModelKind>SCHLIB</ModelKind>
+      <RevisionGUID>FD6787C3-2050-401A-B5C0-80FBABADAC57</RevisionGUID>
+    </TModelLink>
+  </ModelLinks>
+  <PartChoiceListLinks StateIndex="2">
+    <ComponentSet href="#0"/>
+  </PartChoiceListLinks>
+  <TopGroup id="36" StateIndex="2" Collapsed="false">
+    <GUID>027ACDB5-1E18-4299-BA76-FC5EEB2187A7</GUID>
+    <Parameters/>
+    <ModelChoices/>
+    <ComponentSet href="#0"/>
+    <Groups/>
+    <ComponentDefinitions>
+      <TComponentDefinition StateIndex="2">
+        <HRID>CMP-0272-00762</HRID>
+        <GUID>414B259F-EF24-4CED-BF21-CFD058977B02</GUID>
+        <ParentGroup href="#36"/>
+        <Parameters>
+          <TParameter>
+            <RequiredParameter href="#3"/>
+            <Value>OPA2333AIDR</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#11"/>
+            <Value>17 uA, MicroPower, Precision, Zero Drift CMOS Operational Amplifier, 1.8 to 5.5 V, -40 to 125 degC, 8-pin SOIC (D8), Green (RoHS &amp; no Sb/Br)</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#9"/>
+            <Value>http://www.ti.com/litv/pdf/msoi002j</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#21"/>
+            <Value>4040047-3/M, 06/2011</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#7"/>
+            <Value>http://www.ti.com/general/docs/lit/getliterature.tsp?genericPartNumber=OPA2333&amp;fileType=pdf</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#5"/>
+            <Value>http://www.ti.com/</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#20"/>
+            <Value>D8</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#19"/>
+            <Value>8-Pin Plastic Small Outline, Body 4.9 x 3.9 mm, Pitch 1.27 mm</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#12"/>
+            <Value>Green (RoHS &amp; no Sb/Br)</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#15"/>
+            <Value>Texas Instruments</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#4"/>
+            <Value>Manufacturer URL</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#27"/>
+            <Value>0.01</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#17"/>
+            <Value>2</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#8"/>
+            <Value>Package Specification</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#18"/>
+            <Value>0.02</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#14"/>
+            <Value>0.025</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#25"/>
+            <Value>5.5</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#23"/>
+            <Value>0.16</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#1"/>
+            <Value>106</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#10"/>
+            <Value>SBOS351C</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#24"/>
+            <Value>Low Offset Voltage Amplifier (&lt;=500uV), Low Power Amp (&lt;=500uA), Low Supply Voltage Amplifier (&lt;=2.7V), Precision Amplifier, Zero Drift Precision Amplifier</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#6"/>
+            <Value>Datasheet</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#2"/>
+            <Value>MS-012</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#22"/>
+            <Value>OPA2333AIDR</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#16"/>
+            <Value>Surface Mount</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#13"/>
+            <Value>200</Value>
+          </TParameter>
+          <TParameter>
+            <RequiredParameter href="#26"/>
+            <Value>1.8</Value>
+          </TParameter>
+        </Parameters>
+        <ModelChoices>
+          <TModelChoice>
+            <RequiredModel href="#28"/>
+            <ModelLink href="#33"/>
+          </TModelChoice>
+          <TModelChoice>
+            <RequiredModel href="#29"/>
+            <ModelLink href="#34"/>
+          </TModelChoice>
+          <TModelChoice>
+            <RequiredModel href="#31"/>
+            <ModelLink href="#35"/>
+          </TModelChoice>
+          <TModelChoice>
+            <RequiredModel href="#30"/>
+            <ModelLink href="#32"/>
+          </TModelChoice>
+        </ModelChoices>
+        <ItemHRID>CMP-0272-00762</ItemHRID>
+        <RevisionGUID>17C31943-F920-49D8-8122-7B402303145E</RevisionGUID>
+        <RevisionId>2</RevisionId>
+      </TComponentDefinition>
+    </ComponentDefinitions>
+  </TopGroup>
+  <ShowReleaseState>false</ShowReleaseState>
+</TComponentSet>

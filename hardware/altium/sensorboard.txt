@@ -1,0 +1,141 @@
+Field=Comment~String~Comment~42|Field=Value~String~Value~26|Field=Description~String~Description~68|Field=Designator~String~Designator~305|Field=Quantity~Integer~Quantity~20|Field=Footprint~String~Footprint~20|Field=Manufacturer 1~String~Manufacturer 1~33|Field=Manufacturer Part Number 1~String~Manufacturer Part Number 1~41|Field=Supplier 1~String~Supplier 1~20|Field=Supplier Currency 1~String~Supplier Currency 1~30|Field=Supplier Order Qty 1~Integer~Supplier Order Qty 1~31|Field=Supplier Part Number 1~String~Supplier Part Number 1~47|Field=Supplier Stock 1~Integer~Supplier Stock 1~22|Field=Supplier Subtotal 1~Float~Supplier Subtotal 1~25|Field=Supplier Unit Price 1~Float~Supplier Unit Price 1~28|ReportField=Currency~<none>|ReportField=ProductionQuantity~1|ReportField=ProjectFileName~sensorboard.PrjPCB|ReportField=ProjectFullPath~C:\Users\Harald\Documents\Dropbox\Studier\Semester 08\TFE4850 - EIT romteknologi\TFE4850\hardware\altium\sensorboard.PrjPCB|ReportField=Title~Bill of Materials For Project [sensorboard.PrjPCB] (No PCB Document Selected)|ReportField=TotalQuantity~140|ReportField=ReportTime~21:54:18|ReportField=ReportDate~12.02.2014|ReportField=ReportDateTime~12.02.2014 21:54:18|ReportField=OutputName~Bill of Materials|ReportField=OutputType~BOM_PartType|ReportField=GeneratorName~BOM|ReportField=GeneratorDescription~Bill of Materials|ReportField=VariantName~None|ReportField=Address1~|ReportField=Address2~|ReportField=Address3~|ReportField=Address4~|ReportField=ApprovedBy~|ReportField=Author~|ReportField=CheckedBy~|ReportField=CompanyName~|ReportField=CurrentDate~12.02.2014|ReportField=CurrentTime~21:53:17|ReportField=Date~|ReportField=DocumentFullPathAndName~C:\Users\Harald\Documents\Dropbox\Studier\Semester 08\TFE4850 - EIT romteknologi\TFE4850\hardware\altium\schematic\toplevel.SchDoc|ReportField=DocumentName~toplevel.SchDoc|ReportField=DocumentNumber~|ReportField=DrawnBy~|ReportField=Engineer~|ReportField=ImagePath~|ReportField=ModifiedDate~12.02.2014|ReportField=Organization~|ReportField=ProjectName~sensorboard.PrjPCB|ReportField=Revision~|ReportField=Rule~|ReportField=SheetNumber~|ReportField=SheetTotal~|ReportField=Time~|ReportField=Title~|ReportField=DataSourceFileName~sensorboard.PrjPCB|ReportField=DataSourceFullPath~C:\Users\Harald\Documents\Dropbox\Studier\Semester 08\TFE4850 - EIT romteknologi\TFE4850\hardware\altium\sensorboard.PrjPCB
+ADR3425ARJZ||Series voltage reference, 2.5V|U?|1||Analog Devices|ADR3425ARJZ-R7|Mouser|NOK|1|584-ADR3425ARJZ-R7|3310|17,49|17,49
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U?|1||||Mouser||||||
+TPS7A4533DCQ||LDO regulator, 3.3V, 1.5A|U?|1||Texas Instruments|TPS7A4533DCQT|Mouser|NOK|1|595-TPS7A4533DCQT|629|22,05|22,05
+AD623BRZ||Instrumentation amplifier, rail to rail|U8_T4|1||Analog Devices|AD623BRZ|Mouser|NOK|1|584-AD623BRZ|1846|42,33|42,33
+AD623BRZ||Instrumentation amplifier, rail to rail|U8_T3|1||Analog Devices|AD623BRZ|Mouser|NOK|1|584-AD623BRZ|1846|42,33|42,33
+AD623BRZ||Instrumentation amplifier, rail to rail|U8_T2|1||Analog Devices|AD623BRZ|Mouser|NOK|1|584-AD623BRZ|1846|42,33|42,33
+AD623BRZ||Instrumentation amplifier, rail to rail|U8_T1|1||Analog Devices|AD623BRZ|Mouser|NOK|1|584-AD623BRZ|1846|42,33|42,33
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U7_T4|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U7_T3|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U7_T2|1||||Mouser||||||
+OPA2333AIDR||Op. amp, dual, rail-to-rail, single supply|U7_T1|1||||Mouser||||||
+AQV252GA||Solid state relay, DC/AC, 60V, 2.5A|U6|1||Panasonic Electric Works|AQV252GA|Mouser|NOK|1|769-AQV252GA|2006|34,98|34,98
+AQV252GA||Solid state relay, DC/AC, 60V, 2.5A|U5|1||Panasonic Electric Works|AQV252GA|Mouser|NOK|1|769-AQV252GA|2006|34,98|34,98
+AQV252GA||Solid state relay, DC/AC, 60V, 2.5A|U4|1||Panasonic Electric Works|AQV252GA|Mouser|NOK|1|769-AQV252GA|2006|34,98|34,98
+AQV252GA||Solid state relay, DC/AC, 60V, 2.5A|U3|1||Panasonic Electric Works|AQV252GA|Mouser|NOK|1|769-AQV252GA|2006|34,98|34,98
+ADT7410TRZ||Temperature sensor, I2C output|U2|1||||Mouser||||||
+HSCDANN015PA2A3||Absolute pressure sensor, I2C output|U1|1||Honeywell|HSCDANN015PA2A3|Mouser|NOK|1|785-HSCDANN015PA2A3|16|298,37|298,37
+SA36CA-E3/54||TVS diode, bidirectional, 36 V|TVS4|1||Vishay Semiconductors|SA36CA-E3/54|Mouser|NOK|1|625-SA36CA-E3/54|3710|3,45|3,45
+SA36CA-E3/54||TVS diode, bidirectional, 36 V|TVS3|1||Vishay Semiconductors|SA36CA-E3/54|Mouser|NOK|1|625-SA36CA-E3/54|3710|3,45|3,45
+SA36CA-E3/54||TVS diode, bidirectional, 36 V|TVS2|1||Vishay Semiconductors|SA36CA-E3/54|Mouser|NOK|1|625-SA36CA-E3/54|3710|3,45|3,45
+SA36CA-E3/54||TVS diode, bidirectional, 36 V|TVS1|1||Vishay Semiconductors|SA36CA-E3/54|Mouser|NOK|1|625-SA36CA-E3/54|3710|3,45|3,45
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?_T4|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510M0FKEA|10M|Thick film resistor, 1%, 125mW|R?_T4|1||Vishay / Dale|CRCW080510M0FKEA|Mouser|NOK|1|71-CRCW0805-10M-E3|58355|0,541|0,541
+CRCW080522K6FKEA|22.6k|Thick film resistor, 1%, 125mW|R?_T4|1||Vishay / Dale|CRCW080522K6FKEA|Mouser|NOK|1|71-CRCW0805-22.6K-E3|37902|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?_T3|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510M0FKEA|10M|Thick film resistor, 1%, 125mW|R?_T3|1||Vishay / Dale|CRCW080510M0FKEA|Mouser|NOK|1|71-CRCW0805-10M-E3|58355|0,541|0,541
+CRCW080522K6FKEA|22.6k|Thick film resistor, 1%, 125mW|R?_T3|1||Vishay / Dale|CRCW080522K6FKEA|Mouser|NOK|1|71-CRCW0805-22.6K-E3|37902|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?_T2|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510M0FKEA|10M|Thick film resistor, 1%, 125mW|R?_T2|1||Vishay / Dale|CRCW080510M0FKEA|Mouser|NOK|1|71-CRCW0805-10M-E3|58355|0,541|0,541
+CRCW080522K6FKEA|22.6k|Thick film resistor, 1%, 125mW|R?_T2|1||Vishay / Dale|CRCW080522K6FKEA|Mouser|NOK|1|71-CRCW0805-22.6K-E3|37902|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?_T1|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510M0FKEA|10M|Thick film resistor, 1%, 125mW|R?_T1|1||Vishay / Dale|CRCW080510M0FKEA|Mouser|NOK|1|71-CRCW0805-10M-E3|58355|0,541|0,541
+CRCW080522K6FKEA|22.6k|Thick film resistor, 1%, 125mW|R?_T1|1||Vishay / Dale|CRCW080522K6FKEA|Mouser|NOK|1|71-CRCW0805-22.6K-E3|37902|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R?|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+RG2012P-103-B-T5|10k|Thin film resistor, 0.1%, 100mW|R?|1||Susumu|RG2012P-103-B-T5|Mouser|NOK|1|754-RG2012P-103-B-T5|12748|1,96|1,96
+RG2012P-4022-B-T5|40.2k|Thin film resistor, 0.1%, 100mW|R?|1||Susumu|RG2012P-4022-B-T5|Mouser|NOK|1|754-RG2012P-4022-BT5|2961|1,96|1,96
+CRCW0805715KFKEA|715k|Thick film resistor, 1%, 125mW|R20_T4|1||Vishay / Dale|CRCW0805715KFKEA|Mouser|NOK|1|71-CRCW0805715KFKEA|7794|0,541|0,541
+CRCW0805715KFKEA|715k|Thick film resistor, 1%, 125mW|R20_T3|1||Vishay / Dale|CRCW0805715KFKEA|Mouser|NOK|1|71-CRCW0805715KFKEA|7794|0,541|0,541
+CRCW0805715KFKEA|715k|Thick film resistor, 1%, 125mW|R20_T2|1||Vishay / Dale|CRCW0805715KFKEA|Mouser|NOK|1|71-CRCW0805715KFKEA|7794|0,541|0,541
+CRCW0805715KFKEA|715k|Thick film resistor, 1%, 125mW|R20_T1|1||Vishay / Dale|CRCW0805715KFKEA|Mouser|NOK|1|71-CRCW0805715KFKEA|7794|0,541|0,541
+CRCW0805294KFKEA|294k|Thick film resistor, 1%, 125mW|R19_T4|1||||Mouser||||||
+CRCW0805294KFKEA|294k|Thick film resistor, 1%, 125mW|R19_T3|1||||Mouser||||||
+CRCW0805294KFKEA|294k|Thick film resistor, 1%, 125mW|R19_T2|1||||Mouser||||||
+CRCW0805294KFKEA|294k|Thick film resistor, 1%, 125mW|R19_T1|1||||Mouser||||||
+CRCW0805215KFKEA|215k|Thick film resistor, 1%, 125mW|R18_T4|1||||Mouser||||||
+CRCW0805215KFKEA|215k|Thick film resistor, 1%, 125mW|R18_T3|1||||Mouser||||||
+CRCW0805215KFKEA|215k|Thick film resistor, 1%, 125mW|R18_T2|1||||Mouser||||||
+CRCW0805215KFKEA|215k|Thick film resistor, 1%, 125mW|R18_T1|1||||Mouser||||||
+CRCW0805133KFKEA|133k|Thick film resistor, 1%, 125mW|R17_T4|1||||Mouser||||||
+CRCW0805133KFKEA|133k|Thick film resistor, 1%, 125mW|R17_T3|1||||Mouser||||||
+CRCW0805133KFKEA|133k|Thick film resistor, 1%, 125mW|R17_T2|1||||Mouser||||||
+CRCW0805133KFKEA|133k|Thick film resistor, 1%, 125mW|R17_T1|1||||Mouser||||||
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R15_T4|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R15_T3|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R15_T2|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R15_T1|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW0805442RFKEA|442|Thick film resistor, 1%, 125mW|R14_T4|1||Vishay / Dale|CRCW0805442RFKEA|Mouser|NOK|1|71-CRCW0805-442-E3|13349|0,541|0,541
+CRCW0805442RFKEA|442|Thick film resistor, 1%, 125mW|R14_T3|1||Vishay / Dale|CRCW0805442RFKEA|Mouser|NOK|1|71-CRCW0805-442-E3|13349|0,541|0,541
+CRCW0805442RFKEA|442|Thick film resistor, 1%, 125mW|R14_T2|1||Vishay / Dale|CRCW0805442RFKEA|Mouser|NOK|1|71-CRCW0805-442-E3|13349|0,541|0,541
+CRCW0805442RFKEA|442|Thick film resistor, 1%, 125mW|R14_T1|1||Vishay / Dale|CRCW0805442RFKEA|Mouser|NOK|1|71-CRCW0805-442-E3|13349|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R13_T4|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R13_T3|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R13_T2|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R13_T1|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R12|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW0805300RFKEA|300|Thick film resistor, 1%, 125mW|R11|1||Vishay / Dale|CRCW0805300RFKEA|Mouser|NOK|1|71-CRCW0805300RFKEA|34645|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R10|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW0805300RFKEA|300|Thick film resistor, 1%, 125mW|R9|1||Vishay / Dale|CRCW0805300RFKEA|Mouser|NOK|1|71-CRCW0805300RFKEA|34645|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R8|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW0805300RFKEA|300|Thick film resistor, 1%, 125mW|R7|1||Vishay / Dale|CRCW0805300RFKEA|Mouser|NOK|1|71-CRCW0805300RFKEA|34645|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R6|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW0805300RFKEA|300|Thick film resistor, 1%, 125mW|R5|1||Vishay / Dale|CRCW0805300RFKEA|Mouser|NOK|1|71-CRCW0805300RFKEA|34645|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R4|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW080510K0FKEB|10k|Thick film resistor, 1%, 125mW|R3|1||Vishay / Dale|CRCW080510K0FKEB|Mouser|NOK|1|71-CRCW080510K0FKEB|69243|0,541|0,541
+CRCW08054K70FKEB|4.7k|Thick film resistor, 1%, 125mW|R2|1||Vishay / Dale|CRCW08054K70FKEB|Mouser|NOK|1|71-CRCW08054K70FKEB|20841|0,541|0,541
+CRCW08054K70FKEB|4.7k|Thick film resistor, 1%, 125mW|R1|1||Vishay / Dale|CRCW08054K70FKEB|Mouser|NOK|1|71-CRCW08054K70FKEB|20841|0,541|0,541
+Header 2||Header, 2-Pin|P8|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P7|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P6|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P5|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P4|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P3|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P2|1|HDR1X2|||||||||
+Header 2||Header, 2-Pin|P1|1|HDR1X2|||||||||
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C?|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C?|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C?|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C?|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C?|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C105K4RACTU|1 uF|Ceramic capacitor, X7R, 10%, 16V|C?|1||Kemet|C0805C105K4RACTU|Mouser|NOK|1|80-C0805C105K4R|371166|0,811|0,811
+C0805C105K4RACTU|1 uF|Ceramic capacitor, X7R, 10%, 16V|C?|1||Kemet|C0805C105K4RACTU|Mouser|NOK|1|80-C0805C105K4R|371166|0,811|0,811
+C3216X7R1C106K160AC|10 uF|Ceramic capacitor, X7R, 10%, 16V|C?|1||TDK|C3216X7R1C106K160AC|Mouser|NOK|1|810-C3216X7R1C106K|48274|2,3|2,30
+C3216X7R1C106K160AC|10 uF|Ceramic capacitor, X7R, 10%, 16V|C?|1||TDK|C3216X7R1C106K160AC|Mouser|NOK|1|810-C3216X7R1C106K|48274|2,3|2,30
+GRM2195C1H123JA01D|12 nF|Ceramic capacitor, C0G, 5%, 50V|C11_T4|1||Murata Electronics|GRM2195C1H123JA01D|Mouser|NOK|1|81-GRM2195C1H123JA1D|8903|2,84|2,84
+GRM2195C1H123JA01D|12 nF|Ceramic capacitor, C0G, 5%, 50V|C11_T3|1||Murata Electronics|GRM2195C1H123JA01D|Mouser|NOK|1|81-GRM2195C1H123JA1D|8903|2,84|2,84
+GRM2195C1H123JA01D|12 nF|Ceramic capacitor, C0G, 5%, 50V|C11_T2|1||Murata Electronics|GRM2195C1H123JA01D|Mouser|NOK|1|81-GRM2195C1H123JA1D|8903|2,84|2,84
+GRM2195C1H123JA01D|12 nF|Ceramic capacitor, C0G, 5%, 50V|C11_T1|1||Murata Electronics|GRM2195C1H123JA01D|Mouser|NOK|1|81-GRM2195C1H123JA1D|8903|2,84|2,84
+GRM31C5C1H823GA01L|82 nF|Ceramic capacitor, C0G, 2%, 50V|C10_T4|1||Murata Electronics|GRM31C5C1H823GA01L|Mouser|NOK|1|81-GRM31C5C1H823GA1L|1969|7,71|7,71
+GRM31C5C1H823GA01L|82 nF|Ceramic capacitor, C0G, 2%, 50V|C10_T3|1||Murata Electronics|GRM31C5C1H823GA01L|Mouser|NOK|1|81-GRM31C5C1H823GA1L|1969|7,71|7,71
+GRM31C5C1H823GA01L|82 nF|Ceramic capacitor, C0G, 2%, 50V|C10_T2|1||Murata Electronics|GRM31C5C1H823GA01L|Mouser|NOK|1|81-GRM31C5C1H823GA1L|1969|7,71|7,71
+GRM31C5C1H823GA01L|82 nF|Ceramic capacitor, C0G, 2%, 50V|C10_T1|1||Murata Electronics|GRM31C5C1H823GA01L|Mouser|NOK|1|81-GRM31C5C1H823GA1L|1969|7,71|7,71
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C9_T4|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C9_T3|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C9_T2|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C9_T1|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C8_T4|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C8_T3|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C8_T2|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM31C5C1E104JA01L|100 nF|Ceramic capacitor, C0G, 5%, 25V|C8_T1|1||Murata Electronics|GRM31C5C1E104JA01L|Mouser|NOK|1|81-GRM31C5C1E104JA01|53229|3,72|3,72
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C7_T4|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C7_T3|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C7_T2|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C7_T1|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM21B5C1H223JA01L|22 nF|Ceramic capacitor, C0G, 5%, 50V|C6_T4|1||Murata Electronics|GRM21B5C1H223JA01L|Mouser|NOK|1|81-GRM215C1H223JA01L|20190|2,16|2,16
+GRM21B5C1H223JA01L|22 nF|Ceramic capacitor, C0G, 5%, 50V|C6_T3|1||Murata Electronics|GRM21B5C1H223JA01L|Mouser|NOK|1|81-GRM215C1H223JA01L|20190|2,16|2,16
+GRM21B5C1H223JA01L|22 nF|Ceramic capacitor, C0G, 5%, 50V|C6_T2|1||Murata Electronics|GRM21B5C1H223JA01L|Mouser|NOK|1|81-GRM215C1H223JA01L|20190|2,16|2,16
+GRM21B5C1H223JA01L|22 nF|Ceramic capacitor, C0G, 5%, 50V|C6_T1|1||Murata Electronics|GRM21B5C1H223JA01L|Mouser|NOK|1|81-GRM215C1H223JA01L|20190|2,16|2,16
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C5_T4|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C5_T3|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C5_T2|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+GRM2165C1H102JA01D|1 nF|Ceramic capacitor, C0G, 5%, 50V|C5_T1|1||Murata Electronics|GRM2165C1H102JA01D|Mouser|NOK|1|81-GRM40C102J50D|29874|0,946|0,946
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C4_T4|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C4_T3|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C4_T2|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C4_T1|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C3_T4|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C3_T3|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C3_T2|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C3_T1|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C2|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676
+C0805C104K5RACTU|100 nF|Ceramic capacitor, X7R, 10%, 50V|C1|1||Kemet|C0805C104K5RACTU|Mouser|NOK|1|80-C0805C104K5R|1330667|0,676|0,676

@@ -4,6 +4,8 @@
 
 src\adc_sensors.c
 
+src\twi_master_driver.c
+
 src\ASF\common\components\display\st7565r\st7565r.c
 
 src\ASF\common\services\calendar\calendar.c

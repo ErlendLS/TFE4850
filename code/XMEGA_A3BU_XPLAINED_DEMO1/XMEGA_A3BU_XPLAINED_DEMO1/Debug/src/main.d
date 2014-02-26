@@ -85,7 +85,8 @@ src/main.d src/main.o: ../src/main.c \
  ../src/ASF/common/services/usb/udc/udd.h \
  ../src/ASF/common/services/usb/udc/udc_desc.h \
  ../src/ASF/common/services/usb/udc/udi.h \
- ../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained/conf_application.h
+ ../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained/conf_application.h \
+ ../src/twi_master_driver.h ../src/avr_compiler.h
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/stdio.h:
 
@@ -292,3 +293,7 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8
 ../src/ASF/common/services/usb/udc/udi.h:
 
 ../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained/conf_application.h:
+
+../src/twi_master_driver.h:
+
+../src/avr_compiler.h:

@@ -91,6 +91,7 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../src/adc_sensors.c \
+../src/twi_master_driver.c \
 ../src/ASF/common/components/display/st7565r/st7565r.c \
 ../src/ASF/common/services/calendar/calendar.c \
 ../src/ASF/common/services/clock/xmega/sysclk.c \
@@ -137,6 +138,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 src/adc_sensors.o \
+src/twi_master_driver.o \
 src/ASF/common/components/display/st7565r/st7565r.o \
 src/ASF/common/services/calendar/calendar.o \
 src/ASF/common/services/clock/xmega/sysclk.o \
@@ -176,6 +178,7 @@ src/timezone.o
 
 OBJS_AS_ARGS +=  \
 src/adc_sensors.o \
+src/twi_master_driver.o \
 src/ASF/common/components/display/st7565r/st7565r.o \
 src/ASF/common/services/calendar/calendar.o \
 src/ASF/common/services/clock/xmega/sysclk.o \
@@ -215,6 +218,7 @@ src/timezone.o
 
 C_DEPS +=  \
 src/adc_sensors.d \
+src/twi_master_driver.d \
 src/ASF/common/components/display/st7565r/st7565r.d \
 src/ASF/common/services/calendar/calendar.d \
 src/ASF/common/services/clock/xmega/sysclk.d \
@@ -254,6 +258,7 @@ src/timezone.d
 
 C_DEPS_AS_ARGS +=  \
 src/adc_sensors.d \
+src/twi_master_driver.d \
 src/ASF/common/components/display/st7565r/st7565r.d \
 src/ASF/common/services/calendar/calendar.d \
 src/ASF/common/services/clock/xmega/sysclk.d \
@@ -302,6 +307,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

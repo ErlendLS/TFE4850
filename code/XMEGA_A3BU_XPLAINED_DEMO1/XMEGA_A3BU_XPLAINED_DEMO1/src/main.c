@@ -91,6 +91,7 @@
 #include "cdc.h"
 #include "conf_application.h"
 #include "sysfont.h"
+#include "twi_master_driver.h"
 
 /* Main menu: strings are stored in FLASH,
  * the string pointer table and menu struct are stored in RAM.
@@ -470,6 +471,19 @@ int main(void)
 	// ADDED: Initializing temperature display 
 	temp_disp_init();
 	
+	// 26.02.14 TWI init
+	PORTE.DIRSET = 0xFF;
+	PORTD.DIRCLR = 0xFF;
+	PORTCFG.MPCMASK = 0xFF;
+	PORTD.PIN0CTRL |= PORT_INVEN_bm;
+	
+	TWI_Master_t* twi;
+	TWI_t* module;
+	TWI_MasterInit(twi, module, TWI_MASTER_INTLVL_LO_gc, 1000);	
+	
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
+	sei();
+	
 	/* Main loop. Read keyboard status and pass input to menu system.
 	 * When an element has been selected in the menu, it will return the
 	 * index of the element that should be run. This can be an application
@@ -552,6 +566,31 @@ int main(void)
 				gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
 				//END Draw temperature
 				
+				//Write I2C status
+				bool twiStatus = TWI_MasterRead(twi, 0x28, 4);
+				
+				while (twi->status != TWIM_STATUS_READY) {
+					/* Wait until transaction is complete. */
+				}
+				
+				uint16_t twiInt = twi->readData[0];
+				(twiInt << 8);
+				twiInt += twi->readData[1];
+				twiInt &= ~(1 << 14);
+				twiInt &= ~(1 << 15);
+				
+				cdc_putstr(cdc_putint16(twi->result));
+				cdc_putstr("\r\n");
+				cdc_putstr(cdc_putint16(twiInt));
+				cdc_putstr("\r\n");
+				/*
+				cdc_putstr(cdc_putint8(twi->readData[1]));
+				cdc_putstr("\r\n");
+				cdc_putstr(cdc_putint8(twi->readData[2]));
+				cdc_putstr("\r\n");
+				cdc_putstr(cdc_putint8(twi->readData[3]));
+				cdc_putstr("\r\n");
+				*/
 				keyboard_get_key_state(&input);
 				
 			// Wait for key release

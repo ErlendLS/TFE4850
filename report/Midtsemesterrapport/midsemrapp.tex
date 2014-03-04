@@ -1,7 +1,8 @@
 \documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[norsk]{babel}
 \usepackage{graphics}
 \usetheme{Warsaw}
-
 \title[Vakumkammer] % (optional, only for long titles)
 {Vakumkammer}
 \subtitle{Verkt\o y for testing av temperaturegenskaper hos CubeSat i vakum}
@@ -76,7 +77,13 @@
     	\framesubtitle{Hvor er vi n\aa ?}
     	\begin{block}{Hardware}
     		\begin{itemize}
-    			\item[-] item1
+    			\item[-] Designet og fått produsert et kretskort. Inneholder:
+					\begin{itemize}
+					\item[-] Analog front-end til fire termoelementer som skal føres inn i kammer (ADC i mikrokontroller benyttes).
+					\item[-] Lokal temperatursensor for kompensering til termoelementene.
+					\item[-] Trykksensor.
+					\item[-] Logiske utganger til styring av pumper o.l.
+					\end{itemize}
     		\end{itemize}
     	\end{block}
     \end{frame}
@@ -108,7 +115,10 @@
     	\framesubtitle{Hva gjenst\aa r?}
     	\begin{block}{Hardware}
     		\begin{itemize}
-    			\item[-] item1
+    			\item[-] Lodde komponenter på kretskortet, starter med en temperaturkanal.
+					\item[-] Foreta målinger på temperaturkanalen, samt kalibrering.
+					\item[-] Lodde resten av kortet for å teste det i sin helhet.
+					\item[-] Bistå software-gruppa med kalibrering og testing av hele systemet.
     		\end{itemize}
     	\end{block}
     \end{frame}

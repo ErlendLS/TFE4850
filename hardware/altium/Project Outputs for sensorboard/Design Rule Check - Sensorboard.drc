@@ -1,0 +1,50 @@
+Protel Design System Design Rule Check
+PCB File : C:\Users\Harald\Documents\Dropbox\Studier\Semester 08\TFE4850 - EIT romteknologi\TFE4850\hardware\altium\Sensorboard.PcbDoc
+Date     : 02.03.2014
+Time     : 21:25:08
+
+Processing Rule : Clearance Constraint (Gap=0.3mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Room T2 (Bounding Region = (71.75mm, 76.25mm, 91.5mm, 123.5mm) ((InComponentClass('T2') OR InComponent('J5')))
+Rule Violations :0
+
+Processing Rule : Room T4 (Bounding Region = (111.25mm, 76.25mm, 131mm, 123.5mm) ((InComponentClass('T4') OR InComponent('J7')))
+Rule Violations :0
+
+Processing Rule : Room T3 (Bounding Region = (91.5mm, 76.25mm, 111.25mm, 123.5mm) ((InComponentClass('T3') OR InComponent('J6')))
+Rule Violations :0
+
+Processing Rule : Room T1 (Bounding Region = (52mm, 76.25mm, 71.75mm, 123.5mm) ((InComponentClass('T1') OR InComponent('J4')))
+Rule Violations :0
+
+Processing Rule : Power Plane Connect Rule(Relief Connect )(Expansion=0.508mm) (Conductor Width=0.254mm) (Air Gap=0.254mm) (Entries=4) (All)
+Rule Violations :0
+
+Processing Rule : Width Constraint (Min=0.5mm) (Max=1.3mm) (Preferred=0.5mm) (All)
+Rule Violations :0
+
+Processing Rule : Net Antennae (Tolerance=0mm) (All)
+Rule Violations :0
+
+Processing Rule : Hole To Hole Clearance (Gap=0.254mm) (All),(All)
+Rule Violations :0
+
+Processing Rule : Hole Size Constraint (Min=0.025mm) (Max=3.2mm) (All)
+Rule Violations :0
+
+Processing Rule : Height Constraint (Min=0mm) (Max=25.4mm) (Prefered=12.7mm) (All)
+Rule Violations :0
+
+Processing Rule : Un-Routed Net Constraint ( (All) )
+Rule Violations :0
+
+Processing Rule : Short-Circuit Constraint (Allowed=No) (All),(All)
+Rule Violations :0
+
+Processing Rule : Clearance Constraint (Gap=0.3mm) (InNamedPolygon('Bottom Layer-GND')),(All)
+Rule Violations :0
+
+
+Violations Detected : 0
+Time Elapsed        : 00:00:01

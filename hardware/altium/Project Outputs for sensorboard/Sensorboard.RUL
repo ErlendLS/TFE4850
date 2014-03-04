@@ -1,0 +1,6 @@
+DRC Rules Export File for PCB: C:\Users\Harald\Documents\Dropbox\Studier\Semester 08\TFE4850 - EIT romteknologi\TFE4850\hardware\altium\Sensorboard.PcbDoc
+RuleKind=Clearance|RuleName=General clearance|Scope=Board|Minimum=11.81
+RuleKind=Width|RuleName=Width|Scope=Board|Minimum=19.69
+RuleKind=SolderMaskExpansion|RuleName=SolderMaskExpansion|Scope=Board|Minimum=4.00
+RuleKind=ShortCircuit|RuleName=ShortCircuit|Scope=Board|Allowed=0
+RuleKind=Clearance|RuleName=Groundplane clearance|Scope=Board|Minimum=11.81

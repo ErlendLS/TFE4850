@@ -1,9 +1,14 @@
-Output: Bill of Materials
-Type  : BOM
+Output: Gerber Files
+Type  : Gerber
 From  : Variant [[No Variations]] of Project [sensorboard.PrjPCB]
+   Generated File[Sensorboard.GTL]
+   Generated File[Sensorboard.GBL]
+   Generated File[Sensorboard.RUL]
+   Generated File[Sensorboard.EXTREP]
+   Generated File[Sensorboard.REP]
 
 
-Files Generated   : 0
+Files Generated   : 5
 Documents Printed : 0
 
-Finished Output Generation At 02:15:48 On 21.02.2014
+Finished Output Generation At 21:41:09 On 02.03.2014

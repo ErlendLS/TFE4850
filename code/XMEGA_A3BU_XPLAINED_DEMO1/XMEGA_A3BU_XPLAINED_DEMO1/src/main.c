@@ -79,6 +79,7 @@
 #include <sysclk.h>
 #include <sysfont.h>
 #include <util/delay.h>
+#include <math.h>
 #include "adc_sensors.h"	// TODO: Can possibly be removed when adc_reading is moved to another file  
 #include "adc.h"			// Same as above
 #include "date_time.h"
@@ -214,6 +215,71 @@ int16_t adcb_ch0_get_raw_value(void)
 	return adc_sensor_sample;
 }
 
+const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4};
+const double pos_temp_coeff[9] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
+
+double temp_pol_rec(double* coeff, double v, int n)
+{	
+	int max_n = 9;
+	double sum = 0;
+	if (n < max_n)
+	{
+		sum += temp_pol_rec(coeff, v, n + 1);
+	}
+	
+	sum += coeff[n]*pow(v, n);
+	
+	return sum;
+}	
+
+
+/************************************************************************/
+/* This function converts a thermoelectric temperature to a temperature 
+ * in the range -200C to +500C                                          */
+/************************************************************************/
+int16_t thermoel_to_temp(double v)
+{
+	double* temp_coeff;
+	
+	if (v >= 0)
+	{
+		temp_coeff = &pos_temp_coeff;
+	}
+	else
+	{
+		temp_coeff = &neg_temp_coeff;
+	}
+	
+	int16_t temp = (int16_t)temp_pol_rec(temp_coeff, v, 0);
+	
+	return temp;
+}
+
+/**
+ * \brief Translate raw value into temperature
+ *
+ *
+ */ 
+int16_t adcb_ch0_get_temperature(void)
+{
+	int delta_v = 0.1;
+	int16_t top = 4095;	//12-bit max value
+	double vref = 2.5;
+	int16_t res = adcb_ch0_get_raw_value();
+	
+	// Calculate vinp
+	double vinp = ((double)res/(double)(top+1))*vref - delta_v;
+
+	double off = 0;
+	double gain = 1;
+	
+	double v_tc = (vinp - off)/gain;
+	
+	int16_t t = thermoel_to_temp(v_tc);
+	
+	return (int16_t)t;	
+}
+
 /************************************************************************/
 /* Reads the ADCB CH0                                                                     */
 /************************************************************************/
@@ -283,7 +349,7 @@ void temp_disp_init()
 	*/
 	// Wait for ADCB date to ready
 	while (!adcb_data_is_ready());
-	temperature = adcb_ch0_get_raw_value();
+	temperature = adcb_ch0_get_temperature();//adcb_ch0_get_raw_value();
 	
 	
 	// Convert the temperature into the thermometer scale
@@ -509,7 +575,7 @@ int main(void)
 					adcb_ch0_measure();
 					//int8_t temp = ntc_get_temperature();
 					while (!adcb_data_is_ready());
-					int16_t temp = adcb_ch0_get_raw_value();
+					int16_t temp = adcb_ch0_get_temperature();
 					char * temp_s = cdc_putint16(temp);
 					cdc_putstr(temp_s);	//temperature in string form
 					udi_cdc_putc('\r');	//return
@@ -532,7 +598,7 @@ int main(void)
 				// ADCB-Testing
 				adcb_ch0_measure();
 				while (!adcb_data_is_ready());
-				int16_t temp = adcb_ch0_get_raw_value();
+				int16_t temp = adcb_ch0_get_temperature();
 				
 				temperature = temp;
 				// Convert the temperature into the thermometer scale

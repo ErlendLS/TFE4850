@@ -198,7 +198,7 @@
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
-      <ToolNumber>00A200033050</ToolNumber>
+      <ToolNumber>00A20002294F</ToolNumber>
       <ToolName>AVR Dragon</ToolName>
     </com_atmel_avrdbg_tool_avrdragon>
     <avrtoolinterface>JTAG</avrtoolinterface>
@@ -497,6 +497,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\adc_sensors.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\avr_compiler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\twi_master_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\twi_master_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">

@@ -502,10 +502,22 @@
     <Compile Include="src\avr_compiler.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\sensors.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\sensors.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\twi_master_driver.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\twi_master_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\utilities.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\utilities.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">

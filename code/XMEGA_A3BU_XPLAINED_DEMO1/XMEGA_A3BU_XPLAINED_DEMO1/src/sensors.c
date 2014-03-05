@@ -1,0 +1,300 @@
+/*
+ * sensors.c
+ *
+ * Created: 05.03.2014 10:07:18
+ *  Author: ErlendLS
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <gfx_mono.h>
+#include <gfx_mono_menu.h>
+#include <gpio.h>
+#include <sysfont.h>
+#include "cdc.h"
+#include "sysfont.h"
+#include "adc_sensors.h"
+#include "adc.h"
+#include "utilities.h"
+#include "sensors.h"
+
+bool adc_sensor_data_ready = false;
+adc_result_t adc_sensor_sample = 0;
+#define ADCB_CH0_MAX_SAMPLES 4
+
+//! The thermometer image
+uint8_t tempscale_img[] = {
+	0x01, 0xf9, 0xfd, 0xfd, 0xf9, 0x01,
+	0x41, 0xff, 0xff, 0xff, 0xff, 0x41,
+	0x10, 0xff, 0xff, 0xff, 0xff, 0x10,
+	0x9e, 0xbf, 0xbf, 0xbf, 0xbf, 0x9e
+};
+
+struct gfx_mono_bitmap tempscale;
+// String to hold the converted temperature reading
+char temperature_string[15];
+// Variable to hold the image thermometer scale
+uint8_t temp_scale;
+// Variable for holding the actual temperature in Celsius
+int16_t temperature;
+
+int16_t adcb_ch0_get_raw_value(void)
+{
+	return adc_sensor_sample;
+}
+
+const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4};
+const double pos_temp_coeff[9] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
+
+double temp_pol_rec(double* coeff, double v, int n)
+{	
+	int max_n = 9;
+	double sum = 0;
+	if (n < max_n)
+	{
+		sum += temp_pol_rec(coeff, v, n + 1);
+	}
+	
+	sum += coeff[n]*pow(v, n);
+	
+	return sum;
+}	
+
+
+/************************************************************************/
+/* This function converts a thermoelectric temperature to a temperature 
+ * in the range -200C to +500C                                          */
+/************************************************************************/
+int16_t thermoel_to_temp(double v)
+{
+	double* temp_coeff;
+	
+	if (v >= 0)
+	{
+		temp_coeff = &pos_temp_coeff;
+	}
+	else
+	{
+		temp_coeff = &neg_temp_coeff;
+	}
+	
+	int16_t temp = (int16_t)temp_pol_rec(temp_coeff, v, 0);
+	
+	return temp;
+}
+
+/**
+ * \brief Translate raw value into temperature
+ *
+ *
+ */ 
+int16_t adcb_ch0_get_temperature(void)
+{
+	int delta_v = 0.1;
+	int16_t top = 4095;	//12-bit max value
+	double vref = 2.5;
+	int16_t res = adcb_ch0_get_raw_value();
+	
+	// Calculate vinp
+	double vinp = ((double)res/(double)(top+1))*vref - delta_v;
+
+	double off = 0;
+	double gain = 1;
+	
+	double v_tc = (vinp - off)/gain;
+	
+	int16_t t = thermoel_to_temp(v_tc);
+	
+	return (int16_t)t;	
+}
+
+/************************************************************************/
+/* Reads the ADCB CH0                                                                     */
+/************************************************************************/
+void adcb_ch0_measure(void)
+{
+	adc_start_conversion(&ADCB, ADC_CH0);
+}
+
+/**
+ * \brief Check of there is ADCB data ready to be read
+ *
+ * When data is ready to be read this function will return true, and assume
+ * that the data is going to be read so it sets the ready flag to false.
+ *
+ * \retval true if the ADCB value is ready to be read
+ * \retval false if data is not ready yet
+ */
+bool adcb_data_is_ready(void)
+{
+	irqflags_t irqflags;
+	/* We will need to save and turn of global interrupts to make sure that we
+	read the latest adcb value and not the next one if a conversation finish
+	before one have time read the data. */
+	irqflags = cpu_irq_save();
+	if (adc_sensor_data_ready) {
+		adc_sensor_data_ready = false;
+		cpu_irq_restore(irqflags);
+		return true;
+	} else {
+		cpu_irq_restore(irqflags);
+		return false;
+	}
+}
+
+/************************************************************************/
+/*  Temperature display function. Applies to ADCA as well as this test  */
+/************************************************************************/
+
+void temp_disp_init()
+{	
+	/* TODO: Replaced for testing
+	// Initiate a temperature sensor reading
+	ntc_measure();
+	*/
+	// Initiate a ADCB reading
+	adcb_ch0_measure();
+	
+	// Struct for holding the temperature scale background
+	tempscale.type = GFX_MONO_BITMAP_RAM;
+	tempscale.width = 6;
+	tempscale.height = 32;
+	tempscale.data.pixmap = tempscale_img;
+
+	// Screen border
+	gfx_mono_draw_rect(0, 0, 128, 32, GFX_PIXEL_SET);
+	// Clear screen
+	gfx_mono_draw_filled_rect(1, 1, 126, 30, GFX_PIXEL_CLR);
+	
+	//Paint thermometer on screen
+	gfx_mono_put_bitmap(&tempscale, 10, 0);
+	
+	/* TODO: Simply replaced for testing
+	// wait for NTC data to ready
+	while (!ntc_data_is_ready());
+	// Read the temperature once the ADC reading is done
+	temperature = ntc_get_temperature();
+	*/
+	// Wait for ADCB date to ready
+	while (!adcb_data_is_ready());
+	temperature = adcb_ch0_get_temperature();//adcb_ch0_get_raw_value();
+	
+	
+	// Convert the temperature into the thermometer scale
+	temp_scale = -0.36 * temperature + 20.25;
+	if (temp_scale <= 0) {
+		temp_scale = 0;
+	}
+	
+	// Draw the scale element on top of the background temperature image
+	gfx_mono_draw_filled_rect(12, 3, 2, temp_scale,
+	GFX_PIXEL_CLR);
+	
+	snprintf(temperature_string, sizeof(temperature_string), "%3i Celsius",
+	temperature);
+
+	// Draw the Celsius string
+	gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
+}
+
+/************************************************************************/
+/* END Temp display function                                            */
+/************************************************************************/
+
+
+
+
+/**
+ * \brief Callback for the ADC conversion complete
+ *
+ * The ADC module will call this function on a conversion complete.
+ *
+ * \param adc the ADC from which the interrupt came
+ * \param ch_mask the ch_mask that produced the interrupt
+ * \param result the result from the ADC
+ */
+void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
+{
+	static uint8_t ch0_sensor_samples = 0;
+
+	// UNKNOWN on channel 0 
+	if (ch_mask == ADC_CH0) {
+		// TODO: Read sample
+		
+		ch0_sensor_samples++;
+		if (ch0_sensor_samples == 1) {
+			adc_sensor_sample = result;
+			adc_sensor_data_ready = false;
+		} else {
+			adc_sensor_sample += result;
+			adc_sensor_sample >>= 1;
+		}
+		if (ch0_sensor_samples == ADCB_CH0_MAX_SAMPLES) {
+			ch0_sensor_samples = 0;
+			adc_sensor_data_ready = true;
+		} else {
+			adcb_ch0_measure();
+		}
+		
+	} else if (ch_mask == ADC_CH1) {
+		// There is no CH1 atm!
+		/*
+		ntc_sensor_samples++;
+		if (ntc_sensor_samples == 1) {
+			ntc_sensor_sample = result;
+			ntc_sensor_data_ready = false;
+		} else {
+			ntc_sensor_sample += result;
+			ntc_sensor_sample >>= 1;
+		}
+		if (ntc_sensor_samples == NTC_SENSOR_MAX_SAMPLES) {
+			ntc_sensor_samples = 0;
+			ntc_sensor_data_ready = true;
+		} else {
+			ntc_measure();
+		*/
+	}
+}
+
+/************************************************************************/
+/* Initializes the adc_b for reading external sensors.
+   Should be moved to own file with headers etc. when completed and tested
+                                                                        */
+/************************************************************************/
+void adc_b_sensors_init()
+{
+	struct adc_config adc_conf;
+	struct adc_channel_config adc_ch_conf;
+
+	/* Clear the ADC configuration structs */
+	adc_read_configuration(&ADCB, &adc_conf);
+	adcch_read_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	
+	/* configure the ADCB module:
+	- unsigned, 12-bit resolution
+	- TODO: Refer to ext. voltage reference instead of internal VCC / 1.6 reference
+	- 31 kHz max clock rate
+	- manual conversion triggering
+	- callback function
+	*/
+	adc_set_conversion_parameters(&adc_conf, ADC_SIGN_OFF, ADC_RES_12,
+			ADC_REF_AREFB);	// Reference voltage might have to be set to ..._AREFB_gc instead
+	adc_set_clock_rate(&adc_conf, 125000UL);
+	adc_set_conversion_trigger(&adc_conf, ADC_TRIG_MANUAL, 0, 0);
+	adc_write_configuration(&ADCB, &adc_conf);
+	adc_set_callback(&ADCB, &adcb_handler);
+	
+	/* Configure ADC B channel 0 (test source):
+	 * - single-ended measurement
+	 * - interrupt flag set on completed conversion
+	 * - interrupts enabled
+	 */
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN1, ADCCH_NEG_NONE, 1);
+	adcch_set_interrupt_mode(&adc_ch_conf, ADCCH_MODE_COMPLETE);
+	adcch_enable_interrupt(&adc_ch_conf);
+	adcch_write_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	
+	// Enable ADC
+	adc_enable(&ADCB);
+}

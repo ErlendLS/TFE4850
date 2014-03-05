@@ -96,6 +96,9 @@
 #include "utilities.h"
 #include "sensors.h"
 
+TWI_Master_t* twi;
+TWI_t* module;
+
 /**
  * \brief Main function.
  *
@@ -167,10 +170,9 @@ int main(void)
 	PORTCFG.MPCMASK = 0xFF;
 	PORTD.PIN0CTRL |= PORT_INVEN_bm;
 	
-	TWI_Master_t* twi;
-	TWI_t* module;
-	TWI_MasterInit(twi, module, TWI_MASTER_INTLVL_LO_gc, 1000);	
+	TWI_MasterInit(twi, module, TWI_MASTER_INTLVL_LO_gc, 400);	
 	
+	/* Enable LO interrupt level. */
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	sei();
 	
@@ -237,6 +239,10 @@ int main(void)
 				gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
 				//END Draw temperature
 				
+				/* Enable LO interrupt level. */
+				PMIC.CTRL |= PMIC_LOLVLEN_bm;
+				sei();
+				
 				//Write I2C status
 				bool twiStatus = TWI_MasterRead(twi, 0x28, 4);
 				
@@ -266,4 +272,10 @@ int main(void)
 		// Wait for something useful to happen in the menu system
 		} while (menu_status == GFX_MONO_MENU_EVENT_IDLE);
 	}
+}
+
+/*! TWIC Master Interrupt vector. */
+ISR(TWIC_TWIM_vect)
+{
+	TWI_MasterInterruptHandler(twi);
 }

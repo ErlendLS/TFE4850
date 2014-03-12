@@ -14,7 +14,7 @@ try:
 except ImportError:
     comports = None
 
-EXITCHARCTER = serial.to_bytes([0x1d])   # GS/CTRL+]
+EXITCHARCTER = serial.to_bytes([0x11])   # GS/CTRL+q
 MENUCHARACTER = serial.to_bytes([0x14])  # Menu: CTRL+T
 
 DEFAULT_PORT = None
@@ -25,6 +25,7 @@ DEFAULT_DTR = None
 LOG_DIR = "logs"
 LOG_NAME = "log.txt"
 TEMP_LOG_NAME = "temp.csv"
+PRES_LOG_NAME = "pres.csv"
 
 
 def key_description(character):
@@ -245,12 +246,16 @@ class Miniterm(object):
     def fileconvert(self):
         #Convert the text file to the appropriate file type
         with open(LOG_DIR + '/' + LOG_NAME) as fp:
-            with open(LOG_DIR + '/' + TEMP_LOG_NAME, 'w') as csvp:
-                csvp.write("\"Timestamp\",\"Temperature\"\n")
-                for line in fp:
-                    splitLine = line.partition(",")
-                    if splitLine[0] == "temp":
-                        csvp.write(splitLine[2].rstrip("\n"))
+            with open(LOG_DIR + '/' + TEMP_LOG_NAME, 'w') as csvtp:
+                with open(LOG_DIR + '/' + PRES_LOG_NAME, 'w') as csvpp:
+                    csvtp.write("\"Timestamp\",\"Temperature\"\n")
+                    csvpp.write("\"Timestamp\",\"Pressure\"\n")
+                    for line in fp:
+                        splitLine = line.partition(",")
+                        if splitLine[0] == "ADC":
+                            csvtp.write(splitLine[2].rstrip("\n"))
+                        if splitLine[0] == "TWI":
+                            csvpp.write(splitLine[2].rstrip("\n"))
                 csvp.close()
             fp.close()
 
@@ -594,7 +599,7 @@ def main():
         action = "store",
         type = 'int',
         help = "ASCII code of special character that is used to exit the application",
-        default = 0x1d
+        default = 0x11
     )
 
     group.add_option("--menu-char",

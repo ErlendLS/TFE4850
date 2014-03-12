@@ -33,11 +33,18 @@ uint8_t tempscale_img[] = {
 
 struct gfx_mono_bitmap tempscale;
 // String to hold the converted temperature reading
-char temperature_string[15];
+//char temperature_string[15];
+// Variables to hold temperature and pressure
+char temp1_string[15];
+char temp2_string[15];
+char temp3_string[15];
+char pressure_string[15];
 // Variable to hold the image thermometer scale
 uint8_t temp_scale;
 // Variable for holding the actual temperature in Celsius
 int16_t temperature;
+// Variable for holding the pressure in bar
+double bar_pressure;
 
 int16_t adcb_ch0_get_raw_value(void)
 {
@@ -59,6 +66,25 @@ double temp_pol_rec(double* coeff, double v, int n)
 	sum += coeff[n]*pow(v, n);
 	
 	return sum;
+}
+
+/************************************************************************/
+/* Function to convert pressure-value from Honeywell I2C pressure sensor
+ * to Bar                                                               */
+/************************************************************************/
+double pressureval_to_bar(int16_t val)
+{
+	int16_t output = val;
+	int16_t output_max = 0x3999;
+	int16_t output_min = 0x0666;
+	int pressure_max = 15;	// Max pressure value in psi
+	int pressure_min = 0;	// Min pressure value in psi
+	
+	double psi = ((double)((output-output_min)*(pressure_max-pressure_min)))/(double)(output_max-output_min) + (double)pressure_min;
+	
+	double bar = psi*0.0689475729;
+	
+	return bar;
 }	
 
 
@@ -167,8 +193,8 @@ void temp_disp_init()
 	// Clear screen
 	gfx_mono_draw_filled_rect(1, 1, 126, 30, GFX_PIXEL_CLR);
 	
-	//Paint thermometer on screen
-	gfx_mono_put_bitmap(&tempscale, 10, 0);
+	// Paint thermometer on screen
+	// gfx_mono_put_bitmap(&tempscale, 10, 0);	// TODO: Can be removed.
 	
 	/* TODO: Simply replaced for testing
 	// wait for NTC data to ready
@@ -182,20 +208,43 @@ void temp_disp_init()
 	
 	
 	// Convert the temperature into the thermometer scale
-	temp_scale = -0.36 * temperature + 20.25;
+	/* temp_scale = -0.36 * temperature + 20.25;
 	if (temp_scale <= 0) {
 		temp_scale = 0;
 	}
+	*/
 	
 	// Draw the scale element on top of the background temperature image
-	gfx_mono_draw_filled_rect(12, 3, 2, temp_scale,
+	/*gfx_mono_draw_filled_rect(12, 3, 2, temp_scale,
 	GFX_PIXEL_CLR);
+	*/
 	
-	snprintf(temperature_string, sizeof(temperature_string), "%3i Celsius",
+	/*snprintf(temperature_string, sizeof(temperature_string), "%3i C",
 	temperature);
-
+	
 	// Draw the Celsius string
 	gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
+	*/
+	// ********************** START UPDATE SCREEN ************************
+	
+	snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
+	temperature);
+	
+	snprintf(temp2_string, sizeof(temp2_string), "TMP2:%3iC",
+	temperature);
+	
+	snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
+	temperature);
+	
+	snprintf(pressure_string, sizeof(pressure_string), "BAR:%3i",
+	temperature);
+	
+	// TODO: Set up variables and call methods for reading all the values
+	// Draw the Celsius string
+	gfx_mono_draw_string(temp1_string, 1, 5, &sysfont);	// Temp1
+	gfx_mono_draw_string(temp2_string, 64, 5, &sysfont);	// Temp2
+	gfx_mono_draw_string(temp3_string, 1, 20, &sysfont);	// Temp3
+	gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
 }
 
 /************************************************************************/

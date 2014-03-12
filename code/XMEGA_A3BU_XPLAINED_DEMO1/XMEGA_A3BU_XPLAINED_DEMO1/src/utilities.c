@@ -10,18 +10,26 @@
 #include "cdc.h"
 #include "utilities.h"
 
-char * cdc_putint8(int8_t intval) {
+char * int8_tostr(int8_t intval) {
 	char * char_int;
 	itoa(intval, char_int, 10);
 	
 	return char_int;
 }
 
-char * cdc_putint16(int16_t intval) {
+char * int16_tostr(int16_t intval) {
 	char * char_int;
 	itoa(intval, char_int, 10);
 	
 	return char_int;
+}
+
+char * double_tostr(double dval)
+{
+	char * char_double;
+	sprintf(char_double, "%f", dval);
+	
+	return char_double;	
 }
 
 void cdc_putstr(char * string) {

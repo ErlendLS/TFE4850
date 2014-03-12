@@ -9,9 +9,11 @@
 #ifndef UTILITIES_H_
 #define UTILITIES_H_
 
-char * cdc_putint8(int8_t intval);
+char * int8_tostr(int8_t intval);
 
-char * cdc_putint16(int16_t intval);
+char * int16_tostr(int16_t intval);
+
+char * double_tostr(double dval);
 
 void cdc_putstr(char * string);
 

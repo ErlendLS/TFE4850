@@ -97,6 +97,7 @@
 #include "sensors.h"
 
 TWI_Master_t twiMaster;
+uint16_t twiInt = 0xFFFF;
 
 /**
  * \brief Main function.
@@ -116,7 +117,7 @@ int main(void)
 	board_init();
 	pmic_init();
 	gfx_mono_init();
-	touch_init();
+	//touch_init();		// TODO: Can probably be removed seeing as we're not going to use it at this time
 	//adc_sensors_init();
 	
 	//TODO: Evaluate initialization
@@ -196,7 +197,7 @@ int main(void)
 
 					while (!adcb_data_is_ready());
 					int16_t temp = adcb_ch0_get_temperature();
-					char * temp_s = cdc_putint16(temp);
+					char * temp_s = int16_tostr(temp);
 					cdc_putstr(temp_s);	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
@@ -204,7 +205,7 @@ int main(void)
 				
 				
 				//Paint thermometer on screen
-				gfx_mono_put_bitmap(&tempscale, 10, 0);
+				//gfx_mono_put_bitmap(&tempscale, 10, 0);
 				
 				// ADCB-Testing
 				adcb_ch0_measure();
@@ -214,44 +215,60 @@ int main(void)
 				// TODO
 				temperature = temp;
 				// Convert the temperature into the thermometer scale
-				temp_scale = -0.36 * temperature + 20.25;
+				/*temp_scale = -0.36 * temperature + 20.25;
 				if (temp_scale <= 0) {
 					temp_scale = 0;
 				}
+				*/
 				
 				// Draw the scale element on top of the background temperature image
-				gfx_mono_draw_filled_rect(12, 3, 2, temp_scale,
-				GFX_PIXEL_CLR);
+				//gfx_mono_draw_filled_rect(12, 3, 2, temp_scale, GFX_PIXEL_CLR);
 				
-				snprintf(temperature_string, sizeof(temperature_string), "%3i Celsius",
+				// ********************** START UPDATE SCREEN ************************
+				
+				snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 				temperature);
-
-				// Draw the Celsius string
-				gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
-				//END Draw temperature
 				
-				/* Enable LO interrupt level. */
+				snprintf(temp2_string, sizeof(temp2_string), "TMP2:%3iC",
+				temperature);
+				
+				snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
+				temperature);
+				
+				snprintf(pressure_string, sizeof(pressure_string), "BAR:%3f",
+				bar_pressure);
+				
+				// TODO: Set up variables and call methods for reading all the values
+				// Draw the Celsius string
+				gfx_mono_draw_string(temp1_string, 1, 5, &sysfont);	// Temp1
+				gfx_mono_draw_string(temp2_string, 64, 5, &sysfont);	// Temp2
+				gfx_mono_draw_string(temp3_string, 1, 20, &sysfont);	// Temp3
+				gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
+				//*********************** END UPDATE SCREEN ***************************
+				
+				/* Enable LO interrupt level. */ 
 				PMIC.CTRL |= PMIC_LOLVLEN_bm;
 				sei();
 				
 				//Write I2C status
 				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
 				
-				while (twiMaster.status != TWIM_STATUS_READY) {
-					/* Wait until transaction is complete. */
-				}
-				
-				uint16_t twiInt = twiMaster.readData[0];
-				twiInt = (twiInt << 8);
-				twiInt += twiMaster.readData[1];
-				twiInt &= ~(1 << 14);
-				twiInt &= ~(1 << 15);
-				
-				cdc_putstr("TWI,");
-				cdc_putuint32(rtc_timestamp);
-				udi_cdc_putc(',');
-				cdc_putstr(cdc_putint16(twiInt));
-				cdc_putstr("\r\n");
+				if (twiMaster.status == TWIM_STATUS_READY) {
+					
+					twiInt = twiMaster.readData[0];
+					twiInt = (twiInt << 8);
+					twiInt += twiMaster.readData[1];
+					twiInt &= ~(1 << 14);
+					twiInt &= ~(1 << 15);
+					
+					bar_pressure = pressureval_to_bar(twiInt);
+					
+					cdc_putstr("TWI,");
+					cdc_putuint32(rtc_timestamp);
+					udi_cdc_putc(',');
+					cdc_putstr(double_tostr(bar_pressure));
+					cdc_putstr("\r\n");
+				}		
 				
 				keyboard_get_key_state(&input);
 				

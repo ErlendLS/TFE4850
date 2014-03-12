@@ -96,8 +96,7 @@
 #include "utilities.h"
 #include "sensors.h"
 
-TWI_Master_t* twi;
-TWI_t* module;
+TWI_Master_t twiMaster;
 
 /**
  * \brief Main function.
@@ -165,16 +164,8 @@ int main(void)
 	temp_disp_init();
 	
 	// 26.02.14 TWI init
-	PORTE.DIRSET = 0xFF;
-	PORTD.DIRCLR = 0xFF;
-	PORTCFG.MPCMASK = 0xFF;
-	PORTD.PIN0CTRL |= PORT_INVEN_bm;
-	
-	TWI_MasterInit(twi, module, TWI_MASTER_INTLVL_LO_gc, 400);	
-	
-	/* Enable LO interrupt level. */
-	PMIC.CTRL |= PMIC_LOLVLEN_bm;
-	sei();
+	sysclk_enable_peripheral_clock(&TWIC);
+	TWI_MasterInit(&twiMaster, &TWIC, TWI_MASTER_INTLVL_LO_gc, 400);
 	
 	/* Main loop.
 	 * Reads and interprets sensors. Sends data for logging.
@@ -244,20 +235,21 @@ int main(void)
 				sei();
 				
 				//Write I2C status
-				bool twiStatus = TWI_MasterRead(twi, 0x28, 4);
+				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
 				
-				while (twi->status != TWIM_STATUS_READY) {
+				while (twiMaster.status != TWIM_STATUS_READY) {
 					/* Wait until transaction is complete. */
 				}
 				
-				uint16_t twiInt = twi->readData[0];
-				(twiInt << 8);
-				twiInt += twi->readData[1];
+				uint16_t twiInt = twiMaster.readData[0];
+				twiInt = (twiInt << 8);
+				twiInt += twiMaster.readData[1];
 				twiInt &= ~(1 << 14);
 				twiInt &= ~(1 << 15);
 				
-				cdc_putstr(cdc_putint16(twi->result));
-				cdc_putstr("\r\n");
+				cdc_putstr("TWI,");
+				cdc_putuint32(rtc_timestamp);
+				udi_cdc_putc(',');
 				cdc_putstr(cdc_putint16(twiInt));
 				cdc_putstr("\r\n");
 				
@@ -277,5 +269,5 @@ int main(void)
 /*! TWIC Master Interrupt vector. */
 ISR(TWIC_TWIM_vect)
 {
-	TWI_MasterInterruptHandler(twi);
+	TWI_MasterInterruptHandler(&twiMaster);
 }

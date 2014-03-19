@@ -31,6 +31,27 @@ uint8_t tempscale_img[] = {
 	0x9e, 0xbf, 0xbf, 0xbf, 0xbf, 0x9e
 };
 
+// Calibration structs for temperature channels
+temp_ch_calibration temp_ch_0_low;
+temp_ch_calibration temp_ch_0_high;
+temp_ch_calibration temp_ch_1_low;
+temp_ch_calibration temp_ch_1_high;
+temp_ch_calibration temp_ch_2_low;
+temp_ch_calibration temp_ch_2_high;
+temp_ch_calibration temp_ch_3_low;			// There are only 3 channels in use at the moment, so this is just to support future extension
+temp_ch_calibration temp_ch_3_high;
+temp_ch_calibration temp_ch_internal_low;	// Own struct for the internal temperature sensor, may differ slightly from the others
+temp_ch_calibration temp_ch_internal_high;
+
+
+/************************************************************************/
+/* 2D Array for holding the calibration structs.
+  Indexed as follows: 0 = ch0, 1 = ch1 etc. 4 = internal
+  Second index is 0 = low calibration point, 1 = high point             */
+/************************************************************************/
+temp_ch_calibration temp_ch_calibration_arr[5][2];
+
+
 struct gfx_mono_bitmap tempscale;
 // String to hold the converted temperature reading
 //char temperature_string[15];
@@ -45,6 +66,50 @@ uint8_t temp_scale;
 int16_t temperature;
 // Variable for holding the pressure in bar
 double bar_pressure;
+
+void temp_ch_calibration_setup()
+{
+	temp_ch_internal_low.gain = 1;
+	temp_ch_internal_low.offset = 0;
+	temp_ch_internal_high.gain = 1;
+	temp_ch_internal_high.offset = 0;
+	
+	temp_ch_calibration_arr[4][0] = temp_ch_internal_low;
+	temp_ch_calibration_arr[4][1] = temp_ch_internal_high;
+	
+	temp_ch_0_low.gain = 1;
+	temp_ch_0_low.offset = 0;
+	temp_ch_0_high.gain = 1;
+	temp_ch_0_high.offset = 0;
+	
+	temp_ch_calibration_arr[0][0] = temp_ch_0_low;
+	temp_ch_calibration_arr[0][1] = temp_ch_0_high;
+	
+	temp_ch_1_low.gain = 1;
+	temp_ch_1_low.offset = 0;
+	temp_ch_1_high.gain = 1;
+	temp_ch_1_high.offset = 0;
+	
+	temp_ch_calibration_arr[1][0] = temp_ch_1_low;
+	temp_ch_calibration_arr[1][1] = temp_ch_1_high;
+	
+	temp_ch_2_low.gain = 1;
+	temp_ch_2_low.offset = 0;
+	temp_ch_2_high.gain = 1;
+	temp_ch_2_high.offset = 0;
+	
+	temp_ch_calibration_arr[2][0] = temp_ch_2_low;
+	temp_ch_calibration_arr[2][1] = temp_ch_2_high;
+	
+	temp_ch_3_low.gain = 1;
+	temp_ch_3_low.offset = 0;
+	temp_ch_3_high.gain = 1;
+	temp_ch_3_high.offset = 0;
+	
+	temp_ch_calibration_arr[3][0] = temp_ch_3_low;
+	temp_ch_calibration_arr[3][1] = temp_ch_3_high;
+	
+}
 
 int16_t adcb_ch0_get_raw_value(void)
 {

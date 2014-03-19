@@ -20,6 +20,13 @@ char temp3_string[15];
 char pressure_string[15];
 uint8_t temp_scale;
 
+// Calibration struct for temperature channels
+struct temp_ch_calibration {
+	
+	double offset;
+	double gain;
+};
+
 int16_t adcb_ch0_get_raw_value(void);
 
 double temp_pol_rec(double* coeff, double v, int n);

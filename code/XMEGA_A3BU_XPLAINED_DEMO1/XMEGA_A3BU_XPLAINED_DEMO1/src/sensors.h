@@ -3,7 +3,7 @@
  *
  * Created: 05.03.2014 10:07:39
  *  Author: ErlendLS
- */ 
+ */
 
 
 #ifndef SENSORS_H_
@@ -11,7 +11,10 @@
 
 uint8_t tempscale_img[];
 struct gfx_mono_bitmap tempscale;
-int16_t temperature;
+int16_t temperature0;
+int16_t temperature1;
+int16_t temperature2;
+int16_t temperature3;
 double bar_pressure;
 //char temperature_string[15];
 char temp1_string[15];
@@ -21,11 +24,7 @@ char pressure_string[15];
 uint8_t temp_scale;
 
 // Calibration struct for temperature channels
-struct temp_ch_calibration {
-	
-	double offset;
-	double gain;
-};
+struct temp_ch_calibration;
 
 int16_t adcb_ch0_get_raw_value(void);
 
@@ -34,7 +33,7 @@ double temp_pol_rec(double* coeff, double v, int n);
 double pressureval_to_bar(int16_t val);
 
 /************************************************************************/
-/* This function converts a thermoelectric temperature to a temperature 
+/* This function converts a thermoelectric temperature to a temperature
  * in the range -200C to +500C                                          */
 /************************************************************************/
 int16_t thermoel_to_temp(double v);
@@ -43,13 +42,19 @@ int16_t thermoel_to_temp(double v);
  * \brief Translate raw value into temperature
  *
  *
- */ 
-int16_t adcb_ch0_get_temperature(void);
+ */
+int16_t adcb_chX_get_temperature(int);
 
 /************************************************************************/
-/* Reads the ADCB CH0                                                                     */
+/* Reads the ADCB CH0 - CH3                                                                   */
 /************************************************************************/
 void adcb_ch0_measure(void);
+
+void adcb_ch1_measure(void);
+
+void adcb_ch2_measure(void);
+
+void adcb_ch3_measure(void);
 
 /**
  * \brief Check of there is ADCB data ready to be read

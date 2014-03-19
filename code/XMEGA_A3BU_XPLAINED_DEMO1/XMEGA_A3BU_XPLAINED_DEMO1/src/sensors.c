@@ -42,17 +42,23 @@ uint8_t tempscale_img[] = {
 	0x9e, 0xbf, 0xbf, 0xbf, 0xbf, 0x9e
 };
 
+struct temp_ch_calibration {
+
+	double offset;
+	double gain;
+};
+
 // Calibration structs for temperature channels
-temp_ch_calibration temp_ch_0_low;
-temp_ch_calibration temp_ch_0_high;
-temp_ch_calibration temp_ch_1_low;
-temp_ch_calibration temp_ch_1_high;
-temp_ch_calibration temp_ch_2_low;
-temp_ch_calibration temp_ch_2_high;
-temp_ch_calibration temp_ch_3_low;			// There are only 3 channels in use at the moment, so this is just to support future extension
-temp_ch_calibration temp_ch_3_high;
-temp_ch_calibration temp_ch_internal_low;	// Own struct for the internal temperature sensor, may differ slightly from the others
-temp_ch_calibration temp_ch_internal_high;
+struct temp_ch_calibration temp_ch_0_low;
+struct temp_ch_calibration temp_ch_0_high;
+struct temp_ch_calibration temp_ch_1_low;
+struct temp_ch_calibration temp_ch_1_high;
+struct temp_ch_calibration temp_ch_2_low;
+struct temp_ch_calibration temp_ch_2_high;
+struct temp_ch_calibration temp_ch_3_low;			// There are only 3 channels in use at the moment, so this is just to support future extension
+struct temp_ch_calibration temp_ch_3_high;
+struct temp_ch_calibration temp_ch_internal_low;	// Own struct for the internal temperature sensor, may differ slightly from the others
+struct temp_ch_calibration temp_ch_internal_high;
 
 
 /************************************************************************/
@@ -60,7 +66,7 @@ temp_ch_calibration temp_ch_internal_high;
   Indexed as follows: 0 = ch0, 1 = ch1 etc. 4 = internal
   Second index is 0 = low calibration point, 1 = high point             */
 /************************************************************************/
-temp_ch_calibration temp_ch_calibration_arr[5][2];
+struct temp_ch_calibration temp_ch_calibration_arr[5][2];
 
 
 struct gfx_mono_bitmap tempscale;
@@ -73,8 +79,11 @@ char temp3_string[15];
 char pressure_string[15];
 // Variable to hold the image thermometer scale
 uint8_t temp_scale;
-// Variable for holding the actual temperature in Celsius
-int16_t temperature;
+// Variable for holding the actual temperatures in Celsius
+int16_t temperature0;
+int16_t temperature1;
+int16_t temperature2;
+int16_t temperature3;
 // Variable for holding the pressure in bar
 double bar_pressure;
 
@@ -125,6 +134,21 @@ void temp_ch_calibration_setup()
 int16_t adcb_ch0_get_raw_value(void)
 {
 	return adc_sensor_sample_ch0;
+}
+
+int16_t adcb_ch1_get_raw_value(void)
+{
+	return adc_sensor_sample_ch1;
+}
+
+int16_t adcb_ch2_get_raw_value(void)
+{
+	return adc_sensor_sample_ch2;
+}
+
+int16_t adcb_ch3_get_raw_value(void)
+{
+	return adc_sensor_sample_ch3;
 }
 
 const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4};
@@ -188,15 +212,28 @@ int16_t thermoel_to_temp(double v)
 
 /**
  * \brief Translate raw value into temperature
- *
- *
+ *	Channel should be between 0 and 3
+ *	A return value of -1 equals invalid argument
  */
-int16_t adcb_ch0_get_temperature(void)
+int16_t adcb_chX_get_temperature(int channel)
 {
 	int delta_v = 0.1;
 	int16_t top = 4095;	//12-bit max value
 	double vref = 2.5;
-	int16_t res = adcb_ch0_get_raw_value();
+	int16_t res = -1;
+	switch (channel)
+	{
+	case 0 :
+		res = adcb_ch0_get_raw_value();
+	case 1 :
+		res = adcb_ch1_get_raw_value();
+	case 2 :
+		res = adcb_ch2_get_raw_value();
+	case 3 :
+		res = adcb_ch3_get_raw_value();
+	default :
+		res = -1;
+	}
 
 	// Calculate vinp
 	double vinp = ((double)res/(double)(top+1))*vref - delta_v;
@@ -272,6 +309,9 @@ void temp_disp_init()
 	*/
 	// Initiate a ADCB reading
 	adcb_ch0_measure();
+	adcb_ch1_measure();
+	adcb_ch2_measure();
+	adcb_ch3_measure();
 
 	// Struct for holding the temperature scale background
 	tempscale.type = GFX_MONO_BITMAP_RAM;
@@ -295,7 +335,10 @@ void temp_disp_init()
 	*/
 	// Wait for ADCB date to ready
 	while (!adcb_data_is_ready());
-	temperature = adcb_ch0_get_temperature();//adcb_ch0_get_raw_value();
+	temperature0 = adcb_chX_get_temperature(0);//adcb_ch0_get_raw_value();
+	temperature1 = adcb_chX_get_temperature(1);
+	temperature2 = adcb_chX_get_temperature(2);
+	temperature3 = adcb_chX_get_temperature(3);
 
 
 	// Convert the temperature into the thermometer scale
@@ -319,16 +362,16 @@ void temp_disp_init()
 	// ********************** START UPDATE SCREEN ************************
 
 	snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
-	temperature);
+	temperature0);
 
 	snprintf(temp2_string, sizeof(temp2_string), "TMP2:%3iC",
-	temperature);
+	temperature1);
 
 	snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
-	temperature);
+	temperature2);
 
 	snprintf(pressure_string, sizeof(pressure_string), "BAR:%3i",
-	temperature);
+	temperature3);
 
 	// TODO: Set up variables and call methods for reading all the values
 	// Draw the Celsius string

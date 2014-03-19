@@ -175,6 +175,13 @@ int main(void)
 
 		do {			
 			do {
+				
+				/* Enable LO interrupt level. */
+				PMIC.CTRL |= PMIC_LOLVLEN_bm;
+				sei();
+				//Write I2C status
+				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
+				
 				//START TEMP PRINT
 				_delay_ms(10000);	//NOTE: ms actually means microseconds in this case
 				rtc_timestamp = rtc_get_time();
@@ -245,13 +252,6 @@ int main(void)
 				gfx_mono_draw_string(temp3_string, 1, 20, &sysfont);	// Temp3
 				gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
 				//*********************** END UPDATE SCREEN ***************************
-				
-				/* Enable LO interrupt level. */ 
-				PMIC.CTRL |= PMIC_LOLVLEN_bm;
-				sei();
-				
-				//Write I2C status
-				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
 				
 				if (twiMaster.status == TWIM_STATUS_READY) {
 					

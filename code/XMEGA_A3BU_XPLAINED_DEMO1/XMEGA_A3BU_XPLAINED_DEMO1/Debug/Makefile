@@ -306,9 +306,9 @@ src/qtouch/qt_asm_xmega.d \
 src/qtouch/touch.d \
 src/timezone.d
 
-OUTPUT_FILE_PATH +=XMEGA_A3BU_XPLAINED_DEMO1.elf
+OUTPUT_FILE_PATH +=VACUUM_SENSOR_CONTROL_A3BU.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=XMEGA_A3BU_XPLAINED_DEMO1.elf
+OUTPUT_FILE_PATH_AS_ARGS +=VACUUM_SENSOR_CONTROL_A3BU.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -585,13 +585,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="XMEGA_A3BU_XPLAINED_DEMO1.map" -Wl,--start-group -Wl,-lavrxmega6g1-4qt-k-0rs -Wl,-lm  -Wl,--end-group -Wl,-L"../src/qtouch"  -Wl,--gc-sections -mrelax -mmcu=atxmega256a3bu -Wl,--relax -Wl,--section-start=.BOOT=0x40000 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="VACUUM_SENSOR_CONTROL_A3BU.map" -Wl,--start-group -Wl,-lavrxmega6g1-4qt-k-0rs -Wl,-lm  -Wl,--end-group -Wl,-L"../src/qtouch"  -Wl,--gc-sections -mrelax -mmcu=atxmega256a3bu -Wl,--relax -Wl,--section-start=.BOOT=0x40000 
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "XMEGA_A3BU_XPLAINED_DEMO1.elf" "XMEGA_A3BU_XPLAINED_DEMO1.hex"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "XMEGA_A3BU_XPLAINED_DEMO1.elf" "XMEGA_A3BU_XPLAINED_DEMO1.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "XMEGA_A3BU_XPLAINED_DEMO1.elf" > "XMEGA_A3BU_XPLAINED_DEMO1.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature  "XMEGA_A3BU_XPLAINED_DEMO1.elf" "XMEGA_A3BU_XPLAINED_DEMO1.srec"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-size.exe" "XMEGA_A3BU_XPLAINED_DEMO1.elf"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.hex"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "VACUUM_SENSOR_CONTROL_A3BU.elf" > "VACUUM_SENSOR_CONTROL_A3BU.lss"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature  "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.srec"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-size.exe" "VACUUM_SENSOR_CONTROL_A3BU.elf"
 	
 	
 
@@ -603,5 +603,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "XMEGA_A3BU_XPLAINED_DEMO1.elf" "XMEGA_A3BU_XPLAINED_DEMO1.a" "XMEGA_A3BU_XPLAINED_DEMO1.hex" "XMEGA_A3BU_XPLAINED_DEMO1.lss" "XMEGA_A3BU_XPLAINED_DEMO1.eep" "XMEGA_A3BU_XPLAINED_DEMO1.map" "XMEGA_A3BU_XPLAINED_DEMO1.srec"
+	rm -rf "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.a" "VACUUM_SENSOR_CONTROL_A3BU.hex" "VACUUM_SENSOR_CONTROL_A3BU.lss" "VACUUM_SENSOR_CONTROL_A3BU.eep" "VACUUM_SENSOR_CONTROL_A3BU.map" "VACUUM_SENSOR_CONTROL_A3BU.srec"
 	

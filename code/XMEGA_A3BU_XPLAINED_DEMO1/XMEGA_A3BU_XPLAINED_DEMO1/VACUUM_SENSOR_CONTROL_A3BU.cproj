@@ -13,7 +13,7 @@
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
     <AssemblyName>XMEGA_A3BU_XPLAINED_DEMO1</AssemblyName>
-    <Name>XMEGA_A3BU_XPLAINED_DEMO1</Name>
+    <Name>VACUUM_SENSOR_CONTROL_A3BU</Name>
     <RootNamespace>XMEGA_A3BU_XPLAINED_DEMO1</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
@@ -198,7 +198,7 @@
         <InterfaceName>JTAG</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
-      <ToolNumber>00A200033050</ToolNumber>
+      <ToolNumber>00A20002294F</ToolNumber>
       <ToolName>AVR Dragon</ToolName>
     </com_atmel_avrdbg_tool_avrdragon>
     <avrtoolinterface>JTAG</avrtoolinterface>

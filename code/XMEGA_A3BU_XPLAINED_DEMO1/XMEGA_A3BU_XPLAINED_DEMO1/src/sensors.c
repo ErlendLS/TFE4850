@@ -19,9 +19,20 @@
 #include "utilities.h"
 #include "sensors.h"
 
-bool adc_sensor_data_ready = false;
-adc_result_t adc_sensor_sample = 0;
 #define ADCB_CH0_MAX_SAMPLES 4
+#define ADCB_CH1_MAX_SAMPLES 4
+#define ADCB_CH2_MAX_SAMPLES 4
+#define ADCB_CH3_MAX_SAMPLES 4
+
+bool adc_sensor_data_ready_ch0 = false;
+bool adc_sensor_data_ready_ch1 = false;
+bool adc_sensor_data_ready_ch2 = false;
+bool adc_sensor_data_ready_ch3 = false;
+
+adc_result_t adc_sensor_sample_ch0 = 0;
+adc_result_t adc_sensor_sample_ch1 = 0;
+adc_result_t adc_sensor_sample_ch2 = 0;
+adc_result_t adc_sensor_sample_ch3 = 0;
 
 //! The thermometer image
 uint8_t tempscale_img[] = {
@@ -48,7 +59,7 @@ double bar_pressure;
 
 int16_t adcb_ch0_get_raw_value(void)
 {
-	return adc_sensor_sample;
+	return adc_sensor_sample_ch0;
 }
 
 const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4};
@@ -143,6 +154,21 @@ void adcb_ch0_measure(void)
 	adc_start_conversion(&ADCB, ADC_CH0);
 }
 
+void adcb_ch1_measure(void)
+{
+	adc_start_conversion(&ADCB, ADC_CH1);
+}
+
+void adcb_ch2_measure(void)
+{
+	adc_start_conversion(&ADCB, ADC_CH2);
+}
+
+void adcb_ch3_measure(void)
+{
+	adc_start_conversion(&ADCB, ADC_CH3);
+}
+
 /**
  * \brief Check of there is ADCB data ready to be read
  *
@@ -159,8 +185,8 @@ bool adcb_data_is_ready(void)
 	read the latest adcb value and not the next one if a conversation finish
 	before one have time read the data. */
 	irqflags = cpu_irq_save();
-	if (adc_sensor_data_ready) {
-		adc_sensor_data_ready = false;
+	if (adc_sensor_data_ready_ch0) {
+		adc_sensor_data_ready_ch0 = false;
 		cpu_irq_restore(irqflags);
 		return true;
 	} else {
@@ -266,6 +292,9 @@ void temp_disp_init()
 void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
 {
 	static uint8_t ch0_sensor_samples = 0;
+	static uint8_t ch1_sensor_samples = 0;
+	static uint8_t ch2_sensor_samples = 0;
+	static uint8_t ch3_sensor_samples = 0;
 
 	// UNKNOWN on channel 0 
 	if (ch_mask == ADC_CH0) {
@@ -273,36 +302,64 @@ void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
 		
 		ch0_sensor_samples++;
 		if (ch0_sensor_samples == 1) {
-			adc_sensor_sample = result;
-			adc_sensor_data_ready = false;
+			adc_sensor_sample_ch0 = result;
+			adc_sensor_data_ready_ch0 = false;
 		} else {
-			adc_sensor_sample += result;
-			adc_sensor_sample >>= 1;
+			adc_sensor_sample_ch0 += result;
+			adc_sensor_sample_ch0 >>= 1;
 		}
 		if (ch0_sensor_samples == ADCB_CH0_MAX_SAMPLES) {
 			ch0_sensor_samples = 0;
-			adc_sensor_data_ready = true;
+			adc_sensor_data_ready_ch0 = true;
 		} else {
 			adcb_ch0_measure();
 		}
 		
 	} else if (ch_mask == ADC_CH1) {
-		// There is no CH1 atm!
-		/*
-		ntc_sensor_samples++;
-		if (ntc_sensor_samples == 1) {
-			ntc_sensor_sample = result;
-			ntc_sensor_data_ready = false;
-		} else {
-			ntc_sensor_sample += result;
-			ntc_sensor_sample >>= 1;
+		ch1_sensor_samples++;
+		if (ch1_sensor_samples == 1) {
+			adc_sensor_sample_ch1 = result;
+			adc_sensor_data_ready_ch1 = false;
+			} else {
+			adc_sensor_sample_ch1 += result;
+			adc_sensor_sample_ch1 >>= 1;
 		}
-		if (ntc_sensor_samples == NTC_SENSOR_MAX_SAMPLES) {
-			ntc_sensor_samples = 0;
-			ntc_sensor_data_ready = true;
-		} else {
-			ntc_measure();
-		*/
+		if (ch1_sensor_samples == ADCB_CH1_MAX_SAMPLES) {
+			ch1_sensor_samples = 0;
+			adc_sensor_data_ready_ch1 = true;
+			} else {
+			adcb_ch1_measure();
+		}
+	} else if (ch_mask == ADC_CH2) {
+		ch2_sensor_samples++;
+		if (ch2_sensor_samples == 1) {
+			adc_sensor_sample_ch2 = result;
+			adc_sensor_data_ready_ch2 = false;
+			} else {
+			adc_sensor_sample_ch2 += result;
+			adc_sensor_sample_ch2 >>= 1;
+		}
+		if (ch2_sensor_samples == ADCB_CH2_MAX_SAMPLES) {
+			ch2_sensor_samples = 0;
+			adc_sensor_data_ready_ch2 = true;
+			} else {
+			adcb_ch2_measure();
+		}
+	} else if (ch_mask == ADC_CH3) {
+		ch3_sensor_samples++;
+		if (ch3_sensor_samples == 1) {
+			adc_sensor_sample_ch3 = result;
+			adc_sensor_data_ready_ch3 = false;
+			} else {
+			adc_sensor_sample_ch3 += result;
+			adc_sensor_sample_ch3 >>= 1;
+		}
+		if (ch3_sensor_samples == ADCB_CH1_MAX_SAMPLES) {
+			ch3_sensor_samples = 0;
+			adc_sensor_data_ready_ch3 = true;
+			} else {
+			adcb_ch3_measure();
+		}
 	}
 }
 
@@ -319,6 +376,9 @@ void adc_b_sensors_init()
 	/* Clear the ADC configuration structs */
 	adc_read_configuration(&ADCB, &adc_conf);
 	adcch_read_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	adcch_read_configuration(&ADCB, ADC_CH1, &adc_ch_conf); //TODO Needed?
+	adcch_read_configuration(&ADCB, ADC_CH2, &adc_ch_conf); //TODO Needed?
+	adcch_read_configuration(&ADCB, ADC_CH3, &adc_ch_conf); //TODO Needed?
 	
 	/* configure the ADCB module:
 	- unsigned, 12-bit resolution
@@ -343,6 +403,18 @@ void adc_b_sensors_init()
 	adcch_set_interrupt_mode(&adc_ch_conf, ADCCH_MODE_COMPLETE);
 	adcch_enable_interrupt(&adc_ch_conf);
 	adcch_write_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
+	
+	// Configure ADC B channel 1 (test source):
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN2, ADCCH_NEG_NONE, 1);
+	adcch_write_configuration(&ADCB, ADC_CH1, &adc_ch_conf);
+	
+	// Configure ADC B channel 2 (test source):
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN3, ADCCH_NEG_NONE, 1);
+	adcch_write_configuration(&ADCB, ADC_CH2, &adc_ch_conf);
+	
+	// Configure ADC B channel 3 (test source):
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN4, ADCCH_NEG_NONE, 1);
+	adcch_write_configuration(&ADCB, ADC_CH3, &adc_ch_conf);
 	
 	// Enable ADC
 	adc_enable(&ADCB);

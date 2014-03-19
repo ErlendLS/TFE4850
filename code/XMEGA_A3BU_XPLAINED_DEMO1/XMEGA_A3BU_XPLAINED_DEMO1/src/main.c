@@ -242,7 +242,7 @@ int main(void)
 				snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
 				temperature);
 				
-				snprintf(pressure_string, sizeof(pressure_string), "BAR:%3f",
+				snprintf(pressure_string, sizeof(pressure_string), "BAR:%f",
 				bar_pressure);
 				
 				// TODO: Set up variables and call methods for reading all the values

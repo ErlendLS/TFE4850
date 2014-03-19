@@ -80,7 +80,7 @@
 #include <sysfont.h>
 #include <util/delay.h>
 #include <math.h>
-#include "adc_sensors.h"	// TODO: Can possibly be removed when adc_reading is moved to another file  
+#include "adc_sensors.h"	// TODO: Can possibly be removed when adc_reading is moved to another file
 #include "adc.h"			// Same as above
 #include "date_time.h"
 #include "lightsensor.h"
@@ -119,7 +119,7 @@ int main(void)
 	gfx_mono_init();
 	//touch_init();		// TODO: Can probably be removed seeing as we're not going to use it at this time
 	//adc_sensors_init();
-	
+
 	//TODO: Evaluate initialization
 	adc_b_sensors_init();	//Initialize ADCB
 
@@ -159,92 +159,100 @@ int main(void)
 
 	// Set timezone from EEPROM or to a default value
 	timezone_init();
-	
-	
-	// ADDED: Initializing temperature display 
+
+
+	// ADDED: Initializing temperature display
 	temp_disp_init();
-	
+
 	// 26.02.14 TWI init
 	sysclk_enable_peripheral_clock(&TWIC);
 	TWI_MasterInit(&twiMaster, &TWIC, TWI_MASTER_INTLVL_LO_gc, 400);
-	
+
 	/* Main loop.
 	 * Reads and interprets sensors. Sends data for logging.
 	 */
 	while (true) {
 
-		do {			
+		do {
 			do {
-				
+
 				/* Enable LO interrupt level. */
 				PMIC.CTRL |= PMIC_LOLVLEN_bm;
 				sei();
 				//Write I2C status
 				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
-				
+
 				//START TEMP PRINT
 				_delay_ms(10000);	//NOTE: ms actually means microseconds in this case
 				rtc_timestamp = rtc_get_time();
-				{					
+				{
 					//TODO: Set a proper id for the log sample. (So it can be properly recognized)
 					char * logid = "ADC";
 					cdc_putstr(logid);	//Identify sample as on-chip NTC temp (Will be changed).
-					
+
 					//Data separator character
 					udi_cdc_putc(',');
-					
+
 					//Timestamp
 					cdc_putuint32(rtc_timestamp);
-					
+
 					//Data separator character
 					udi_cdc_putc(',');
-					
+
 					// Testing
 					adcb_ch0_measure();
 
 					while (!adcb_data_is_ready());
-					int16_t temp = adcb_ch0_get_temperature();
-					char * temp_s = int16_tostr(temp);
-					cdc_putstr(temp_s);	//temperature in string form
+					int16_t temp0 = adcb_chX_get_temperature(0);
+					char * temp_s0 = int16_tostr(temp0);
+					int16_t temp1 = adcb_chX_get_temperature(1);
+					char * temp_s1 = int16_tostr(temp1);
+					int16_t temp2 = adcb_chX_get_temperature(2);
+					char * temp_s2 = int16_tostr(temp2);
+
+					cdc_putstr(temp_s0);	//temperature in string form
+					udi_cdc_putc('\r');	//return
+					udi_cdc_putc('\n');	//newline
+					cdc_putstr(temp_s1);	//temperature in string form
+					udi_cdc_putc('\r');	//return
+					udi_cdc_putc('\n');	//newline
+					cdc_putstr(temp_s2);	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
 				}
-				
-				
+
+
 				//Paint thermometer on screen
 				//gfx_mono_put_bitmap(&tempscale, 10, 0);
-				
+
 				// ADCB-Testing
 				adcb_ch0_measure();
+				adcb_ch1_measure();
+				adcb_ch2_measure();
 				while (!adcb_data_is_ready());	// Wait for data to be ready
-				int16_t temp = adcb_ch0_get_temperature();
-				
-				// TODO
-				temperature = temp;
-				// Convert the temperature into the thermometer scale
-				/*temp_scale = -0.36 * temperature + 20.25;
-				if (temp_scale <= 0) {
-					temp_scale = 0;
-				}
-				*/
-				
-				// Draw the scale element on top of the background temperature image
-				//gfx_mono_draw_filled_rect(12, 3, 2, temp_scale, GFX_PIXEL_CLR);
-				
+				int16_t temp0 = adcb_chX_get_temperature(0);
+				int16_t temp1 = adcb_chX_get_temperature(1);
+				int16_t temp2 = adcb_chX_get_temperature(2);
+
+
+				// Assigning to permanent variables
+				temperature0 = temp0;
+				temperature1 = temp1;
+				temperature2 = temp2;
 				// ********************** START UPDATE SCREEN ************************
-				
+
 				snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
-				temperature);
-				
+				temperature0);
+
 				snprintf(temp2_string, sizeof(temp2_string), "TMP2:%3iC",
-				temperature);
-				
+				temperature1);
+
 				snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
-				temperature);
-				
+				temperature2);
+
 				snprintf(pressure_string, sizeof(pressure_string), "BAR:%f",
 				bar_pressure);
-				
+
 				// TODO: Set up variables and call methods for reading all the values
 				// Draw the Celsius string
 				gfx_mono_draw_string(temp1_string, 1, 5, &sysfont);	// Temp1
@@ -252,30 +260,30 @@ int main(void)
 				gfx_mono_draw_string(temp3_string, 1, 20, &sysfont);	// Temp3
 				gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
 				//*********************** END UPDATE SCREEN ***************************
-				
+
 				if (twiMaster.status == TWIM_STATUS_READY) {
-					
+
 					twiInt = twiMaster.readData[0];
 					twiInt = (twiInt << 8);
 					twiInt += twiMaster.readData[1];
 					twiInt &= ~(1 << 14);
 					twiInt &= ~(1 << 15);
-					
+
 					bar_pressure = pressureval_to_bar(twiInt);
-					
+
 					cdc_putstr("TWI,");
 					cdc_putuint32(rtc_timestamp);
 					udi_cdc_putc(',');
 					cdc_putstr(double_tostr(bar_pressure));
 					cdc_putstr("\r\n");
-				}		
-				
+				}
+
 				keyboard_get_key_state(&input);
-				
+
 			// Wait for key release
 			} while (input.type != KEYBOARD_RELEASE);
 
-		
+
 			// Send key to menu system
 			//menu_status = gfx_mono_menu_process_key(&main_menu, input.keycode);
 		// Wait for something useful to happen in the menu system

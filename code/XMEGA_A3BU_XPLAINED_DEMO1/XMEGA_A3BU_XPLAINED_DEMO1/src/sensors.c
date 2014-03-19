@@ -84,42 +84,42 @@ void temp_ch_calibration_setup()
 	temp_ch_internal_low.offset = 0;
 	temp_ch_internal_high.gain = 1;
 	temp_ch_internal_high.offset = 0;
-	
+
 	temp_ch_calibration_arr[4][0] = temp_ch_internal_low;
 	temp_ch_calibration_arr[4][1] = temp_ch_internal_high;
-	
+
 	temp_ch_0_low.gain = 1;
 	temp_ch_0_low.offset = 0;
 	temp_ch_0_high.gain = 1;
 	temp_ch_0_high.offset = 0;
-	
+
 	temp_ch_calibration_arr[0][0] = temp_ch_0_low;
 	temp_ch_calibration_arr[0][1] = temp_ch_0_high;
-	
+
 	temp_ch_1_low.gain = 1;
 	temp_ch_1_low.offset = 0;
 	temp_ch_1_high.gain = 1;
 	temp_ch_1_high.offset = 0;
-	
+
 	temp_ch_calibration_arr[1][0] = temp_ch_1_low;
 	temp_ch_calibration_arr[1][1] = temp_ch_1_high;
-	
+
 	temp_ch_2_low.gain = 1;
 	temp_ch_2_low.offset = 0;
 	temp_ch_2_high.gain = 1;
 	temp_ch_2_high.offset = 0;
-	
+
 	temp_ch_calibration_arr[2][0] = temp_ch_2_low;
 	temp_ch_calibration_arr[2][1] = temp_ch_2_high;
-	
+
 	temp_ch_3_low.gain = 1;
 	temp_ch_3_low.offset = 0;
 	temp_ch_3_high.gain = 1;
 	temp_ch_3_high.offset = 0;
-	
+
 	temp_ch_calibration_arr[3][0] = temp_ch_3_low;
 	temp_ch_calibration_arr[3][1] = temp_ch_3_high;
-	
+
 }
 
 int16_t adcb_ch0_get_raw_value(void)
@@ -131,16 +131,16 @@ const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8
 const double pos_temp_coeff[9] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
 
 double temp_pol_rec(double* coeff, double v, int n)
-{	
+{
 	int max_n = 9;
 	double sum = 0;
 	if (n < max_n)
 	{
 		sum += temp_pol_rec(coeff, v, n + 1);
 	}
-	
+
 	sum += coeff[n]*pow(v, n);
-	
+
 	return sum;
 }
 
@@ -155,23 +155,23 @@ double pressureval_to_bar(int16_t val)
 	int16_t output_min = 0x0666;
 	int pressure_max = 15;	// Max pressure value in psi
 	int pressure_min = 0;	// Min pressure value in psi
-	
+
 	double psi = ((double)((output-output_min)*(pressure_max-pressure_min)))/(double)(output_max-output_min) + (double)pressure_min;
-	
+
 	double bar = psi*0.0689475729;
-	
+
 	return bar;
-}	
+}
 
 
 /************************************************************************/
-/* This function converts a thermoelectric temperature to a temperature 
+/* This function converts a thermoelectric temperature to a temperature
  * in the range -200C to +500C                                          */
 /************************************************************************/
 int16_t thermoel_to_temp(double v)
 {
 	double* temp_coeff;
-	
+
 	if (v >= 0)
 	{
 		temp_coeff = &pos_temp_coeff;
@@ -180,9 +180,9 @@ int16_t thermoel_to_temp(double v)
 	{
 		temp_coeff = &neg_temp_coeff;
 	}
-	
+
 	int16_t temp = (int16_t)temp_pol_rec(temp_coeff, v, 0);
-	
+
 	return temp;
 }
 
@@ -190,25 +190,25 @@ int16_t thermoel_to_temp(double v)
  * \brief Translate raw value into temperature
  *
  *
- */ 
+ */
 int16_t adcb_ch0_get_temperature(void)
 {
 	int delta_v = 0.1;
 	int16_t top = 4095;	//12-bit max value
 	double vref = 2.5;
 	int16_t res = adcb_ch0_get_raw_value();
-	
+
 	// Calculate vinp
 	double vinp = ((double)res/(double)(top+1))*vref - delta_v;
 
 	double off = 0;
 	double gain = 1;
-	
+
 	double v_tc = (vinp - off)/gain;
-	
+
 	int16_t t = thermoel_to_temp(v_tc);
-	
-	return (int16_t)t;	
+
+	return (int16_t)t;
 }
 
 /************************************************************************/
@@ -265,14 +265,14 @@ bool adcb_data_is_ready(void)
 /************************************************************************/
 
 void temp_disp_init()
-{	
+{
 	/* TODO: Replaced for testing
 	// Initiate a temperature sensor reading
 	ntc_measure();
 	*/
 	// Initiate a ADCB reading
 	adcb_ch0_measure();
-	
+
 	// Struct for holding the temperature scale background
 	tempscale.type = GFX_MONO_BITMAP_RAM;
 	tempscale.width = 6;
@@ -283,10 +283,10 @@ void temp_disp_init()
 	gfx_mono_draw_rect(0, 0, 128, 32, GFX_PIXEL_SET);
 	// Clear screen
 	gfx_mono_draw_filled_rect(1, 1, 126, 30, GFX_PIXEL_CLR);
-	
+
 	// Paint thermometer on screen
 	// gfx_mono_put_bitmap(&tempscale, 10, 0);	// TODO: Can be removed.
-	
+
 	/* TODO: Simply replaced for testing
 	// wait for NTC data to ready
 	while (!ntc_data_is_ready());
@@ -296,40 +296,40 @@ void temp_disp_init()
 	// Wait for ADCB date to ready
 	while (!adcb_data_is_ready());
 	temperature = adcb_ch0_get_temperature();//adcb_ch0_get_raw_value();
-	
-	
+
+
 	// Convert the temperature into the thermometer scale
 	/* temp_scale = -0.36 * temperature + 20.25;
 	if (temp_scale <= 0) {
 		temp_scale = 0;
 	}
 	*/
-	
+
 	// Draw the scale element on top of the background temperature image
 	/*gfx_mono_draw_filled_rect(12, 3, 2, temp_scale,
 	GFX_PIXEL_CLR);
 	*/
-	
+
 	/*snprintf(temperature_string, sizeof(temperature_string), "%3i C",
 	temperature);
-	
+
 	// Draw the Celsius string
 	gfx_mono_draw_string(temperature_string, 22, 13, &sysfont);
 	*/
 	// ********************** START UPDATE SCREEN ************************
-	
+
 	snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 	temperature);
-	
+
 	snprintf(temp2_string, sizeof(temp2_string), "TMP2:%3iC",
 	temperature);
-	
+
 	snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
 	temperature);
-	
+
 	snprintf(pressure_string, sizeof(pressure_string), "BAR:%3i",
 	temperature);
-	
+
 	// TODO: Set up variables and call methods for reading all the values
 	// Draw the Celsius string
 	gfx_mono_draw_string(temp1_string, 1, 5, &sysfont);	// Temp1
@@ -361,10 +361,10 @@ void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
 	static uint8_t ch2_sensor_samples = 0;
 	static uint8_t ch3_sensor_samples = 0;
 
-	// UNKNOWN on channel 0 
+	// Temperature on channel 0-3
 	if (ch_mask == ADC_CH0) {
 		// TODO: Read sample
-		
+
 		ch0_sensor_samples++;
 		if (ch0_sensor_samples == 1) {
 			adc_sensor_sample_ch0 = result;
@@ -379,7 +379,7 @@ void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result)
 		} else {
 			adcb_ch0_measure();
 		}
-		
+
 	} else if (ch_mask == ADC_CH1) {
 		ch1_sensor_samples++;
 		if (ch1_sensor_samples == 1) {
@@ -444,7 +444,7 @@ void adc_b_sensors_init()
 	adcch_read_configuration(&ADCB, ADC_CH1, &adc_ch_conf); //TODO Needed?
 	adcch_read_configuration(&ADCB, ADC_CH2, &adc_ch_conf); //TODO Needed?
 	adcch_read_configuration(&ADCB, ADC_CH3, &adc_ch_conf); //TODO Needed?
-	
+
 	/* configure the ADCB module:
 	- unsigned, 12-bit resolution
 	- TODO: Refer to ext. voltage reference instead of internal VCC / 1.6 reference
@@ -458,29 +458,29 @@ void adc_b_sensors_init()
 	adc_set_conversion_trigger(&adc_conf, ADC_TRIG_MANUAL, 0, 0);
 	adc_write_configuration(&ADCB, &adc_conf);
 	adc_set_callback(&ADCB, &adcb_handler);
-	
+
 	/* Configure ADC B channel 0 (test source):
 	 * - single-ended measurement
 	 * - interrupt flag set on completed conversion
 	 * - interrupts enabled
 	 */
-	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN1, ADCCH_NEG_NONE, 1);
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN3, ADCCH_NEG_NONE, 1);
 	adcch_set_interrupt_mode(&adc_ch_conf, ADCCH_MODE_COMPLETE);
 	adcch_enable_interrupt(&adc_ch_conf);
 	adcch_write_configuration(&ADCB, ADC_CH0, &adc_ch_conf);
-	
+
 	// Configure ADC B channel 1 (test source):
-	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN2, ADCCH_NEG_NONE, 1);
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN1, ADCCH_NEG_NONE, 1);
 	adcch_write_configuration(&ADCB, ADC_CH1, &adc_ch_conf);
-	
+
 	// Configure ADC B channel 2 (test source):
-	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN3, ADCCH_NEG_NONE, 1);
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN2, ADCCH_NEG_NONE, 1);
 	adcch_write_configuration(&ADCB, ADC_CH2, &adc_ch_conf);
-	
+
 	// Configure ADC B channel 3 (test source):
-	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN4, ADCCH_NEG_NONE, 1);
+	adcch_set_input(&adc_ch_conf, ADCCH_POS_PIN12, ADCCH_NEG_NONE, 1);
 	adcch_write_configuration(&ADCB, ADC_CH3, &adc_ch_conf);
-	
+
 	// Enable ADC
 	adc_enable(&ADCB);
 }

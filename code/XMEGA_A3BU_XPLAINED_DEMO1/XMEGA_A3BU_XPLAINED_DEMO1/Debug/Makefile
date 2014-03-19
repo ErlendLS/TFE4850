@@ -585,7 +585,7 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="VACUUM_SENSOR_CONTROL_A3BU.map" -Wl,--start-group -Wl,-lavrxmega6g1-4qt-k-0rs -Wl,-lm  -Wl,--end-group -Wl,-L"../src/qtouch"  -Wl,--gc-sections -mrelax -mmcu=atxmega256a3bu -Wl,--relax -Wl,--section-start=.BOOT=0x40000 
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="VACUUM_SENSOR_CONTROL_A3BU.map" -Wl,-u,vfprintf -Wl,--start-group -Wl,-lavrxmega6g1-4qt-k-0rs -Wl,-lm -Wl,-lprintf_flt -lm  -Wl,--end-group -Wl,-L"../src/qtouch"  -Wl,--gc-sections -mrelax -mmcu=atxmega256a3bu -Wl,--relax -Wl,--section-start=.BOOT=0x40000 
 	@echo Finished building target: $@
 	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.hex"
 	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "VACUUM_SENSOR_CONTROL_A3BU.elf" "VACUUM_SENSOR_CONTROL_A3BU.eep" || exit 0

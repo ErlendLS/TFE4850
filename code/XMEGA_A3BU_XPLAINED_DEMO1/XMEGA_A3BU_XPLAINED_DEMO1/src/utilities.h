@@ -15,6 +15,8 @@ char * int16_tostr(int16_t intval);
 
 char * double_tostr(double dval);
 
+void double_tostrAlt(char * string, double dval);
+
 void cdc_putstr(char * string);
 
 void cdc_putuint32(uint32_t value);

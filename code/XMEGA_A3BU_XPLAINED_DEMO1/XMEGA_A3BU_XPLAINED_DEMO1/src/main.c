@@ -201,6 +201,9 @@ int main(void)
 
 					// Testing
 					adcb_ch0_measure();
+					adcb_ch1_measure();
+					adcb_ch2_measure();
+					adcb_ch3_measure();
 
 					while (!adcb_data_is_ready());
 					int16_t temp0 = adcb_chX_get_temperature(0);

@@ -13,7 +13,7 @@ char * int8_tostr(int8_t intval);
 
 char * int16_tostr(int16_t intval);
 
-char * double_tostr(double dval);
+char * double_tostr(float dval);
 
 void cdc_putstr(char * string);
 

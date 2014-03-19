@@ -24,12 +24,12 @@ char * int16_tostr(int16_t intval) {
 	return char_int;
 }
 
-char * double_tostr(double dval)
+char * double_tostr(float dval)
 {
-	char * char_double;
+	char char_double[32];
 	sprintf(char_double, "%f", dval);
 	
-	return char_double;	
+	return &char_double;	
 }
 
 void cdc_putstr(char * string) {

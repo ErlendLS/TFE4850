@@ -55,7 +55,7 @@ uint8_t temp_scale;
 // Variable for holding the actual temperature in Celsius
 int16_t temperature;
 // Variable for holding the pressure in bar
-double bar_pressure;
+float bar_pressure;
 
 int16_t adcb_ch0_get_raw_value(void)
 {
@@ -83,7 +83,7 @@ double temp_pol_rec(double* coeff, double v, int n)
 /* Function to convert pressure-value from Honeywell I2C pressure sensor
  * to Bar                                                               */
 /************************************************************************/
-double pressureval_to_bar(int16_t val)
+float pressureval_to_bar(int16_t val)
 {
 	int16_t output = val;
 	int16_t output_max = 0x3999;
@@ -91,9 +91,12 @@ double pressureval_to_bar(int16_t val)
 	int pressure_max = 15;	// Max pressure value in psi
 	int pressure_min = 0;	// Min pressure value in psi
 	
-	double psi = ((double)((output-output_min)*(pressure_max-pressure_min)))/(double)(output_max-output_min) + (double)pressure_min;
+	float psi = (float)(output-output_min);
+	psi *= (float)(pressure_max-pressure_min);
+	psi /= (float)(output_max-output_min);
+	psi += (float)pressure_min;
 	
-	double bar = psi*0.0689475729;
+	float bar = psi*0.0689475729;
 	
 	return bar;
 }	

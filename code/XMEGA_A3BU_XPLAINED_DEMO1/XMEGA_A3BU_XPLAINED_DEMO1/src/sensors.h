@@ -15,7 +15,7 @@ int16_t temperature0;
 int16_t temperature1;
 int16_t temperature2;
 int16_t temperature3;
-float bar_pressure;
+double bar_pressure;
 //char temperature_string[15];
 char temp1_string[15];
 char temp2_string[15];
@@ -30,7 +30,7 @@ int16_t adcb_ch0_get_raw_value(void);
 
 double temp_pol_rec(double* coeff, double v, int n);
 
-float pressureval_to_bar(int16_t val);
+double pressureval_to_bar(int16_t val);
 
 /************************************************************************/
 /* This function converts a thermoelectric temperature to a temperature

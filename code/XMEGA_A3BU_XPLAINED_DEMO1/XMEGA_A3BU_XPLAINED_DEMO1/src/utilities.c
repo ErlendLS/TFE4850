@@ -24,7 +24,7 @@ char * int16_tostr(int16_t intval) {
 	return char_int;
 }
 
-char * double_tostr(float dval)
+char * double_tostr(double dval)
 {
 	char char_double[32];
 	sprintf(char_double, "%f", dval);
@@ -34,7 +34,7 @@ char * double_tostr(float dval)
 
 void double_tostrAlt(char * string, double dval)
 {
-	sprintf(char_double, "%d", dval);
+	sprintf(string, "%d", dval);
 }
 
 void cdc_putstr(char * string) {

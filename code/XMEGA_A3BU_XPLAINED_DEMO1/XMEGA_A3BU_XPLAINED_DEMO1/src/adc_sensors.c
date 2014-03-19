@@ -221,7 +221,7 @@ int16_t ntc_get_raw_value(void)
 int8_t ntc_get_temperature(void)
 {
 	int8_t retval = 0;
-	float ntc_sample = ntc_sensor_sample;
+	double ntc_sample = ntc_sensor_sample;
 	if (ntc_sensor_sample > 697) {
 		retval = (int8_t)((-0.0295 * ntc_sample) + 40.5);
 	} if (ntc_sensor_sample > 420) {

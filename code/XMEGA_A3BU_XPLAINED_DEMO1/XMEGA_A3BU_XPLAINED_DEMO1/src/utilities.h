@@ -13,7 +13,9 @@ char * int8_tostr(int8_t intval);
 
 char * int16_tostr(int16_t intval);
 
-char * double_tostr(float dval);
+char * double_tostr(double dval);
+
+void double_tostrAlt(char * string, double dval);
 
 void cdc_putstr(char * string);
 

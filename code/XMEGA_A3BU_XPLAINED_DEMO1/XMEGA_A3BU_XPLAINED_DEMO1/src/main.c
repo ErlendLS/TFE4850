@@ -89,6 +89,11 @@ register8_t internal_temp_val[2] = {0,0};
 
 enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE , NONE } twi_reading;
 
+static void adc_callback(void)
+{
+	// User code to execute when the overflow occurs here
+}
+
 /**
  * \brief Main function.
  *
@@ -108,8 +113,23 @@ int main(void)
 	board_init();
 	pmic_init();
 	gfx_mono_init();
+	cpu_irq_enable();
 	//touch_init();		// TODO: Can probably be removed seeing as we're not going to use it at this time
 	//adc_sensors_init();
+	
+	/************************************************************************/
+	/* Start timer initialization                                                                     */
+	/************************************************************************/
+	tc_enable(&TCC0);
+	tc_set_overflow_interrupt_callback(&TCC0, adc_callback);
+	tc_set_wgm(&TCC0, TC_WG_NORMAL);
+	tc_write_period(&TCC0, 1000);
+	tc_set_overflow_interrupt_level(&TCC0, TC_INT_LVL_LO);
+	tc_write_clock_source(&TCC0, TC_CLKSEL_DIV1_gc);
+	/************************************************************************/
+	/* Stop timer initialization                                                                     */
+	/************************************************************************/
+
 
 	//TODO: Evaluate initialization
 	adc_b_sensors_init();	//Initialize ADCB
@@ -142,8 +162,6 @@ int main(void)
 
 	// Initialize USB CDC class
 	cdc_start();
-
-	cpu_irq_enable();
 
 	// Display a splash screen showing button functions
 	//button_splash();

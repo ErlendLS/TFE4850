@@ -43,25 +43,10 @@
 /**
  * \mainpage
  *
- * This is the application that is shipped with the XMEGA-A3BU Xplained
- * kits. It consists of a simple menu system and applications demonstrating
- * the features on the kit.
- *
- * The following application are available in the main menu:
- * - "Temperature",  Display the temperature measured by the connected NTC
- *                   sensor.
- * - "Lightsensor",  Display measurements from the connected lightsensor
- * - "Production Date", Display the time elapsed since the part left the
- *                      factory.
- * - "Date & time" Display the current date & time
- * - "Set Timezone", Select your timezone +- UTC
- * - "Toggle backlight", Toggle the LCD backlight
  *
  * \section files Main files:
  * - main.c  Main application
- * - bitmaps.c Bitmaps used in the application
  * - keyboard.c Keyboard driver
- * - ntc_sensor.c Temperature sensor application
  * - lightsensor.c Lightsensor application
  * - production_date.c Time since production application
  * - date_time.c  Date and time from RTC32
@@ -98,6 +83,11 @@
 
 TWI_Master_t twiMaster;
 uint16_t twiInt = 0xFFFF;
+
+register8_t pressure_val[2] = {0,0};
+register8_t internal_temp_val[2] = {0,0};
+
+enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE } twi_reading;
 
 /**
  * \brief Main function.
@@ -180,7 +170,8 @@ int main(void)
 				PMIC.CTRL |= PMIC_LOLVLEN_bm;
 				sei();
 				//Write I2C status
-				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4);
+				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4); // Reading pressure
+				twi_reading = PRESSURE;								  // TODO : Move these two to a discrete function to remove chance of fucking up
 
 				//START TEMP PRINT
 				_delay_ms(10000);	//NOTE: ms actually means microseconds in this case
@@ -206,8 +197,6 @@ int main(void)
 					adcb_ch2_measure();
 					adcb_ch3_measure();
 
-					while (!adcb_data_is_ready());
-					
 					int16_t temp0 = adcb_chX_get_temperature(0);
 					char * temp_s0 = int16_tostr(temp0);
 					int16_t temp1 = adcb_chX_get_temperature(1);
@@ -277,11 +266,11 @@ int main(void)
 				gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
 				//*********************** END UPDATE SCREEN ***************************
 
-				if (twiMaster.status == TWIM_STATUS_READY) {
+				//if (twiMaster.status == TWIM_STATUS_READY) {
 
-					twiInt = twiMaster.readData[0];
+					twiInt = pressure_val[0];//twiMaster.readData[0];
 					twiInt = (twiInt << 8);
-					twiInt += twiMaster.readData[1];
+					twiInt += pressure_val[1];//twiMaster.readData[1];
 					twiInt &= ~(1 << 14);
 					twiInt &= ~(1 << 15);
 
@@ -292,7 +281,7 @@ int main(void)
 					udi_cdc_putc(',');
 					cdc_putstr(double_tostr(bar_pressure));
 					cdc_putstr("\r\n");
-				}
+				//}
 
 				keyboard_get_key_state(&input);
 
@@ -311,4 +300,18 @@ int main(void)
 ISR(TWIC_TWIM_vect)
 {
 	TWI_MasterInterruptHandler(&twiMaster);
+
+	if (twiMaster.status == TWIM_STATUS_READY)	// Check if we're done reading data.
+	{
+		if (twi_reading == PRESSURE)
+		{
+			pressure_val[0] = twiMaster.readData[0];
+			pressure_val[1] = twiMaster.readData[1];
+		}
+		else if (twi_reading == INTERNAL_TEMPERATURE)
+		{
+			internal_temp_val[0] = twiMaster.readData[0];
+			internal_temp_val[1] = twiMaster.readData[1];
+		}
+	}
 }

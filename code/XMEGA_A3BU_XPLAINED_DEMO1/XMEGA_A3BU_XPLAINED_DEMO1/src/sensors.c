@@ -151,19 +151,20 @@ int16_t adcb_ch3_get_raw_value(void)
 	return adc_sensor_sample_ch3;
 }
 
-const double neg_temp_coeff[9] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4};
-const double pos_temp_coeff[9] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
+const double neg_temp_coeff[10] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4, 0};
+const double pos_temp_coeff[10] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
 
-double temp_pol_rec(double* coeff, double v, int n)
+//mv must be in millivolt
+double temp_pol_rec(double* coeff, double mv, int n)
 {
-	int max_n = 9;
+	int max_n = 10;
 	double sum = 0;
 	if (n < max_n)
 	{
-		sum += temp_pol_rec(coeff, v, n + 1);
+		sum += temp_pol_rec(coeff, mv, n + 1);
 	}
 
-	sum += coeff[n]*pow(v, n);
+	sum += coeff[n]*pow(mv, n);
 
 	return sum;
 }
@@ -208,7 +209,7 @@ int16_t thermoel_to_temp(double v)
 		temp_coeff = &neg_temp_coeff;
 	}
 
-	int16_t temp = (int16_t)temp_pol_rec(temp_coeff, v, 0);
+	int16_t temp = (int16_t)temp_pol_rec(temp_coeff, v*1000, 0); //Translate v from volt to millivolt
 
 	return temp;
 }
@@ -220,7 +221,7 @@ int16_t thermoel_to_temp(double v)
  */
 int16_t adcb_chX_get_temperature(int channel)
 {
-	int delta_v = 0.1;
+	double delta_v = 0.1;
 	int16_t top = 4095;	//12-bit max value
 	double vref = 2.5;
 	int16_t res = -1;
@@ -228,23 +229,28 @@ int16_t adcb_chX_get_temperature(int channel)
 	{
 	case 0 :
 		res = adcb_ch0_get_raw_value();
+		break;
 	case 1 :
 		res = adcb_ch1_get_raw_value();
+		break;
 	case 2 :
 		res = adcb_ch2_get_raw_value();
+		break;
 	case 3 :
 		res = adcb_ch3_get_raw_value();
+		break;
 	default :
 		res = -1;
+		break;
 	}
 
 	// Calculate vinp
 	double vinp = ((double)res/(double)(top+1))*vref - delta_v;
 
-	double off = 0;
-	double gain = 1;
+	double off = 0.498;
+	double gain = 4.401E-3;
 
-	double v_tc = (vinp - off)/gain;
+	double v_tc = (vinp - off)*gain;
 
 	int16_t t = thermoel_to_temp(v_tc);
 

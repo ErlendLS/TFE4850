@@ -206,6 +206,11 @@ int main(void)
 					adcb_ch3_measure();
 
 					while (!adcb_data_is_ready());
+					
+					cdc_putstr(int16_tostr(adcb_ch0_get_raw_value()));	//temperature in string form
+					udi_cdc_putc('\r');	//return
+					udi_cdc_putc('\n');	//newline
+					
 					int16_t temp0 = adcb_chX_get_temperature(0);
 					char * temp_s0 = int16_tostr(temp0);
 					int16_t temp1 = adcb_chX_get_temperature(1);

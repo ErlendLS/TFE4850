@@ -85,8 +85,7 @@ SUBDIRS :=  \
 ../src/ASF/xmega/utils/assembler/ \
 ../src/ASF/xmega/utils/bit_handling/ \
 ../src/ASF/xmega/utils/preprocessor/ \
-../src/config/ \
-../src/qtouch/
+../src/config/
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
@@ -127,14 +126,12 @@ C_SRCS +=  \
 ../src/main.c \
 ../src/ntc_sensor.c \
 ../src/production_date.c \
-../src/qtouch/touch.c \
 ../src/timezone.c
 
 
 PREPROCESSING_SRCS +=  \
 ../src/ASF/xmega/drivers/cpu/ccp.s \
-../src/ASF/xmega/drivers/nvm/nvm_asm.s \
-../src/qtouch/qt_asm_xmega.s
+../src/ASF/xmega/drivers/nvm/nvm_asm.s
 
 
 ASM_SRCS += 
@@ -179,8 +176,6 @@ src/lightsensor.o \
 src/main.o \
 src/ntc_sensor.o \
 src/production_date.o \
-src/qtouch/qt_asm_xmega.o \
-src/qtouch/touch.o \
 src/timezone.o
 
 OBJS_AS_ARGS +=  \
@@ -222,8 +217,6 @@ src/lightsensor.o \
 src/main.o \
 src/ntc_sensor.o \
 src/production_date.o \
-src/qtouch/qt_asm_xmega.o \
-src/qtouch/touch.o \
 src/timezone.o
 
 C_DEPS +=  \
@@ -265,8 +258,6 @@ src/lightsensor.d \
 src/main.d \
 src/ntc_sensor.d \
 src/production_date.d \
-src/qtouch/qt_asm_xmega.d \
-src/qtouch/touch.d \
 src/timezone.d
 
 C_DEPS_AS_ARGS +=  \
@@ -308,8 +299,6 @@ src/lightsensor.d \
 src/main.d \
 src/ntc_sensor.d \
 src/production_date.d \
-src/qtouch/qt_asm_xmega.d \
-src/qtouch/touch.d \
 src/timezone.d
 
 OUTPUT_FILE_PATH +=VACUUM_SENSOR_CONTROL_A3BU.elf
@@ -323,8 +312,6 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
-
-
 
 
 
@@ -526,13 +513,6 @@ src/ASF/xmega/drivers/usb/%.o: ../src/ASF/xmega/drivers/usb/%.c
 	@echo Finished building: $<
 	
 
-src/qtouch/%.o: ../src/qtouch/%.c
-	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -DDEBUG -DGFX_MONO_C12832_A1Z=1 -D_SNS1_SNSK1_SAME_PORT_ -DQT_DELAY_CYCLES=1 -DSNSK=F -DIOPORT_XMEGA_COMPAT -DNUMBER_OF_PORTS=1 -DSNS=F -DCONFIG_NVM_IGNORE_XMEGA_A3_D3_REVB_ERRATA -DQT_NUM_CHANNELS=4 -DBOARD=XMEGA_A3BU_XPLAINED -D_QTOUCH_ -DQTOUCH_STUDIO_MASKS=1  -I"../src/ASF/xmega/drivers/rtc32" -I"../src/ASF/common/services/usb/class/cdc/device" -I"../src/ASF/common/services/usb/udc" -I"../src/ASF/xmega/drivers/pmic" -I"../src/ASF/xmega/boards/xmega_a3bu_xplained" -I"../src/ASF/xmega/drivers/nvm" -I"../src/ASF/xmega/utils/preprocessor" -I"../src/ASF/common/utils" -I"../src/ASF/common/services/sleepmgr" -I"../src/ASF/xmega/drivers/sleep" -I"../src/ASF/common/services/gpio" -I"../src/ASF/common/components/display/st7565r" -I"../src/ASF/xmega/drivers/usb" -I"../src/qtouch" -I"../src/ASF/common/boards" -I"../src/ASF/xmega/drivers/adc" -I"../src/ASF/xmega/drivers/cpu" -I"../src/ASF/common/services/ioport" -I"../src/ASF/xmega/boards" -I"../src/ASF/common/services/usb" -I"../src/ASF/xmega/utils" -I"../src/ASF/common/services/spi" -I"../src/config" -I"../src/ASF/common/services/calendar" -I"../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained" -I"../src" -I"../src/ASF/common/services/clock" -I"../src/ASF/common/services/delay" -I"../src/ASF/common/services/usb/class/cdc" -I"../src/ASF/common/services/gfx_mono" -I"../src/ASF/xmega/drivers/usart" -I"../src/ASF/xmega/drivers/tc"  -O1 -fdata-sections -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g3 -Wall -mmcu=atxmega256a3bu -c -std=gnu99 -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
-	@echo Finished building: $<
-	
-
 
 
 # AVR32/GNU Preprocessing Assembler
@@ -554,13 +534,6 @@ src/ASF/xmega/drivers/nvm/nvm_asm.o: ../src/ASF/xmega/drivers/nvm/nvm_asm.s
 	@echo Finished building: $<
 	
 
-src/qtouch/qt_asm_xmega.o: ../src/qtouch/qt_asm_xmega.s
-	@echo Building file: $<
-	@echo Invoking: AVR32/GNU Assembler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atxmega256a3bu -mrelax -DBOARD=XMEGA_A3BU_XPLAINED -DCONFIG_NVM_IGNORE_XMEGA_A3_D3_REVB_ERRATA -DGFX_MONO_C12832_A1Z=1 -DIOPORT_XMEGA_COMPAT -DNUMBER_OF_PORTS=1 -DQTOUCH_STUDIO_MASKS=1 -DQT_DELAY_CYCLES=1 -DQT_NUM_CHANNELS=4 -DSNS=F -DSNSK=F -D_QTOUCH_ -D_SNS1_SNSK1_SAME_PORT_ -I "../src/ASF/xmega/drivers/rtc32" -I "../src/ASF/common/services/usb/class/cdc/device" -I "../src/ASF/common/services/usb/udc" -I "../src/ASF/xmega/drivers/pmic" -I "../src/ASF/xmega/boards/xmega_a3bu_xplained" -I "../src/ASF/xmega/drivers/nvm" -I "../src/ASF/xmega/utils/preprocessor" -I "../src/ASF/common/utils" -I "../src/ASF/common/services/sleepmgr" -I "../src/ASF/xmega/drivers/sleep" -I "../src/ASF/common/services/gpio" -I "../src/ASF/common/components/display/st7565r" -I "../src/ASF/xmega/drivers/usb" -I "../src/qtouch" -I "../src/ASF/common/boards" -I "../src/ASF/xmega/drivers/adc" -I "../src/ASF/xmega/drivers/cpu" -I "../src/ASF/common/services/ioport" -I "../src/ASF/xmega/boards" -I "../src/ASF/common/services/usb" -I "../src/ASF/xmega/utils" -I "../src/ASF/common/services/spi" -I "../src/config" -I "../src/ASF/common/services/calendar" -I "../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained" -I "../src" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/common/services/usb/class/cdc" -I "../src/ASF/common/services/gfx_mono" -I "../src/ASF/xmega/drivers/usart" -I "../src/ASF/xmega/drivers/tc"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<"
-	@echo Finished building: $<
-	
-
 
 src/ASF/xmega/drivers/cpu/%.o: ../src/ASF/xmega/drivers/cpu/%.s
 	@echo Building file: $<
@@ -570,13 +543,6 @@ src/ASF/xmega/drivers/cpu/%.o: ../src/ASF/xmega/drivers/cpu/%.s
 	
 
 src/ASF/xmega/drivers/nvm/%.o: ../src/ASF/xmega/drivers/nvm/%.s
-	@echo Building file: $<
-	@echo Invoking: AVR32/GNU Assembler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atxmega256a3bu -mrelax -DBOARD=XMEGA_A3BU_XPLAINED -DCONFIG_NVM_IGNORE_XMEGA_A3_D3_REVB_ERRATA -DGFX_MONO_C12832_A1Z=1 -DIOPORT_XMEGA_COMPAT -DNUMBER_OF_PORTS=1 -DQTOUCH_STUDIO_MASKS=1 -DQT_DELAY_CYCLES=1 -DQT_NUM_CHANNELS=4 -DSNS=F -DSNSK=F -D_QTOUCH_ -D_SNS1_SNSK1_SAME_PORT_ -I "../src/ASF/xmega/drivers/rtc32" -I "../src/ASF/common/services/usb/class/cdc/device" -I "../src/ASF/common/services/usb/udc" -I "../src/ASF/xmega/drivers/pmic" -I "../src/ASF/xmega/boards/xmega_a3bu_xplained" -I "../src/ASF/xmega/drivers/nvm" -I "../src/ASF/xmega/utils/preprocessor" -I "../src/ASF/common/utils" -I "../src/ASF/common/services/sleepmgr" -I "../src/ASF/xmega/drivers/sleep" -I "../src/ASF/common/services/gpio" -I "../src/ASF/common/components/display/st7565r" -I "../src/ASF/xmega/drivers/usb" -I "../src/qtouch" -I "../src/ASF/common/boards" -I "../src/ASF/xmega/drivers/adc" -I "../src/ASF/xmega/drivers/cpu" -I "../src/ASF/common/services/ioport" -I "../src/ASF/xmega/boards" -I "../src/ASF/common/services/usb" -I "../src/ASF/xmega/utils" -I "../src/ASF/common/services/spi" -I "../src/config" -I "../src/ASF/common/services/calendar" -I "../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained" -I "../src" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/common/services/usb/class/cdc" -I "../src/ASF/common/services/gfx_mono" -I "../src/ASF/xmega/drivers/usart" -I "../src/ASF/xmega/drivers/tc"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<"
-	@echo Finished building: $<
-	
-
-src/qtouch/%.o: ../src/qtouch/%.s
 	@echo Building file: $<
 	@echo Invoking: AVR32/GNU Assembler : 3.4.2
 	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -Wa,-gdwarf2 -x assembler-with-cpp -c -mmcu=atxmega256a3bu -mrelax -DBOARD=XMEGA_A3BU_XPLAINED -DCONFIG_NVM_IGNORE_XMEGA_A3_D3_REVB_ERRATA -DGFX_MONO_C12832_A1Z=1 -DIOPORT_XMEGA_COMPAT -DNUMBER_OF_PORTS=1 -DQTOUCH_STUDIO_MASKS=1 -DQT_DELAY_CYCLES=1 -DQT_NUM_CHANNELS=4 -DSNS=F -DSNSK=F -D_QTOUCH_ -D_SNS1_SNSK1_SAME_PORT_ -I "../src/ASF/xmega/drivers/rtc32" -I "../src/ASF/common/services/usb/class/cdc/device" -I "../src/ASF/common/services/usb/udc" -I "../src/ASF/xmega/drivers/pmic" -I "../src/ASF/xmega/boards/xmega_a3bu_xplained" -I "../src/ASF/xmega/drivers/nvm" -I "../src/ASF/xmega/utils/preprocessor" -I "../src/ASF/common/utils" -I "../src/ASF/common/services/sleepmgr" -I "../src/ASF/xmega/drivers/sleep" -I "../src/ASF/common/services/gpio" -I "../src/ASF/common/components/display/st7565r" -I "../src/ASF/xmega/drivers/usb" -I "../src/qtouch" -I "../src/ASF/common/boards" -I "../src/ASF/xmega/drivers/adc" -I "../src/ASF/xmega/drivers/cpu" -I "../src/ASF/common/services/ioport" -I "../src/ASF/xmega/boards" -I "../src/ASF/common/services/usb" -I "../src/ASF/xmega/utils" -I "../src/ASF/common/services/spi" -I "../src/config" -I "../src/ASF/common/services/calendar" -I "../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained" -I "../src" -I "../src/ASF/common/services/clock" -I "../src/ASF/common/services/delay" -I "../src/ASF/common/services/usb/class/cdc" -I "../src/ASF/common/services/gfx_mono" -I "../src/ASF/xmega/drivers/usart" -I "../src/ASF/xmega/drivers/tc"  -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)" -mrelax -Wa,-g   -o "$@" "$<"

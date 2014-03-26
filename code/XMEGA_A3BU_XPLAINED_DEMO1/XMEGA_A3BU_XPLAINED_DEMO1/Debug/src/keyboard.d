@@ -28,7 +28,6 @@ src/keyboard.d src/keyboard.o: ../src/keyboard.c \
  ../src/ASF/common/utils/interrupt.h \
  ../src/ASF/common/utils/interrupt/interrupt_avr8.h \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/interrupt.h \
- ../src/qtouch/touch_api.h ../src/qtouch/touch_qt_config.h \
  ../src/keyboard.h ../src/ASF/common/services/gpio/gpio.h \
  ../src/ASF/common/services/gpio/xmega_gpio/xmega_gpio.h \
  ../src/ASF/common/services/ioport/ioport.h \
@@ -105,10 +104,6 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8
 ../src/ASF/common/utils/interrupt/interrupt_avr8.h:
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/interrupt.h:
-
-../src/qtouch/touch_api.h:
-
-../src/qtouch/touch_qt_config.h:
 
 ../src/keyboard.h:
 

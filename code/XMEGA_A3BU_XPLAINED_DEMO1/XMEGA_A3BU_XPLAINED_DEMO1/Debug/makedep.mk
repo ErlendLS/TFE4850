@@ -78,9 +78,5 @@ src\ntc_sensor.c
 
 src\production_date.c
 
-src\qtouch\qt_asm_xmega.s
-
-src\qtouch\touch.c
-
 src\timezone.c
 

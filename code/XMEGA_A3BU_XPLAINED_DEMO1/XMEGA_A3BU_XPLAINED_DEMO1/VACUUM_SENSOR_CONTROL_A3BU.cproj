@@ -504,7 +504,6 @@
     <Folder Include="src\ASF\xmega\utils\bit_handling\" />
     <Folder Include="src\ASF\xmega\utils\preprocessor\" />
     <Folder Include="src\config\" />
-    <Folder Include="src\qtouch\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\adc_sensors.c">
@@ -598,12 +597,6 @@
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\common\utils\make\Makefile.avr.in">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\qtouch\libavrxmega6g1-4qt-k-0rs.a">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\qtouch\touch_api.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\common\boards\board.h">
@@ -819,9 +812,6 @@
     <None Include="src\timezone.h">
       <SubType>compile</SubType>
     </None>
-    <None Include="src\qtouch\touch_qt_config.h">
-      <SubType>compile</SubType>
-    </None>
     <None Include="src\ASF\common\services\gpio\gpio.h">
       <SubType>compile</SubType>
     </None>
@@ -913,12 +903,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\production_date.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\qtouch\qt_asm_xmega.s">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\qtouch\touch.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\timezone.c">

@@ -42,7 +42,7 @@
  */
 
 #include "xmega_a3bu_xplained.h"
-#include "touch_api.h"
+//#include "touch_api.h"
 #include "keyboard.h"
 #include "cdc.h"
 
@@ -93,8 +93,10 @@ void keyboard_get_key_state(struct keyboard_event *keybuffer)
 		key_state &= ~KEYBOARD_DOWN_MASK;
 		keybuffer->keycode = KEYBOARD_DOWN;
 		keybuffer->type = KEYBOARD_RELEASE;
+	}
 
-	// touch key
+	// touch key !REMOVED!
+	/*
 	} else if ((check_touch_key_pressed()) &&
 			!(key_state & KEYBOARD_BACK_MASK)) {
 		// Touch key pressed
@@ -114,4 +116,5 @@ void keyboard_get_key_state(struct keyboard_event *keybuffer)
 		keybuffer->keycode = KEYBOARD_NO_KEY;
 		keybuffer->type = KEYBOARD_NO_EVENT;
 	}
+	*/
 }

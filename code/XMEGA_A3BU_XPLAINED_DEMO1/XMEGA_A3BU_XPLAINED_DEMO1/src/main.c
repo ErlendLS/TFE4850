@@ -169,6 +169,13 @@ int main(void)
 				/* Enable LO interrupt level. */
 				PMIC.CTRL |= PMIC_LOLVLEN_bm;
 				sei();
+
+				// TODO: Read internal temp sensor from I2C to calibrate
+				{
+					// Handling for internal temp
+
+				}
+
 				//Write I2C status
 				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4); // Reading pressure
 				twi_reading = PRESSURE;								  // TODO : Move these two to a discrete function to remove chance of fucking up

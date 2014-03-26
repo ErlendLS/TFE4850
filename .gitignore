@@ -36,3 +36,4 @@
 *.srec
 *.elf
 *.eep
+.gitignore.gitignore

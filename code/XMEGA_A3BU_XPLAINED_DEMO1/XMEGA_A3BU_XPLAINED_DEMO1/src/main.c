@@ -158,6 +158,16 @@ int main(void)
 	sysclk_enable_peripheral_clock(&TWIC);
 	TWI_MasterInit(&twiMaster, &TWIC, TWI_MASTER_INTLVL_LO_gc, 400);
 
+	/* Enable LO interrupt level. */
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
+	sei();
+
+	// Initializing internal temp sensor
+	while(twiMaster.status != TWIM_STATUS_READY);		// Wait for initialization
+	Byte configData[2] = {0x03, 0x40};					// Write 1 to bit 7 of register address 0x03 in the internal temp sensor
+	TWI_MasterWrite(twiMaster, 0x48, configData, 2);	// Configure internal temp sensor to 16-bit instead of default 13-bit
+	while(twiMaster.status != TWIM_STATUS_READY);		//Wait for  write to complete
+
 	/* Main loop.
 	 * Reads and interprets sensors. Sends data for logging.
 	 */
@@ -173,7 +183,6 @@ int main(void)
 				// TODO: Read internal temp sensor from I2C to calibrate
 				{
 					// Handling for internal temp
-
 				}
 
 				//Write I2C status
@@ -252,7 +261,7 @@ int main(void)
 				cdc_putstr(int16_tostr(temp2));	//temperature in string form
 				udi_cdc_putc('\r');	//return
 				udi_cdc_putc('\n');	//newline
-				
+
 				snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 				temperature0);
 
@@ -288,6 +297,11 @@ int main(void)
 					udi_cdc_putc(',');
 					cdc_putstr(double_tostr(bar_pressure));
 					cdc_putstr("\r\n");
+
+					// Convert internal sensor data
+					int16_t twiTemp = internal_temp_val[0];
+					twiTemp = (twiTemp << 8);
+					twiTemp += internal_temp_val[1];
 				//}
 
 				keyboard_get_key_state(&input);

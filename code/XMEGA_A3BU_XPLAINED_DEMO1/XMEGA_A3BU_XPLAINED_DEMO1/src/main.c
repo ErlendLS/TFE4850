@@ -108,6 +108,7 @@ int main(void)
 	struct keyboard_event input;
 	uint32_t rtc_timestamp;
 	char char_double[32];
+	char char_int[32];
 
 	sysclk_init();
 	board_init();
@@ -177,6 +178,17 @@ int main(void)
 	sysclk_enable_peripheral_clock(&TWIC);
 	TWI_MasterInit(&twiMaster, &TWIC, TWI_MASTER_INTLVL_LO_gc, 400);
 
+	// TODO: Is this appropriate to have both here and inside the loop?
+	/* Enable LO interrupt level. */
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
+	sei();
+
+	// Initializing internal temp sensor
+	while(twiMaster.status != TWIM_STATUS_READY);		// Wait for initialization
+	Byte configData[2] = {0x03, 0x40};					// Write 1 to bit 7 of register address 0x03 in the internal temp sensor
+	TWI_MasterWrite(twiMaster, 0x48, configData, 2);	// Configure internal temp sensor to 16-bit instead of default 13-bit
+	while(twiMaster.status != TWIM_STATUS_READY);		// Wait for  write to complete
+
 	/* Main loop.
 	 * Reads and interprets sensors. Sends data for logging.
 	 */
@@ -188,9 +200,19 @@ int main(void)
 				/* Enable LO interrupt level. */
 				PMIC.CTRL |= PMIC_LOLVLEN_bm;
 				sei();
+
 				//Write I2C status
-				bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4); // Reading pressure
-				twi_reading = PRESSURE;								  // TODO : Move these two to a discrete function to remove chance of fucking up
+				if(twiMaster.status == TWIM_STATUS_READY && TWI_READING == PRESSURE)
+				{
+					bool twiStatus = TWI_MasterRead(&twiMaster, 0x48, 2); // Reading internal temperature
+					twi_reading = INTERNAL_TEMPERATURE;					  // TODO : Move these two to a discrete function to remove chance of fucking up
+				}
+				else if (twiMaster.status == TWIM_STATUS_READY && TWI_READING == INTERNAL_TEMPERATURE)
+				{
+
+					bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4); // Reading pressure
+					twi_reading = PRESSURE;								  // TODO : Move these two to a discrete function to remove chance of fucking up
+				}
 
 				//START TEMP PRINT
 				_delay_ms(10000);	//NOTE: ms actually means microseconds in this case
@@ -264,7 +286,7 @@ int main(void)
 				cdc_putstr(int16_tostr(temp2));	//temperature in string form
 				udi_cdc_putc('\r');	//return
 				udi_cdc_putc('\n');	//newline
-				
+
 				snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 				temperature0);
 
@@ -285,23 +307,34 @@ int main(void)
 				gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
 				//*********************** END UPDATE SCREEN ***************************
 
-				//if (twiMaster.status == TWIM_STATUS_READY) {
 
-					twiInt = pressure_val[0];//twiMaster.readData[0];
-					twiInt = (twiInt << 8);
-					twiInt += pressure_val[1];//twiMaster.readData[1];
-					twiInt &= ~(1 << 14);
-					twiInt &= ~(1 << 15);
 
-					bar_pressure = pressureval_to_bar(twiInt);
+				twiInt = pressure_val[0];//twiMaster.readData[0];
+				twiInt = (twiInt << 8);
+				twiInt += pressure_val[1];//twiMaster.readData[1];
+				twiInt &= ~(1 << 14);
+				twiInt &= ~(1 << 15);
 
-					cdc_putstr("TWI,");
-					cdc_putuint32(rtc_timestamp);
-					udi_cdc_putc(',');
-					sprintf(char_double, "%f", bar_pressure);
-					cdc_putstr(char_double);
-					cdc_putstr("\r\n");
-				//}
+				bar_pressure = pressureval_to_bar(twiInt);
+
+				cdc_putstr("TWI,");
+				cdc_putuint32(rtc_timestamp);
+				udi_cdc_putc(',');
+				sprintf(char_double, "%f", bar_pressure);
+				cdc_putstr(char_double);
+				cdc_putstr("\r\n");
+
+				// Convert internal sensor data
+				int16_t twiTemp = internal_temp_val[0];
+				twiTemp = (twiTemp << 8);
+				twiTemp += internal_temp_val[1];
+
+				cdc_putstr("Internal Temp,");
+				cdc_putuint32(rtc_timestamp);
+				udi_cdc_putc(',');
+				sprintf(char_int, "%d", twiTemp);
+				cdc_putstr(char_int);
+				cdc_putstr("\r\n");
 
 				keyboard_get_key_state(&input);
 

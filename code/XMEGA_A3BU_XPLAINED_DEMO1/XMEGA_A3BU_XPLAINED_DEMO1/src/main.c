@@ -69,17 +69,18 @@
 #include "adc.h"			// Same as above
 #include "date_time.h"
 #include "lightsensor.h"
-#include "keyboard.h"
-#include "ntc_sensor.h"
+//#include "keyboard.h"
+//#include "ntc_sensor.h"
 #include "production_date.h"
 #include "timezone.h"
-#include "touch_api.h"
+//#include "touch_api.h"
 #include "cdc.h"
 #include "conf_application.h"
 #include "sysfont.h"
 #include "twi_master_driver.h"
 #include "utilities.h"
 #include "sensors.h"
+#include "tc.h"
 
 TWI_Master_t twiMaster;
 uint16_t twiInt = 0xFFFF;
@@ -186,7 +187,7 @@ int main(void)
 	// Initializing internal temp sensor
 	while(twiMaster.status != TWIM_STATUS_READY);		// Wait for initialization
 	Byte configData[2] = {0x03, 0x40};					// Write 1 to bit 7 of register address 0x03 in the internal temp sensor
-	TWI_MasterWrite(twiMaster, 0x48, configData, 2);	// Configure internal temp sensor to 16-bit instead of default 13-bit
+	TWI_MasterWrite(&twiMaster, 0x48, configData, 2);	// Configure internal temp sensor to 16-bit instead of default 13-bit
 	while(twiMaster.status != TWIM_STATUS_READY);		// Wait for  write to complete
 
 	/* Main loop.
@@ -202,12 +203,12 @@ int main(void)
 				sei();
 
 				//Write I2C status
-				if(twiMaster.status == TWIM_STATUS_READY && TWI_READING == PRESSURE)
+				if(twiMaster.status == TWIM_STATUS_READY && twi_reading == PRESSURE)
 				{
 					bool twiStatus = TWI_MasterRead(&twiMaster, 0x48, 2); // Reading internal temperature
 					twi_reading = INTERNAL_TEMPERATURE;					  // TODO : Move these two to a discrete function to remove chance of fucking up
 				}
-				else if (twiMaster.status == TWIM_STATUS_READY && TWI_READING == INTERNAL_TEMPERATURE)
+				else if (twiMaster.status == TWIM_STATUS_READY && twi_reading == INTERNAL_TEMPERATURE)
 				{
 
 					bool twiStatus = TWI_MasterRead(&twiMaster, 0x28, 4); // Reading pressure

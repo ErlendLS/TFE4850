@@ -4,6 +4,8 @@
 
 src\adc_sensors.c
 
+src\ASF\xmega\drivers\tc\tc.c
+
 src\sensors.c
 
 src\twi_master_driver.c

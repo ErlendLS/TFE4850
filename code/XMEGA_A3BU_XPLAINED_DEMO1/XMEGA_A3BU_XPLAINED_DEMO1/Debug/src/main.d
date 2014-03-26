@@ -70,10 +70,9 @@ src/main.d src/main.o: ../src/main.c \
  c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/avr/sleep.h \
  ../src/ASF/common/services/sleepmgr/xmega/sleepmgr.h \
  ../src/config/conf_sleepmgr.h ../src/date_time.h ../src/lightsensor.h \
- ../src/keyboard.h ../src/ntc_sensor.h ../src/production_date.h \
- ../src/timezone.h ../src/qtouch/touch_api.h \
- ../src/qtouch/touch_qt_config.h ../src/cdc.h \
- ../src/ASF/common/services/usb/udc/udc.h ../src/config/conf_usb.h \
+ ../src/production_date.h ../src/timezone.h ../src/cdc.h \
+ ../src/keyboard.h ../src/ASF/common/services/usb/udc/udc.h \
+ ../src/config/conf_usb.h \
  ../src/ASF/common/services/usb/class/cdc/device/udi_cdc_conf.h \
  ../src/ASF/common/services/usb/class/cdc/usb_protocol_cdc.h ../src/cdc.h \
  ../src/ASF/common/services/usb/usb_protocol.h \
@@ -87,7 +86,7 @@ src/main.d src/main.o: ../src/main.c \
  ../src/ASF/common/services/usb/udc/udi.h \
  ../src/ASF/xmega/applications/xmega_a3bu_xplained_demo/xmega_a3bu_xplained/conf_application.h \
  ../src/twi_master_driver.h ../src/avr_compiler.h ../src/utilities.h \
- ../src/sensors.h
+ ../src/sensors.h ../src/ASF/xmega/drivers/tc/tc.h
 
 c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8-gnu-toolchain\bin\../lib/gcc/avr/4.7.2/../../../../avr/include/stdio.h:
 
@@ -251,19 +250,13 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8
 
 ../src/lightsensor.h:
 
-../src/keyboard.h:
-
-../src/ntc_sensor.h:
-
 ../src/production_date.h:
 
 ../src/timezone.h:
 
-../src/qtouch/touch_api.h:
-
-../src/qtouch/touch_qt_config.h:
-
 ../src/cdc.h:
+
+../src/keyboard.h:
 
 ../src/ASF/common/services/usb/udc/udc.h:
 
@@ -302,3 +295,5 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.2.1002\avr8
 ../src/utilities.h:
 
 ../src/sensors.h:
+
+../src/ASF/xmega/drivers/tc/tc.h:

@@ -87,7 +87,7 @@ uint16_t twiInt = 0xFFFF;
 register8_t pressure_val[2] = {0,0};
 register8_t internal_temp_val[2] = {0,0};
 
-enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE } twi_reading;
+enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE , NONE } twi_reading;
 
 /**
  * \brief Main function.
@@ -102,6 +102,7 @@ int main(void)
 	uint8_t menu_status;
 	struct keyboard_event input;
 	uint32_t rtc_timestamp;
+	char char_double[32];
 
 	sysclk_init();
 	board_init();
@@ -295,7 +296,8 @@ int main(void)
 					cdc_putstr("TWI,");
 					cdc_putuint32(rtc_timestamp);
 					udi_cdc_putc(',');
-					cdc_putstr(double_tostr(bar_pressure));
+					sprintf(char_double, "%f", bar_pressure);
+					cdc_putstr(char_double);
 					cdc_putstr("\r\n");
 
 					// Convert internal sensor data

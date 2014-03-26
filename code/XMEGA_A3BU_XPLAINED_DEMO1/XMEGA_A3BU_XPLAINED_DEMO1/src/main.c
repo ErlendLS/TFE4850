@@ -197,17 +197,12 @@ int main(void)
 					//Data separator character
 					udi_cdc_putc(',');
 
+					/*
 					// Testing
 					adcb_ch0_measure();
 					adcb_ch1_measure();
 					adcb_ch2_measure();
 					adcb_ch3_measure();
-
-					while (!adcb_data_is_ready());
-
-					cdc_putstr(int16_tostr(adcb_ch0_get_raw_value()));	//temperature in string form
-					udi_cdc_putc('\r');	//return
-					udi_cdc_putc('\n');	//newline
 
 					int16_t temp0 = adcb_chX_get_temperature(0);
 					char * temp_s0 = int16_tostr(temp0);
@@ -225,6 +220,7 @@ int main(void)
 					cdc_putstr(temp_s2);	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
+					*/
 				}
 
 
@@ -247,6 +243,16 @@ int main(void)
 				temperature2 = temp2;
 				// ********************** START UPDATE SCREEN ************************
 
+				cdc_putstr(int16_tostr(temp0));	//temperature in string form
+				udi_cdc_putc('\r');	//return
+				udi_cdc_putc('\n');	//newline
+				cdc_putstr(int16_tostr(temp1));	//temperature in string form
+				udi_cdc_putc('\r');	//return
+				udi_cdc_putc('\n');	//newline
+				cdc_putstr(int16_tostr(temp2));	//temperature in string form
+				udi_cdc_putc('\r');	//return
+				udi_cdc_putc('\n');	//newline
+				
 				snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 				temperature0);
 

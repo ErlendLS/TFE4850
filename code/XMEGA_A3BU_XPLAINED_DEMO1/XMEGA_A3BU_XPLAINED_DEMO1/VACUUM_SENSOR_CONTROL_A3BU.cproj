@@ -276,7 +276,6 @@
   <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -Wstrict-prototypes -Wmissing-prototypes -Werror-implicit-function-declaration -Wpointer-arith -mrelax</avrgcc.compiler.miscellaneous.OtherFlags>
   <avrgcc.linker.libraries.Libraries>
     <ListValues>
-      <Value>libavrxmega6g1-4qt-k-0rs</Value>
       <Value>libm</Value>
     </ListValues>
   </avrgcc.linker.libraries.Libraries>
@@ -397,7 +396,6 @@
   <avrgcc.linker.general.UseVprintfLibrary>True</avrgcc.linker.general.UseVprintfLibrary>
   <avrgcc.linker.libraries.Libraries>
     <ListValues>
-      <Value>libavrxmega6g1-4qt-k-0rs</Value>
       <Value>libm</Value>
       <Value>printf_flt -lm</Value>
     </ListValues>

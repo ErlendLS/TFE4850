@@ -92,11 +92,15 @@ enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE , NONE } twi_reading;
 	
 int delay_counter = 0;
 int twi_counter = 0;
+int screen_counter = 0;
+unsigned long long time_counter = 0; //You shall not overflow!
 
 static void adc_callback(void)
 {
-	delay_counter++;
-	twi_counter++;
+	delay_counter++; //Decides when to do the rest of the while loop
+	twi_counter++; //Decides when to perform a twi reading
+	screen_counter++; //Decides when to update the screen
+	time_counter++; //The timestamp
 	adcb_ch0_measure();
 	adcb_ch1_measure();
 	adcb_ch2_measure();
@@ -133,7 +137,7 @@ int main(void)
 	tc_enable(&TCC0);
 	tc_set_overflow_interrupt_callback(&TCC0, adc_callback);
 	tc_set_wgm(&TCC0, TC_WG_NORMAL);
-	tc_write_period(&TCC0, 40000);
+	tc_write_period(&TCC0, 60000);
 	tc_set_overflow_interrupt_level(&TCC0, TC_INT_LVL_LO);
 	tc_write_clock_source(&TCC0, TC_CLKSEL_DIV2_gc);
 	/************************************************************************/
@@ -227,52 +231,27 @@ int main(void)
 					}
 				}
 
-				//Delay 0.5 seconds
-				if(delay_counter >= 100){
+				//Delay 0.05 seconds
+				if(delay_counter >= 10){
 					delay_counter = 0;
 					
 					//START TEMP PRINT
 					rtc_timestamp = rtc_get_time();
-					{
-						//TODO: Set a proper id for the log sample. (So it can be properly recognized)
-						char * logid = "ADC";
-						cdc_putstr(logid);	//Identify sample as on-chip NTC temp (Will be changed).
+					double timestamp = (double)(time_counter)/200;
+					
+					//TODO: Set a proper id for the log sample. (So it can be properly recognized)
+					char * logid = "ADC";
+					cdc_putstr(logid);	//Identify sample as on-chip NTC temp (Will be changed).
 
-						//Data separator character
-						udi_cdc_putc(',');
+					//Data separator character
+					udi_cdc_putc(',');
 
-						//Timestamp
-						cdc_putuint32(rtc_timestamp);
+					//Timestamp
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
 
-						//Data separator character
-						udi_cdc_putc(',');
-
-						/*
-						// Testing
-						adcb_ch0_measure();
-						adcb_ch1_measure();
-						adcb_ch2_measure();
-						adcb_ch3_measure();
-
-						int16_t temp0 = adcb_chX_get_temperature(0);
-						char * temp_s0 = int16_tostr(temp0);
-						int16_t temp1 = adcb_chX_get_temperature(1);
-						char * temp_s1 = int16_tostr(temp1);
-						int16_t temp2 = adcb_chX_get_temperature(2);
-						char * temp_s2 = int16_tostr(temp2);
-
-						cdc_putstr(temp_s0);	//temperature in string form
-						udi_cdc_putc('\r');	//return
-						udi_cdc_putc('\n');	//newline
-						cdc_putstr(temp_s1);	//temperature in string form
-						udi_cdc_putc('\r');	//return
-						udi_cdc_putc('\n');	//newline
-						cdc_putstr(temp_s2);	//temperature in string form
-						udi_cdc_putc('\r');	//return
-						udi_cdc_putc('\n');	//newline
-						*/
-					}
-
+					//Data separator character
+					udi_cdc_putc(',');
 
 					//Paint thermometer on screen
 					//gfx_mono_put_bitmap(&tempscale, 10, 0);
@@ -288,7 +267,6 @@ int main(void)
 					temperature0 = temp0;
 					temperature1 = temp1;
 					temperature2 = temp2;
-					// ********************** START UPDATE SCREEN ************************
 
 					cdc_putstr(int16_tostr(temp0));	//temperature in string form
 					udi_cdc_putc('\r');	//return
@@ -300,6 +278,59 @@ int main(void)
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
 
+					twiInt = pressure_val[0];//twiMaster.readData[0];
+					twiInt = (twiInt << 8);
+					twiInt += pressure_val[1];//twiMaster.readData[1];
+					twiInt &= ~(1 << 14);
+					twiInt &= ~(1 << 15);
+
+					bar_pressure = pressureval_to_bar(twiInt);
+
+					//Data to be printed
+					cdc_putstr("TWI,");
+					//Put timestamp
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
+					udi_cdc_putc(',');
+					//Put data
+					sprintf(char_double, "%f", bar_pressure);
+					cdc_putstr(char_double);
+					cdc_putstr("\r\n");
+
+					// Convert internal sensor data
+					int16_t twiTemp = internal_temp_val[0];
+					twiTemp = (twiTemp << 8);
+					twiTemp += internal_temp_val[1];
+
+					double internal_temperature;
+					if (twiTemp < 0)	// Negative temperature
+					{
+						twiTemp *= -1;	// Making value positive
+						internal_temperature = (twiTemp - 65536)/128.0;
+					}
+					else
+					{
+						internal_temperature = twiTemp/128.0;
+					}
+
+					//Data to be printed
+					cdc_putstr("Internal Temp,");
+					//Put timestamp
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
+					udi_cdc_putc(',');
+					//Put data
+					sprintf(char_int, "%f", internal_temperature);
+					cdc_putstr(char_int);
+					cdc_putstr("\r\n");
+
+					keyboard_get_key_state(&input);
+				}
+				
+				// ********************** START UPDATE SCREEN ************************
+				if(screen_counter >= 100){
+					screen_counter = 0;
+					
 					snprintf(temp1_string, sizeof(temp1_string), "TMP1:%3iC",
 					temperature0);
 
@@ -318,51 +349,8 @@ int main(void)
 					gfx_mono_draw_string(temp2_string, 64, 5, &sysfont);	// Temp2
 					gfx_mono_draw_string(temp3_string, 1, 20, &sysfont);	// Temp3
 					gfx_mono_draw_string(pressure_string, 64, 20, &sysfont);	// Pressure
-					//*********************** END UPDATE SCREEN ***************************
-
-
-
-					twiInt = pressure_val[0];//twiMaster.readData[0];
-					twiInt = (twiInt << 8);
-					twiInt += pressure_val[1];//twiMaster.readData[1];
-					twiInt &= ~(1 << 14);
-					twiInt &= ~(1 << 15);
-
-					bar_pressure = pressureval_to_bar(twiInt);
-
-					cdc_putstr("TWI,");
-					cdc_putuint32(rtc_timestamp);
-					udi_cdc_putc(',');
-					sprintf(char_double, "%f", bar_pressure);
-					cdc_putstr(char_double);
-					cdc_putstr("\r\n");
-
-					// Convert internal sensor data
-					int16_t twiTemp = internal_temp_val[0];
-					twiTemp = (twiTemp << 8);
-					twiTemp += internal_temp_val[1];
-
-				double internal_temperature;
-				if (twiTemp < 0)	// Negative temperature
-				{
-					twiTemp *= -1;	// Making value positive
-					internal_temperature = (twiTemp - 65536)/128.0;
 				}
-				else
-				{
-					internal_temperature = twiTemp/128.0;
-				}
-
-
-				cdc_putstr("Internal Temp,");
-				cdc_putuint32(rtc_timestamp);
-				udi_cdc_putc(',');
-				sprintf(char_int, "%f", internal_temperature);
-				cdc_putstr(char_int);
-				cdc_putstr("\r\n");
-
-					keyboard_get_key_state(&input);
-				}
+				//*********************** END UPDATE SCREEN ***************************
 
 			// Wait for key release
 			} while (input.type != KEYBOARD_RELEASE);

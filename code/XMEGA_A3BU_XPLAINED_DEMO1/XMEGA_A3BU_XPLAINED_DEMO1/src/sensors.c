@@ -173,7 +173,7 @@ double internal_temp_to_mv(int temp_code)
 }
 
 // Internal k-polynom recursion. Returns value in millivolts
-double internal_temp_pol_rec(double* coeff, double temperature, double offset, int n)
+double internal_temp_pol_rec(double* coeff, double temperature, int n)
 {
 	int max_n = 9;
 	double sum = 0;

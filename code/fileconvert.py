@@ -23,7 +23,7 @@ try:
     for line in fp:
         splitLine = line.partition(",")
         if splitLine[0] == "ADC":
-            csvtp.write(splitLine[2].rstrip("\n"))
+            csvtp.write(splitLine[2].rstrip("\n\n"))
         if splitLine[0] == "TWI":
             csvpp.write(splitLine[2].rstrip("\n"))
             

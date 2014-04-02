@@ -198,6 +198,7 @@ void update_internal_voltage_offset(double internal_temp)
 	cdc_putstr("Internal Temp Voltage Offset: ");
 	//Put temp offset
 	sprintf(char_double, "%f", internal_temp_volt_offset);
+	cdc_putstr(char_double);
 	cdc_putstr("\r\n");
 }
 

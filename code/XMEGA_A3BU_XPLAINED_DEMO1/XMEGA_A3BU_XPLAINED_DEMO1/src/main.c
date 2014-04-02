@@ -239,23 +239,6 @@ int main(void)
 					rtc_timestamp = rtc_get_time();
 					double timestamp = (double)(time_counter)/200;
 
-					//TODO: Set a proper id for the log sample. (So it can be properly recognized)
-					char * logid = "ADC";
-					cdc_putstr(logid);	//Identify sample as on-chip NTC temp (Will be changed).
-
-					//Data separator character
-					udi_cdc_putc(',');
-
-					//Timestamp
-					sprintf(char_double, "%f", timestamp);
-					cdc_putstr(char_double);
-
-					//Data separator character
-					udi_cdc_putc(',');
-
-					//Paint thermometer on screen
-					//gfx_mono_put_bitmap(&tempscale, 10, 0);
-
 					// ADCB-Testing
 					while (!adcb_data_is_ready());	// Wait for data to be ready
 					int16_t temp0 = adcb_chX_get_temperature(0);
@@ -268,16 +251,38 @@ int main(void)
 					temperature1 = temp1;
 					temperature2 = temp2;
 
+					//TODO: Set a proper id for the log sample. (So it can be properly recognized)
+					char * logid = "ADC0";
+					cdc_putstr(logid);	//Identify sample
+					//Data separator character
+					udi_cdc_putc(',');
+					//Timestamp
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
+					udi_cdc_putc(',');
 					cdc_putstr(int16_tostr(temp0));	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
+
+					logid = "ADC1";
+					cdc_putstr(logid);
+					udi_cdc_putc(',');
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
 					cdc_putstr(int16_tostr(temp1));	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
+
+					logid = "ADC2";
+					cdc_putstr(logid);
+					udi_cdc_putc(',');
+					sprintf(char_double, "%f", timestamp);
+					cdc_putstr(char_double);
 					cdc_putstr(int16_tostr(temp2));	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
 
+					// Converting pressure into int16
 					twiInt = pressure_val[0];//twiMaster.readData[0];
 					twiInt = (twiInt << 8);
 					twiInt += pressure_val[1];//twiMaster.readData[1];
@@ -287,7 +292,7 @@ int main(void)
 					bar_pressure = pressureval_to_bar(twiInt);
 
 					//Data to be printed
-					cdc_putstr("TWI,");
+					cdc_putstr("TWI_PRESSURE,");
 					//Put timestamp
 					sprintf(char_double, "%f", timestamp);
 					cdc_putstr(char_double);
@@ -314,17 +319,6 @@ int main(void)
 					}
 
 					update_internal_voltage_offset(internal_temperature_code);
-
-					//Data to be printed
-					cdc_putstr("Internal Temp,");
-					//Put timestamp
-					sprintf(char_double, "%f", timestamp);
-					cdc_putstr(char_double);
-					udi_cdc_putc(',');
-					//Put data
-					sprintf(char_int, "%f", internal_temperature_code);
-					cdc_putstr(char_int);
-					cdc_putstr("\r\n");
 
 					keyboard_get_key_state(&input);
 				}

@@ -32,7 +32,7 @@ void update_internal_voltage_offset(double);
 
 double temp_pol_rec(double* coeff, double v, int n);
 
-double internal_temp_pol_rec(double* coeff, double temperature, double offset, int n);
+double internal_temp_pol_rec(double* coeff, double temperature, int n);
 
 double pressureval_to_bar(int16_t val);
 

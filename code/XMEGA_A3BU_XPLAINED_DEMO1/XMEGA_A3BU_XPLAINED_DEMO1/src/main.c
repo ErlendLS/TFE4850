@@ -118,7 +118,7 @@ int main(void)
 	cpu_irq_enable();
 	//touch_init();		// TODO: Can probably be removed seeing as we're not going to use it at this time
 	//adc_sensors_init();
-	
+
 	/************************************************************************/
 	/* Start timer initialization                                                                     */
 	/************************************************************************/
@@ -330,10 +330,22 @@ int main(void)
 				twiTemp = (twiTemp << 8);
 				twiTemp += internal_temp_val[1];
 
+				double internal_temperature;
+				if (twiTemp < 0)	// Negative temperature
+				{
+					twiTemp *= -1;	// Making value positive
+					internal_temperature = twiTemp - 65536)/128.0;
+				}
+				else
+				{
+					internal_temperature = twiTemp/128.0;
+				}
+
+
 				cdc_putstr("Internal Temp,");
 				cdc_putuint32(rtc_timestamp);
 				udi_cdc_putc(',');
-				sprintf(char_int, "%d", twiTemp);
+				sprintf(char_int, "%f", internal_temperature);
 				cdc_putstr(char_int);
 				cdc_putstr("\r\n");
 

@@ -7,12 +7,15 @@ LOG_NAME = "log" + str + ".txt"
 TEMP_LOG_NAME = "temp" + str + ".csv"
 PRES_LOG_NAME = "pres" + str + ".csv"
 
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
 #Convert the text file to the appropriate file type
-fp = open(LOG_DIR + '/' + LOG_NAME)
-csvtp = open(LOG_DIR + '/' + TEMP_LOG_NAME, 'w')
-csvpp = open(LOG_DIR + '/' + PRES_LOG_NAME, 'w')
+
+fp = open(LOG_NAME)
+csvtp = open(TEMP_LOG_NAME, 'w')
+csvpp = open(PRES_LOG_NAME, 'w')
+
+##fp = open(LOG_DIR + '/' + LOG_NAME)
+##csvtp = open(LOG_DIR + '/' + TEMP_LOG_NAME, 'w')
+##csvpp = open(LOG_DIR + '/' + PRES_LOG_NAME, 'w')
 
 csvtp.write("\"Timestamp\",\"Temperature\"\n")
 csvpp.write("\"Timestamp\",\"Pressure\"\n")

@@ -166,7 +166,7 @@ double internal_temp_to_mv(int temp_code)
 		offset = a0*(pow(M_E, power));
 	}
 
-	double voltage = internal_temp_pol_rec(coefficients, internal_temperature, offset, 0);
+	double voltage = internal_temp_pol_rec(coefficients, internal_temperature, 0) + offset;
 
 	return voltage;
 
@@ -180,10 +180,10 @@ double internal_temp_pol_rec(double* coeff, double temperature, double offset, i
 
 	if (n < max_n)
 	{
-		sum += internal_temp_pol_rec(coeff, temperature, offset, n + 1);
+		sum += internal_temp_pol_rec(coeff, temperature, n + 1);
 	}
 
-	sum += coeff[n]*pow(temperature, n) + offset;
+	sum += coeff[n]*pow(temperature, n);// + offset; This is only to be added once
 
 	return sum;
 }

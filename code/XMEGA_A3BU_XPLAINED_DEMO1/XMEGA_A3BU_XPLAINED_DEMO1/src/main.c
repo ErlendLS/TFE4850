@@ -313,7 +313,7 @@ int main(void)
 						internal_temperature_code = twiTemp;
 					}
 
-					update_internal_voltage_offset(internal_temperature);
+					update_internal_voltage_offset(internal_temperature_code);
 
 					//Data to be printed
 					cdc_putstr("Internal Temp,");
@@ -322,7 +322,7 @@ int main(void)
 					cdc_putstr(char_double);
 					udi_cdc_putc(',');
 					//Put data
-					sprintf(char_int, "%f", internal_temperature);
+					sprintf(char_int, "%f", internal_temperature_code);
 					cdc_putstr(char_int);
 					cdc_putstr("\r\n");
 

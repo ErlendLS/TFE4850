@@ -1,9 +1,11 @@
 import sys, os
 
+str = raw_input("Enter the timestamp of your log: ")
+
 LOG_DIR = "logs"
-LOG_NAME = "log.txt"
-TEMP_LOG_NAME = "temp.csv"
-PRES_LOG_NAME = "pres.csv"
+LOG_NAME = "log" + str + ".txt"
+TEMP_LOG_NAME = "temp" + str + ".csv"
+PRES_LOG_NAME = "pres" + str + ".csv"
 
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)

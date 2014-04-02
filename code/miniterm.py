@@ -28,8 +28,8 @@ st = datetime.datetime.fromtimestamp(ts).strftime('%Y%m%d%H%M%S')
 
 LOG_DIR = "logs"
 LOG_NAME = "log" + st + ".txt"
-TEMP_LOG_NAME = "temp.csv"
-PRES_LOG_NAME = "pres.csv"
+TEMP_LOG_NAME = "temp" + st + ".csv"
+PRES_LOG_NAME = "pres" + st + ".csv"
 
 
 def key_description(character):

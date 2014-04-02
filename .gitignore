@@ -38,3 +38,4 @@
 *.eep
 .gitignore.gitignore
 *.o
+*.atsuo

@@ -109,10 +109,10 @@ void temp_ch_calibration_setup()
 
 void update_temp_ch_voltage_offsets()
 {
-	(temp_ch_calibration)(temp_ch_calibration_arr[0]).offset = internal_temp_volt_offset;
-	(temp_ch_calibration)(temp_ch_calibration_arr[1]).offset = internal_temp_volt_offset;
-	(temp_ch_calibration)(temp_ch_calibration_arr[2]).offset = internal_temp_volt_offset;
-	(temp_ch_calibration)(temp_ch_calibration_arr[3]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration_arr[0]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration_arr[1]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration_arr[2]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration_arr[3]).offset = internal_temp_volt_offset;
 }
 
 int16_t adcb_ch0_get_raw_value(void)
@@ -151,22 +151,22 @@ double internal_temp_to_mv(int temp_code)
 	double a0 = 0.1185976, a1 = -0.1183432E-3, a2 = 0.1269686E3;
 	double offset = 0;
 
-	if (twiTemp < 0)	// Negative temperature
+	if (temp_code < 0)	// Negative temperature
 	{
 		coefficients = &internal_neg_temp_coeff;
-		twiTemp *= -1;	// Making value positive
-		internal_temperature = (twiTemp - 65536)/128.0;
+		temp_code *= -1;	// Making value positive
+		internal_temperature = (temp_code - 65536)/128.0;
 	}
 	else
 	{
 		coefficients = &internal_pos_temp_coeff;
-		internal_temperature = twiTemp/128.0;
+		internal_temperature = temp_code/128.0;
 
 		double power = a1*pow( (internal_temperature-a2), 2);
 		offset = a0*(pow(M_E, power));
 	}
 
-	double voltage = internal_temp_to_mv(coefficients, internal_temperature, offset, 0);
+	double voltage = internal_temp_pol_rec(coefficients, internal_temperature, offset, 0);
 
 	return voltage;
 
@@ -265,7 +265,7 @@ int16_t adcb_chX_get_temperature(int channel)
 	int16_t top = 4095;	//12-bit max value
 	double vref = 2.5;
 	int16_t res = -1;
-	double internal_voltage_offset = temp_ch_calibration_arr[channel]).offset;
+	double internal_voltage_offset = (temp_ch_calibration_arr[channel]).offset;
 	switch (channel)
 	{
 	case 0 :

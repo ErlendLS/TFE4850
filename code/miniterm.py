@@ -256,7 +256,8 @@ class Miniterm(object):
                             csvtp.write(splitLine[2].rstrip("\n"))
                         if splitLine[0] == "TWI":
                             csvpp.write(splitLine[2].rstrip("\n"))
-                csvp.close()
+                    csvpp.close()
+                csvtp.close()
             fp.close()
 
     def reader(self):

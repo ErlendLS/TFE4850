@@ -191,6 +191,14 @@ double internal_temp_pol_rec(double* coeff, double temperature, double offset, i
 void update_internal_voltage_offset(double internal_temp)
 {
 	internal_temp_volt_offset = internal_temp_to_mv(internal_temp);
+
+	char char_double[15];
+
+	// TODO: Remove test printing later
+	cdc_putstr("Internal Temp Voltage Offset: ");
+	//Put temp offset
+	sprintf(char_double, "%f", internal_temp_volt_offset);
+	cdc_putstr("\r\n");
 }
 
 

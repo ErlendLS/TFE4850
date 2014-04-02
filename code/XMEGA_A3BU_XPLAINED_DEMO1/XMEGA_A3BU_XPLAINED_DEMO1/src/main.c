@@ -269,6 +269,7 @@ int main(void)
 					udi_cdc_putc(',');
 					sprintf(char_double, "%f", timestamp);
 					cdc_putstr(char_double);
+					udi_cdc_putc(',');
 					cdc_putstr(int16_tostr(temp1));	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline
@@ -278,6 +279,7 @@ int main(void)
 					udi_cdc_putc(',');
 					sprintf(char_double, "%f", timestamp);
 					cdc_putstr(char_double);
+					udi_cdc_putc(',');
 					cdc_putstr(int16_tostr(temp2));	//temperature in string form
 					udi_cdc_putc('\r');	//return
 					udi_cdc_putc('\n');	//newline

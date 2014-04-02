@@ -302,15 +302,15 @@ int main(void)
 					twiTemp = (twiTemp << 8);
 					twiTemp += internal_temp_val[1];
 
-					double internal_temperature;
+					double internal_temperature_code;
 					if (twiTemp < 0)	// Negative temperature
 					{
 						twiTemp *= -1;	// Making value positive
-						internal_temperature = (twiTemp - 65536)/128.0;
+						internal_temperature_code = (twiTemp - 65536);
 					}
 					else
 					{
-						internal_temperature = twiTemp/128.0;
+						internal_temperature_code = twiTemp;
 					}
 
 					update_internal_voltage_offset(internal_temperature);

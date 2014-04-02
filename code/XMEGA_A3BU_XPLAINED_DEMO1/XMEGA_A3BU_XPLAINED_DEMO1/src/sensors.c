@@ -291,7 +291,7 @@ int16_t adcb_chX_get_temperature(int channel)
 	double off = 0.498;
 	double gain = 4.401E-3;
 
-	double v_tc = (vinp - off)*gain + internal_temp_volt_offset;
+	double v_tc = (vinp - off)*gain + internal_temp_volt_offset/1000;
 
 	int16_t t = thermoel_to_temp(v_tc);
 

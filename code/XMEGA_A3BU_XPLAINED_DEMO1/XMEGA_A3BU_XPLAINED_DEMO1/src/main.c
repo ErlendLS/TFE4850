@@ -341,6 +341,7 @@ int main(void)
 					internal_temperature = twiTemp/128.0;
 				}
 
+				update_internal_voltage_offset(internal_temperature);
 
 				cdc_putstr("Internal Temp,");
 				cdc_putuint32(rtc_timestamp);

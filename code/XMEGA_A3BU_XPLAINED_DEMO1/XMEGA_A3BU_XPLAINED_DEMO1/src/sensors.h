@@ -28,6 +28,8 @@ struct temp_ch_calibration;
 
 int16_t adcb_ch0_get_raw_value(void);
 
+void update_internal_voltage_offset(double);
+
 double temp_pol_rec(double* coeff, double v, int n);
 
 double pressureval_to_bar(int16_t val);

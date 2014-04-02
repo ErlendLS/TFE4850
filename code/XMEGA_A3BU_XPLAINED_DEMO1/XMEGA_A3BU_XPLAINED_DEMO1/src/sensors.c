@@ -12,6 +12,7 @@
 #include <gfx_mono_menu.h>
 #include <gpio.h>
 #include <sysfont.h>
+#include <math.h>
 #include "cdc.h"
 #include "sysfont.h"
 #include "adc_sensors.h"
@@ -34,6 +35,8 @@ adc_result_t adc_sensor_sample_ch1 = 0;
 adc_result_t adc_sensor_sample_ch2 = 0;
 adc_result_t adc_sensor_sample_ch3 = 0;
 
+double internal_temp_volt_offset = 0;
+
 //! The thermometer image
 uint8_t tempscale_img[] = {
 	0x01, 0xf9, 0xfd, 0xfd, 0xf9, 0x01,
@@ -49,24 +52,17 @@ struct temp_ch_calibration {
 };
 
 // Calibration structs for temperature channels
-struct temp_ch_calibration temp_ch_0_low;
-struct temp_ch_calibration temp_ch_0_high;
-struct temp_ch_calibration temp_ch_1_low;
-struct temp_ch_calibration temp_ch_1_high;
-struct temp_ch_calibration temp_ch_2_low;
-struct temp_ch_calibration temp_ch_2_high;
-struct temp_ch_calibration temp_ch_3_low;			// There are only 3 channels in use at the moment, so this is just to support future extension
-struct temp_ch_calibration temp_ch_3_high;
-struct temp_ch_calibration temp_ch_internal_low;	// Own struct for the internal temperature sensor, may differ slightly from the others
-struct temp_ch_calibration temp_ch_internal_high;
-
+struct temp_ch_calibration temp_ch_0;
+struct temp_ch_calibration temp_ch_1;
+struct temp_ch_calibration temp_ch_2;
+struct temp_ch_calibration temp_ch_3;			// There are only 3 channels in use at the moment, so this is just to support future extension
 
 /************************************************************************/
 /* 2D Array for holding the calibration structs.
   Indexed as follows: 0 = ch0, 1 = ch1 etc. 4 = internal
   Second index is 0 = low calibration point, 1 = high point             */
 /************************************************************************/
-struct temp_ch_calibration temp_ch_calibration_arr[5][2];
+struct temp_ch_calibration temp_ch_calibration_arr[4];
 
 
 struct gfx_mono_bitmap tempscale;
@@ -89,46 +85,34 @@ double bar_pressure;
 
 void temp_ch_calibration_setup()
 {
-	temp_ch_internal_low.gain = 1;
-	temp_ch_internal_low.offset = 0;
-	temp_ch_internal_high.gain = 1;
-	temp_ch_internal_high.offset = 0;
+	temp_ch_0.gain = 1;
+	temp_ch_0.offset = 0;
 
-	temp_ch_calibration_arr[4][0] = temp_ch_internal_low;
-	temp_ch_calibration_arr[4][1] = temp_ch_internal_high;
+	temp_ch_calibration_arr[0] = temp_ch_0;
 
-	temp_ch_0_low.gain = 1;
-	temp_ch_0_low.offset = 0;
-	temp_ch_0_high.gain = 1;
-	temp_ch_0_high.offset = 0;
+	temp_ch_1.gain = 1;
+	temp_ch_1.offset = 0;
 
-	temp_ch_calibration_arr[0][0] = temp_ch_0_low;
-	temp_ch_calibration_arr[0][1] = temp_ch_0_high;
+	temp_ch_calibration_arr[1] = temp_ch_1;
 
-	temp_ch_1_low.gain = 1;
-	temp_ch_1_low.offset = 0;
-	temp_ch_1_high.gain = 1;
-	temp_ch_1_high.offset = 0;
+	temp_ch_2.gain = 1;
+	temp_ch_2.offset = 0;
 
-	temp_ch_calibration_arr[1][0] = temp_ch_1_low;
-	temp_ch_calibration_arr[1][1] = temp_ch_1_high;
+	temp_ch_calibration_arr[2] = temp_ch_2;
 
-	temp_ch_2_low.gain = 1;
-	temp_ch_2_low.offset = 0;
-	temp_ch_2_high.gain = 1;
-	temp_ch_2_high.offset = 0;
+	temp_ch_3.gain = 1;
+	temp_ch_3.offset = 0;
 
-	temp_ch_calibration_arr[2][0] = temp_ch_2_low;
-	temp_ch_calibration_arr[2][1] = temp_ch_2_high;
+	temp_ch_calibration_arr[3] = temp_ch_3;
 
-	temp_ch_3_low.gain = 1;
-	temp_ch_3_low.offset = 0;
-	temp_ch_3_high.gain = 1;
-	temp_ch_3_high.offset = 0;
+}
 
-	temp_ch_calibration_arr[3][0] = temp_ch_3_low;
-	temp_ch_calibration_arr[3][1] = temp_ch_3_high;
-
+void update_temp_ch_voltage_offsets()
+{
+	(temp_ch_calibration)(temp_ch_calibration_arr[0]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration)(temp_ch_calibration_arr[1]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration)(temp_ch_calibration_arr[2]).offset = internal_temp_volt_offset;
+	(temp_ch_calibration)(temp_ch_calibration_arr[3]).offset = internal_temp_volt_offset;
 }
 
 int16_t adcb_ch0_get_raw_value(void)
@@ -151,10 +135,66 @@ int16_t adcb_ch3_get_raw_value(void)
 	return adc_sensor_sample_ch3;
 }
 
+// Type K Inverse Thermocouple Coefficients in mV
 const double neg_temp_coeff[10] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -8.9773540E-1, -3.7342377E-1, -8.6632643E-2, -1.0450598E-2, -5.1920577E-4, 0};
 const double pos_temp_coeff[10] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
 
-//mv must be in millivolt
+// Type K Thermocouple Coefficients in mV. Only includes the first 5
+const double internal_neg_temp_coeff[5] = {0, 0.394501280250E-1, 0.236223735980E-4, -0.328589067840E-6, -0.499048287770E-8};
+const double internal_pos_temp_coeff[5] = {-0.176004136860E-1, 0.389212049750E-1, 0.18558770032E-4, -0.994575928740E-7, 0.318409455719E-9};
+
+
+double internal_temp_to_mv(int temp_code)
+{
+	double internal_temperature;
+	double* coefficients;
+	double a0 = 0.1185976, a1 = -0.1183432E-3, a2 = 0.1269686E3;
+	double offset = 0;
+
+	if (twiTemp < 0)	// Negative temperature
+	{
+		coefficients = &internal_neg_temp_coeff;
+		twiTemp *= -1;	// Making value positive
+		internal_temperature = (twiTemp - 65536)/128.0;
+	}
+	else
+	{
+		coefficients = &internal_pos_temp_coeff;
+		internal_temperature = twiTemp/128.0;
+
+		double power = a1*pow( (internal_temperature-a2), 2);
+		offset = a0*(pow(M_E, power));
+	}
+
+	double voltage = internal_temp_to_mv(coefficients, internal_temperature, offset, 0);
+
+	return voltage;
+
+}
+
+// Internal k-polynom recursion. Returns value in millivolts
+double internal_temp_pol_rec(double* coeff, double temperature, double offset, int n)
+{
+	int max_n = 5;
+	double sum = 0;
+
+	if (n < max_n)
+	{
+		sum += internal_temp_pol_rec(coeff, temperature, offset, n + 1);
+	}
+
+	sum += coeff[n]*pow(temperature, n) + offset;
+
+	return sum;
+}
+
+void update_internal_voltage_offset(double internal_temp)
+{
+	internal_temp_volt_offset = internal_temp_to_mv(internal_temp);
+}
+
+
+// Temperature inverse k-polynom recursion. mv must be in millivolt
 double temp_pol_rec(double* coeff, double mv, int n)
 {
 	int max_n = 10;
@@ -180,14 +220,14 @@ double pressureval_to_bar(int16_t val)
 	int16_t output_min = 0x0666;
 	int pressure_max = 15;	// Max pressure value in psi
 	int pressure_min = 0;	// Min pressure value in psi
-	
+
 	double psi = (double)(output-output_min);
 	psi *= (double)(pressure_max-pressure_min);
 	psi /= (double)(output_max-output_min);
 	psi += (double)pressure_min;
-	
+
 	double bar = psi*0.0689475729;
-	
+
 	return bar;
 }
 
@@ -225,6 +265,7 @@ int16_t adcb_chX_get_temperature(int channel)
 	int16_t top = 4095;	//12-bit max value
 	double vref = 2.5;
 	int16_t res = -1;
+	double internal_voltage_offset = temp_ch_calibration_arr[channel]).offset;
 	switch (channel)
 	{
 	case 0 :
@@ -250,7 +291,7 @@ int16_t adcb_chX_get_temperature(int channel)
 	double off = 0.498;
 	double gain = 4.401E-3;
 
-	double v_tc = (vinp - off)*gain;
+	double v_tc = (vinp - off)*gain + internal_temp_volt_offset;
 
 	int16_t t = thermoel_to_temp(v_tc);
 

@@ -22,8 +22,12 @@ DEFAULT_BAUDRATE = 115200
 DEFAULT_RTS = None
 DEFAULT_DTR = None
 
+import time, datetime
+ts = time.time()
+st = datetime.datetime.fromtimestamp(ts).strftime('%Y%m%d%H%M%S')
+
 LOG_DIR = "logs"
-LOG_NAME = "log.txt"
+LOG_NAME = "log" + st + ".txt"
 TEMP_LOG_NAME = "temp.csv"
 PRES_LOG_NAME = "pres.csv"
 

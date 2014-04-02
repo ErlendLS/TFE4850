@@ -39,3 +39,4 @@
 .gitignore.gitignore
 *.o
 *.atsuo
+*/logs/*

@@ -140,8 +140,8 @@ const double neg_temp_coeff[10] = {0, 2.5173462E1, -1.1662878E0, -1.0833638E0, -
 const double pos_temp_coeff[10] = {0, 2.508355E1, 7.860106E-2, -2.503131E-1, 8.315270E-2, -1.228034E-2, 9.804036E-4, -4.413030E-5, 1.057734E-6, -1.052755E-8};
 
 // Type K Thermocouple Coefficients in mV. Only includes the first 5
-const double internal_neg_temp_coeff[5] = {0, 0.394501280250E-1, 0.236223735980E-4, -0.328589067840E-6, -0.499048287770E-8};
-const double internal_pos_temp_coeff[5] = {-0.176004136860E-1, 0.389212049750E-1, 0.18558770032E-4, -0.994575928740E-7, 0.318409455719E-9};
+const double internal_neg_temp_coeff[10] = {0, 0.394501280250E-1, 0.236223735980E-4, -0.328589067840E-6, -0.499048287770E-8, -0.675090591730E-10 , -0.574103274280E-12 , -0.310888728940E-14 , -0.104516093650E-16 , -0.198892668780E-19};
+const double internal_pos_temp_coeff[10] = {-0.176004136860E-1, 0.389212049750E-1, 0.18558770032E-4, -0.994575928740E-7, 0.318409455719E-9, -0.560728448890E-12, 0.560750590590E-15, -0.320207200030E-18, 0.971511471520E-22, -0.121047212750E-25};
 
 
 double internal_temp_to_mv(int temp_code)
@@ -175,7 +175,7 @@ double internal_temp_to_mv(int temp_code)
 // Internal k-polynom recursion. Returns value in millivolts
 double internal_temp_pol_rec(double* coeff, double temperature, double offset, int n)
 {
-	int max_n = 5;
+	int max_n = 9;
 	double sum = 0;
 
 	if (n < max_n)

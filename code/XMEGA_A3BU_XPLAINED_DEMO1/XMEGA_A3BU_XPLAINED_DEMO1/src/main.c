@@ -334,7 +334,7 @@ int main(void)
 				if (twiTemp < 0)	// Negative temperature
 				{
 					twiTemp *= -1;	// Making value positive
-					internal_temperature = twiTemp - 65536/128.0;
+					internal_temperature = (twiTemp - 65536)/128.0;
 				}
 				else
 				{

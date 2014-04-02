@@ -92,7 +92,10 @@ enum TWI_READING { PRESSURE , INTERNAL_TEMPERATURE , NONE } twi_reading;
 
 static void adc_callback(void)
 {
-	// TODO The adc must do stuff here 200 times a second
+	adcb_ch0_measure();
+	adcb_ch1_measure();
+	adcb_ch2_measure();
+	//The adc must do stuff here 200 times a second
 }
 
 /**
@@ -263,9 +266,6 @@ int main(void)
 				//gfx_mono_put_bitmap(&tempscale, 10, 0);
 
 				// ADCB-Testing
-				adcb_ch0_measure();
-				adcb_ch1_measure();
-				adcb_ch2_measure();
 				while (!adcb_data_is_ready());	// Wait for data to be ready
 				int16_t temp0 = adcb_chX_get_temperature(0);
 				int16_t temp1 = adcb_chX_get_temperature(1);

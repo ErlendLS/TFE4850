@@ -85,18 +85,18 @@ double bar_pressure;
 
 void temp_ch_calibration_setup()
 {
-	temp_ch_0.gain = 1;
-	temp_ch_0.offset = 0;
+	temp_ch_0.gain = 0.994;
+	temp_ch_0.offset = 3.092;
 
 	temp_ch_calibration_arr[0] = temp_ch_0;
 
-	temp_ch_1.gain = 1;
-	temp_ch_1.offset = 0;
+	temp_ch_1.gain = 0.994;
+	temp_ch_1.offset = 2.092;
 
 	temp_ch_calibration_arr[1] = temp_ch_1;
 
-	temp_ch_2.gain = 1;
-	temp_ch_2.offset = 0;
+	temp_ch_2.gain = 0.988;
+	temp_ch_2.offset = 1.698;
 
 	temp_ch_calibration_arr[2] = temp_ch_2;
 
@@ -295,7 +295,10 @@ int16_t adcb_chX_get_temperature(int channel)
 
 	int16_t t = thermoel_to_temp(v_tc);
 
-	return (int16_t)t;
+	// Adjust for channel calibration
+	int16_t adjusted_temp = (int16_t)((t/temp_ch_calibration_arr[channel].gain) - temp_ch_calibration_arr[channel].offset);
+
+	return adjusted_temp;
 }
 
 /************************************************************************/

@@ -96,5 +96,7 @@ void adcb_handler(ADC_t *adc, uint8_t ch_mask, adc_result_t result);
 /************************************************************************/
 void adc_b_sensors_init();
 
+void temp_ch_calibration_setup();
+
 
 #endif /* SENSORS_H_ */

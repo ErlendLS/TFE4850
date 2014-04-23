@@ -183,6 +183,8 @@ int main(void)
 	// Set timezone from EEPROM or to a default value
 	timezone_init();
 
+	// Initiate calibration values for temperature
+	temp_ch_calibration_setup();
 
 	// ADDED: Initializing temperature display
 	temp_disp_init();
@@ -338,7 +340,7 @@ int main(void)
 					snprintf(temp3_string, sizeof(temp3_string), "TMP3:%3iC",
 					temperature2);
 
-					snprintf(pressure_string, sizeof(pressure_string), "BAR:%4.3f",
+					snprintf(pressure_string, sizeof(pressure_string), "BAR:%3.2f",
 					bar_pressure);
 
 					// TODO: Set up variables and call methods for reading all the values

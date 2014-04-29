@@ -20,7 +20,10 @@ try:
 
     csvtp.write("\"Timestamp\",\"Temperature1\",\"Temperature2\",\"Temperature3\"\n")
     csvpp.write("\"Timestamp\",\"Pressure\"\n")
+    
     for line in fp:
+        if(next(fp) == None):
+            break
         splitLine = line.partition(",")
         if splitLine[0] == "ADC0":
             tempLine = splitLine[2].replace("\r\n", "")
